@@ -44,6 +44,9 @@ dependencies {
     // recyclerview
     implementation ("androidx.recyclerview:recyclerview:1.2.0-alpha01")
 
+    // Logging
+    implementation ("com.squareup.okhttp3:logging-interceptor:3.9.0")
+
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
