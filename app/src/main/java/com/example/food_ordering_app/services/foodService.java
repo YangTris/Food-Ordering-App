@@ -1,8 +1,9 @@
 package com.example.food_ordering_app.services;
 
 
-import com.example.alexr.ideamanager.models.Idea;
+import com.example.food_ordering_app.models.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,19 +16,19 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface IdeaService {
+public interface foodService {
     @GET("ideas")
-    Call<List<Idea>> getIdeas();
+    Call<ArrayList<Food>> getIdeas();
 
     @GET("ideas/{id}")
-    Call<Idea> getIdea(@Path("id")int id);
+    Call<Food> getIdea(@Path("id")int id);
 
     @POST("ideas")
-    Call<Idea> createIdea(@Body Idea newIdea);
+    Call<Food> createIdea(@Body Food newIdea);
 
     @FormUrlEncoded
     @PUT("ideas/{id}")
-    Call<Idea> updateIdea(
+    Call<Food> updateIdea(
             @Path("id")int id,
             @Field("name")String name,
             @Field("description")String desc,

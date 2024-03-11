@@ -1,13 +1,14 @@
 package com.example.food_ordering_app.models;
 
-public class Book {
+public class Food {
     private int id;
     private String name;
     private String status;
     private String description;
     private String owner;
+    private String imgURL;
 
-    public Book() {
+    public Food() {
     }
 
     // Getters
@@ -50,6 +51,13 @@ public class Book {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
 }
