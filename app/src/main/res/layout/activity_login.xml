@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--Login banner-->
+        <TextView
+            android:id="@+id/text_banner_welcome_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:gravity="center_horizontal|top"
+            android:includeFontPadding="false"
+            android:lineHeight="36dp"
+            android:text="Login\nWelcome back!"
+            android:textColor="#FF000000"
+            android:textSize="24dp" />
+        <!--Username field-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:hint="Enter your username"
+            app:startIconContentDescription="Username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Password field-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:hint="Enter your password"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="LOGIN"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account? "
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                android:textColor="#6750a4"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="#9A9A9A" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="Or"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <!--  Google button   -->
+    <ImageView
+        android:id="@+id/google_login"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/container_login_form"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/google_login_button"
+        android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/img_google_logo"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignLeft="@+id/google_login"
+        android:layout_alignTop="@+id/google_login"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/img_google_logo" />
+
+    <TextView
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/google_login"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/img_google_logo"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="LOGIN WITH GOOGLE"
+        android:textAlignment="center"
+        android:textColor="#FF000000"
+        android:textSize="14dp" />
+    <!--  Facebook button   -->
+    <ImageView
+        android:id="@+id/facebook_login"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/google_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/facebook_login_button"
+        android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/img_facebook_logo"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignLeft="@+id/facebook_login"
+        android:layout_alignTop="@+id/facebook_login"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/img_facebook_logo" />
+
+    <TextView
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/facebook_login"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/img_facebook_logo"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="LOGIN WITH FACEBOOK"
+        android:textAlignment="center"
+        android:textColor="#FFFFFFFF"
+        android:textSize="14dp" />
+</RelativeLayout>
