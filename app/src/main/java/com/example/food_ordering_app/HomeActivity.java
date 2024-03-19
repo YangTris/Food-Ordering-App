@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.ServiceBuilder;
 import com.example.food_ordering_app.services.foodService;
@@ -67,11 +66,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
                 Food food = mFoods.get(position);
-                Glide.with(mContext)
-                        .load(food.getImgURL())
-                        .placeholder(R.drawable.img_bg)
-                        .error(R.drawable.ic_launcher_background)
-                        .into(holder.mImageFood);
+                Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.ic_launcher_background).into(holder.mImageFood);
                 holder.mTextName.setText(food.getName());
                 holder.mTextDescription.setText(food.getDescription());
             }
@@ -81,12 +76,6 @@ public class HomeActivity extends AppCompatActivity {
                 return mFoods.size();
             }
         }
-
-
-//        assert recyclerView != null;
-//        if (findViewById(R.id.idea_detail_container) != null) {
-//            mTwoPane = true;
-//        }
 
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_foodList);
         foodService foodService = ServiceBuilder.buildService(foodService.class);
