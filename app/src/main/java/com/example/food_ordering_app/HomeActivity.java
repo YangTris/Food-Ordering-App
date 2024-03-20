@@ -1,14 +1,7 @@
 package com.example.food_ordering_app;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.food_ordering_app.models.Food;
-import com.example.food_ordering_app.services.foodService;
 import com.example.food_ordering_app.services.ServiceBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.food_ordering_app.services.foodService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,29 +26,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class foodListActivity extends AppCompatActivity {
-
-    private boolean mTwoPane;
-
+public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_food_list);
-        setContentView(R.layout.food_list_recycleview);
-
+        setContentView(R.layout.activity_home);
         final Context context = this;
-        //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle(getTitle());
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, foodCreateActivity.class);
-//                context.startActivity(intent);
-//            }
-//        });
         class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             public FoodAdapter(Context mContext, ArrayList<Food> mFoods) {
                 this.mContext = mContext;
@@ -88,11 +66,7 @@ public class foodListActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
                 Food food = mFoods.get(position);
-                Glide.with(mContext)
-                        .load(food.getImgURL())
-                        .placeholder(R.drawable.img_bg)
-                        .error(R.drawable.ic_launcher_background)
-                        .into(holder.mImageFood);
+                Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.ic_launcher_background).into(holder.mImageFood);
                 holder.mTextName.setText(food.getName());
                 holder.mTextDescription.setText(food.getDescription());
             }
@@ -103,12 +77,6 @@ public class foodListActivity extends AppCompatActivity {
             }
         }
 
-
-//        assert recyclerView != null;
-//        if (findViewById(R.id.idea_detail_container) != null) {
-//            mTwoPane = true;
-//        }
-
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_foodList);
         foodService foodService = ServiceBuilder.buildService(foodService.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -118,7 +86,7 @@ public class foodListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
                 if (response.isSuccessful()) {
-                    recyclerView.setAdapter(new FoodAdapter(foodListActivity.this, response.body()));
+                    recyclerView.setAdapter(new FoodAdapter(HomeActivity.this, response.body()));
                 } else if (response.code() == 401) {
                     Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
                 } else {
@@ -135,36 +103,5 @@ public class foodListActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 }
-//        @Override
-//        public void onBindViewHolder(final ViewHolder holder, int position) {
-//            holder.mItem = mValues.get(position);
-//            holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
-//            holder.mContentView.setText(mValues.get(position).getName());
-
-//            holder.mView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mTwoPane) {
-//                        Bundle arguments = new Bundle();
-//                        arguments.putInt(IdeaDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//                        IdeaDetailFragment fragment = new IdeaDetailFragment();
-//                        fragment.setArguments(arguments);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.idea_detail_container, fragment)
-//                                .commit();
-//                    } else {
-//                        Context context = v.getContext();
-//                        Intent intent = new Intent(context, IdeaDetailActivity.class);
-//                        intent.putExtra(IdeaDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
-//
-//                        context.startActivity(intent);
-//                    }
-//                }
-//            });
-
-//endregion
-
