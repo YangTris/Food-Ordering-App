@@ -69,7 +69,7 @@ public class foodListActivity extends AppCompatActivity {
                     super(itemView);
                     mImageFood = itemView.findViewById(R.id.food_img);
                     mTextName = itemView.findViewById(R.id.food_name);
-                    mTextDescription = itemView.findViewById(R.id.food_description);
+                    mTextDescription = itemView.findViewById(R.id.food_price);
                 }
             }
 

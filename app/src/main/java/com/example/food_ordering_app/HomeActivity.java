@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
                     super(itemView);
                     mImageFood = itemView.findViewById(R.id.food_img);
                     mTextName = itemView.findViewById(R.id.food_name);
-                    mTextDescription = itemView.findViewById(R.id.food_description);
+                    mTextDescription = itemView.findViewById(R.id.food_price);
                 }
             }
 
@@ -66,7 +66,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
                 Food food = mFoods.get(position);
-                Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.ic_launcher_background).into(holder.mImageFood);
+                Glide.with(mContext)
+                        .load(food.getImgURL())
+                        .placeholder(R.drawable.img_bg)
+                        .error(R.drawable.profile)
+                        .into(holder.mImageFood);
                 holder.mTextName.setText(food.getName());
                 holder.mTextDescription.setText(food.getDescription());
             }
