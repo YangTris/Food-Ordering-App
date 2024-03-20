@@ -15,9 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            app:mt_hint="Custom hint"
             app:mt_maxSuggestionsCount="10"
-            app:mt_placeholder="Find a dish"
+            app:mt_placeholder="Find foods and drinks"
             app:mt_speechMode="true" />
 
         <include layout="@layout/food_list_recycleview" />
