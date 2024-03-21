@@ -28,7 +28,11 @@
             android:label="Food"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.food_ordering_app.HomeActivity"
+            android:name="com.example.food_ordering_app.CategoryActivity"
+            android:label="Food"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.food_ordering_app.FoodActivity"
             android:label="Food"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -16,9 +16,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
 
-    //
+    // Wifi ở nhà
     private static final String URL = "http://192.168.100.9:9000/";
 
+    //    // E.402
+//    private static final String URL = "http://192.168.28.226:9000/";
     // Create logger
     private static HttpLoggingInterceptor logger =
             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);

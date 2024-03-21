@@ -30,10 +30,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordInput.getEditText().getText().toString().trim();
                 Log.d("Username", username);
                 Log.d("Password", password);
-                if (username.equals("admin") && password.equals("admin")) {
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                if (username.equals("user") && password.equals("user")) {
+                    startActivity(new Intent(LoginActivity.this, CategoryActivity.class));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
                 }
             }
         });

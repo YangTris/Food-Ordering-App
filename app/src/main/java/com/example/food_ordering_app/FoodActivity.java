@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class FoodActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +66,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
                 Food food = mFoods.get(position);
-                Glide.with(mContext)
-                        .load(food.getImgURL())
-                        .placeholder(R.drawable.img_bg)
-                        .error(R.drawable.profile)
-                        .into(holder.mImageFood);
+                Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.error).error(R.drawable.category_foods).into(holder.mImageFood);
                 holder.mTextName.setText(food.getName());
                 holder.mTextDescription.setText(food.getDescription());
             }
@@ -90,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
                 if (response.isSuccessful()) {
-                    recyclerView.setAdapter(new FoodAdapter(HomeActivity.this, response.body()));
+                    recyclerView.setAdapter(new FoodAdapter(FoodActivity.this, response.body()));
                 } else if (response.code() == 401) {
                     Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
                 } else {

@@ -26,6 +26,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="10dp"
                 android:scaleType="fitXY" />
+
             <TextView
                 android:id="@+id/food_name"
                 style="@style/TextAppearance.AppCompat.Headline"
@@ -36,9 +37,7 @@
                 android:layout_toEndOf="@+id/food_img"
                 android:maxLines="2"
                 android:text="Product Name"
-                android:textStyle="bold"
-
-                />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/food_price"
