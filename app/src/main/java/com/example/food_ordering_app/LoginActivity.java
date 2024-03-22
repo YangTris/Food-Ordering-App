@@ -35,6 +35,11 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
+                if (username.equals("test") && password.equals("test")) {
+                    startActivity(new Intent(LoginActivity.this, APITestActivity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
