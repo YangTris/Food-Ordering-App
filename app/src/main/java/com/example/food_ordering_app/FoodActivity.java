@@ -2,22 +2,16 @@ package com.example.food_ordering_app;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.example.food_ordering_app.adapter.FoodAdapter;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.ServiceBuilder;
-import com.example.food_ordering_app.services.foodService;
+import com.example.food_ordering_app.services.FoodService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,61 +26,16 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final Context context = this;
-        class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
-            public FoodAdapter(Context mContext, ArrayList<Food> mFoods) {
-                this.mContext = mContext;
-                this.mFoods = mFoods;
-            }
-
-            class ViewHolder extends RecyclerView.ViewHolder {
-                private ImageView mImageFood;
-                private TextView mTextName;
-                private TextView mTextDescription;
-
-                public ViewHolder(@NonNull View itemView) {
-                    super(itemView);
-                    mImageFood = itemView.findViewById(R.id.food_img);
-                    mTextName = itemView.findViewById(R.id.food_name);
-                    mTextDescription = itemView.findViewById(R.id.food_price);
-                }
-            }
-
-            private Context mContext;
-            private ArrayList<Food> mFoods;
-
-            @NonNull
-            @Override
-            public FoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                LayoutInflater inflater = LayoutInflater.from(mContext);
-                View foodView = inflater.inflate(R.layout.food_items, parent, false);
-                ViewHolder viewHolder = new ViewHolder(foodView);
-                return viewHolder;
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
-                Food food = mFoods.get(position);
-                Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.error).error(R.drawable.category_foods).into(holder.mImageFood);
-                holder.mTextName.setText(food.getName());
-                holder.mTextDescription.setText(food.getDescription());
-            }
-
-            @Override
-            public int getItemCount() {
-                return mFoods.size();
-            }
-        }
-
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_foodList);
-        foodService foodService = ServiceBuilder.buildService(foodService.class);
+        FoodService foodService = ServiceBuilder.buildService(FoodService.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Call<ArrayList<Food>> request = foodService.getIdeas();
-
+        Call<ArrayList<Food>> request = foodService.getAllFoods();
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
                 if (response.isSuccessful()) {
-                    recyclerView.setAdapter(new FoodAdapter(FoodActivity.this, response.body()));
+                    recyclerView.setAdapter(new FoodAdapter(HomeActivity.this, response.body()));
+                    System.out.println(response.body().toString());
                 } else if (response.code() == 401) {
                     Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
                 } else {

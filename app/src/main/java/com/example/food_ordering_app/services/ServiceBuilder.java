@@ -16,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
 
-    // Wifi ở nhà
-    private static final String URL = "http://192.168.100.9:9000/";
+    //
+    private static final String URL = "http://192.168.1.11:8080/";
 
     //    // E.402
 //    private static final String URL = "http://192.168.28.226:9000/";

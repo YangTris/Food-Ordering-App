@@ -1,57 +1,67 @@
 package com.example.food_ordering_app.models;
 
+import java.util.Date;
+
 public class Food {
-    private int id;
+    private String id;
+    private String category;
+    private double price;
     private String name;
-    private String status;
     private String description;
-    private String owner;
+    private Date timestamp;
     private String imgURL;
 
     public Food() {
     }
 
-    // Getters
-    public int getId() {
+    public Food(String category, String name, String description, double price, String imgURL) {
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imgURL = imgURL;
+    }
+
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getStatus() {
-        return status;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getOwner() {
-        return owner;
-    }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public double getPrice() {
+        return price;
     }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public String getImgURL() {
         return imgURL;
     }
@@ -60,4 +70,16 @@ public class Food {
         this.imgURL = imgURL;
     }
 
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id='" + id + '\'' +
+                ", category='" + category + '\'' +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", timestamp=" + timestamp +
+                ", imgURL='" + imgURL + '\'' +
+                '}';
+    }
 }
