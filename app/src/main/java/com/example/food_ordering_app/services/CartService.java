@@ -80,15 +80,16 @@ public class CartService {
             }
         });
     }
-    public void addCartItem(String userId, String foodId, CartItem cartItem){
+    public void addCartItem(String userId, String foodId){
         Call<CartItem> request = cartController.checkFoodExists(userId,foodId);
         request.enqueue(new Callback<CartItem>() {
             @Override
             public void onResponse(Call<CartItem> call, Response<CartItem> response) {
-                if(response.body()== null){
-                    addFoodToCart(cartItem);
+                CartItem item = response.body();
+                if(item == null){
+                    addFoodToCart(item);
                 }else{
-                    updateFoodCart(cartItem);
+                    updateFoodCart(item);
                 }
             }
 
