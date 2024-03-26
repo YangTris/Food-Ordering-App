@@ -1,33 +1,116 @@
 package com.example.food_ordering_app.services;
 
+import android.content.Context;
+import android.widget.Toast;
 
 import com.example.food_ordering_app.models.Food;
+import com.example.food_ordering_app.controllers.FoodController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public interface FoodService {
-    @GET("food")
-    Call<ArrayList<Food>> getAllFoods();
+public class FoodService {
+    private FoodController foodController = ServiceBuilder.buildService(FoodController.class);
+    private Context context;
 
-    @GET("food/{id}")
-    Call<Food> getFoodDetails(@Path("id")String id);
+    public FoodService(Context context) {
+        this.context = context;
+    }
 
-    @POST("food")
-    Call<Food> createFood(@Body Food food);
+    public void responseSuccess(Response response){
+        if (response.isSuccessful()) {
+            response.body().toString();
+        } else if (response.code() == 401) {
+            Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Failed to retrieve items", Toast.LENGTH_LONG).show();
+        }
+    }
 
-    @PUT("food/{id}")
-    Call<Food> updateFood(@Path("id")String id, @Body Food food);
+    public void responseFailure(Throwable throwable){
+        if (throwable instanceof IOException) {
+            Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Failed to retrieve items", Toast.LENGTH_LONG).show();
+        }
+    }
 
-    @DELETE("food/{id}")
-    Call<Void> deleteFood(@Path("id")String id);
+    public void getAllFoods(){
+        Call<ArrayList<Food>> request = foodController.getAllFoods();
+        request.enqueue(new Callback<ArrayList<Food>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Food>> request, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
+    public void getFoodDetails(String id){
+        Call<Food> request = foodController.getFoodDetails(id);
+        request.enqueue(new Callback<Food>() {
+            @Override
+            public void onResponse(Call<Food> call, Response<Food> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<Food> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
+    public void createFood(Food food){
+        Call<Food> request = foodController.createFood(food);
+        request.enqueue(new Callback<Food>() {
+            @Override
+            public void onResponse(Call<Food> call, Response<Food> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<Food> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
+    public void updateFood(String id, Food food){
+        Call<Food> request = foodController.updateFood(id,food);
+        request.enqueue(new Callback<Food>() {
+            @Override
+            public void onResponse(Call<Food> call, Response<Food> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<Food> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
+    public void deleteFood(String id){
+        Call<String> request = foodController.deleteFood(id);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
 }

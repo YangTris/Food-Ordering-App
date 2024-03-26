@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.food_ordering_app.adapter.FoodAdapter;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.ServiceBuilder;
-import com.example.food_ordering_app.services.FoodService;
+import com.example.food_ordering_app.controllers.FoodController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,14 +27,14 @@ public class FoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         final Context context = this;
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_foodList);
-        FoodService foodService = ServiceBuilder.buildService(FoodService.class);
+        FoodController foodController = ServiceBuilder.buildService(FoodController.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Call<ArrayList<Food>> request = foodService.getAllFoods();
+        Call<ArrayList<Food>> request = foodController.getAllFoods();
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
                 if (response.isSuccessful()) {
-                    recyclerView.setAdapter(new FoodAdapter(HomeActivity.this, response.body()));
+                    recyclerView.setAdapter(new FoodAdapter(FoodActivity.this, response.body()));
                     System.out.println(response.body().toString());
                 } else if (response.code() == 401) {
                     Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
