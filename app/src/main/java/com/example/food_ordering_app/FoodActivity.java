@@ -34,7 +34,7 @@ public class FoodActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
                 if (response.isSuccessful()) {
-                    recyclerView.setAdapter(new FoodAdapter(FoodActivity.this, response.body()));
+                    //recyclerView.setAdapter(new FoodAdapter(FoodActivity.this, response.body()));
                     System.out.println(response.body().toString());
                 } else if (response.code() == 401) {
                     Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();

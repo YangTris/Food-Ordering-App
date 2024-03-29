@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameInput;
     private TextInputLayout passwordInput;
     private Button loginButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +36,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
                 }
                 if (username.equals("test") && password.equals("test")) {
-                    startActivity(new Intent(LoginActivity.this, APITestActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Log.d("key", BuildConfig.MAPS_API_KEY);
+                    startActivity(new Intent(LoginActivity.this, MapsActivity.class));
                 }
             }
         });
