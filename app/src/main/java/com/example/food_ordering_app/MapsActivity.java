@@ -1,6 +1,7 @@
 package com.example.food_ordering_app;
 
 
+import static com.android.volley.VolleyLog.TAG;
 import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,6 +20,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Granularity;
 import com.google.android.gms.location.LocationCallback;
@@ -41,6 +43,13 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
+import java.util.Arrays;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -54,21 +63,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationCallback locationCallback;
     private Marker currentMarker;
     private static LatLng nga6 = new LatLng(10.7598,106.6690);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        permissionCheck();
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        updateValuesFromBundle(savedInstanceState, mapFragment);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        permissionCheck(mapFragment);
+        updateValuesFromBundle(savedInstanceState, mapFragment);
+
         if (!requestingLocationUpdates) {
-            getCurrentLocation(mapFragment);
             createLocationRequest();
         } else {
             startLocationUpdates();
@@ -91,9 +98,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         };
+
+
+        Places.initializeWithNewPlacesApiEnabled(getApplicationContext(), BuildConfig.MAPS_API_KEY);
+
+        // Create a new PlacesClient instance
+        PlacesClient placesClient = Places.createClient(this);
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME)).setCountry("VN");
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            }
+
+
+            @Override
+            public void onError(@NonNull Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+
+
     }
 
-    private void permissionCheck() {
+    private void permissionCheck(SupportMapFragment mapFragment) {
         ActivityResultLauncher<String[]> locationPermissionRequest =
                 registerForActivityResult(new ActivityResultContracts
                                 .RequestMultiplePermissions(), result -> {
@@ -101,6 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     Manifest.permission.ACCESS_FINE_LOCATION, false);
                             if (fineLocationGranted != null && fineLocationGranted) {
                                 // Precise location access granted.
+                                getCurrentLocation(mapFragment);
                             } else {
                                 // No location access granted.
                                 onDestroy();
@@ -125,11 +164,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         currentMarker.showInfoWindow();
 
-        LatLng currentLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        mMap.addPolyline(new PolylineOptions().add(currentLng,nga6)
-                .width(5)
-                .color(Color.BLUE)
-                .geodesic(true));
+//        LatLng currentLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+//        mMap.addPolyline(new PolylineOptions().add(currentLng,nga6)
+//                .width(5)
+//                .color(Color.BLUE)
+//                .geodesic(true));
     }
 
     protected void getCurrentLocation(SupportMapFragment mapFragment) {
