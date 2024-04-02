@@ -43,10 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
+        android:background="#000"
         android:hint="Category">
 
         <AutoCompleteTextView
             android:id="@+id/food_autocomplete"
+            android:hint="Category name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none" />
@@ -74,14 +76,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="Food price"
-        app:startIconContentDescription="Food price">
+        app:startIconContentDescription="Food price"
+        app:suffixText="VND">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            app:expandedHintEnabled="false"
-            app:suffixText="VND" />
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

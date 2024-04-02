@@ -41,12 +41,17 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("Password", password);
                 if (username.equals("user") && password.equals("user")) {
                     startActivity(new Intent(LoginActivity.this, CategoryActivity.class));
-                } else {
-                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
                 }
+//                else {
+//                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
+//                }
                 if (username.equals("test") && password.equals("test")) {
                     Log.d("key", BuildConfig.MAPS_API_KEY);
                     startActivity(new Intent(LoginActivity.this, MapsActivity.class));
+                }
+
+                if (username.equals("admin") && password.equals("admin")) {
+                    startActivity(new Intent(LoginActivity.this, AdminFoodActivity.class));
                 }
             }
         });
