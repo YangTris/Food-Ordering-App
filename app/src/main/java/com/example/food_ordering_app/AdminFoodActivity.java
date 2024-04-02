@@ -25,5 +25,7 @@ public class AdminFoodActivity extends AppCompatActivity {
                 startActivity(new Intent(AdminFoodActivity.this, EditFoodActivity.class));
             }
         });
+
+
     }
 }
