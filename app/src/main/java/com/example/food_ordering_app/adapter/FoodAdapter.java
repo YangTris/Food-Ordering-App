@@ -17,6 +17,9 @@ import com.example.food_ordering_app.models.Food;
 import java.util.ArrayList;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
+
+    private Context mContext;
+    private ArrayList<Food> mFoods;
     public FoodAdapter(Context mContext, ArrayList<Food> mFoods) {
         this.mContext = mContext;
         this.mFoods = mFoods;
@@ -29,14 +32,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mImageFood = itemView.findViewById(R.id.food_img);
-            mTextName = itemView.findViewById(R.id.food_name);
-            mTextDescription = itemView.findViewById(R.id.food_price);
+            mImageFood = itemView.findViewById(R.id.item_food_img);
+            mTextName = itemView.findViewById(R.id.item_food_name);
+            mTextDescription = itemView.findViewById(R.id.item_food_price);
         }
     }
 
-    private Context mContext;
-    private ArrayList<Food> mFoods;
+
 
     @NonNull
     @Override

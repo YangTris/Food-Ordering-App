@@ -1,9 +1,11 @@
 package com.example.food_ordering_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,42 +13,56 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.food_ordering_app.adapter.AdminFoodAdapter;
+import com.example.food_ordering_app.adapter.FoodAdapter;
 import com.example.food_ordering_app.models.Food;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class AdminFoodActivity extends AppCompatActivity {
+    private StorageReference storageRef;
+    private FirebaseStorage storage;
     private FloatingActionButton addFoodButton;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_all_foods); // Set your layout here
+        setContentView(R.layout.admin_all_foods);
         addFoodButton = findViewById(R.id.fab);
 
-        RecyclerView rvFoods = (RecyclerView) findViewById(R.id.recyclerView_foodList);
+        // Retrieve data from Firebase
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+        firestore = FirebaseFirestore.getInstance();
 
-        AdminFoodAdapter foodAdapter = new AdminFoodAdapter(sampleFoodList());
+        final Context context = this;
+        final RecyclerView recyclerView = findViewById(R.id.recyclerView_foodList);
+        AdminFoodAdapter foodAdapter = new AdminFoodAdapter(context, sampleFoodList());
+        recyclerView.setAdapter(foodAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        rvFoods.setAdapter(foodAdapter);
-
-        rvFoods.setLayoutManager(new LinearLayoutManager(this));
         addFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AdminFoodActivity.this, EditFoodActivity.class));
             }
         });
-
-
     }
 
     private ArrayList<Food> sampleFoodList() {
         ArrayList<Food> foodList = new ArrayList<>();
-
         for (int i = 1; i <= 10; i++) {
             String name = "Food " + i;
             String description = "Description " + i;
@@ -58,7 +74,6 @@ public class AdminFoodActivity extends AppCompatActivity {
             food.setPrice(price);
             foodList.add(food);
         }
-
         return foodList;
     }
 }

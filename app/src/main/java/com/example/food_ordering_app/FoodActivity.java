@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.food_ordering_app.adapter.AdminFoodAdapter;
 import com.example.food_ordering_app.adapter.FoodAdapter;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.ServiceBuilder;
@@ -26,9 +27,12 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final Context context = this;
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_foodList);
-        FoodController foodController = ServiceBuilder.buildService(FoodController.class);
+        final RecyclerView recyclerView = findViewById(R.id.recyclerView_foodList);
+        FoodAdapter foodAdapter = new FoodAdapter(context, sampleFoodList());
+        recyclerView.setAdapter(foodAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        FoodController foodController = ServiceBuilder.buildService(FoodController.class);
         Call<ArrayList<Food>> request = foodController.getAllFoods();
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
@@ -52,5 +56,21 @@ public class FoodActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private ArrayList<Food> sampleFoodList() {
+        ArrayList<Food> foodList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            String name = "Food " + i;
+            String description = "Description " + i;
+            double price = 10.99 + i;
+
+            Food food = new Food();
+            food.setName(name);
+            food.setDescription(description);
+            food.setPrice(price);
+            foodList.add(food);
+        }
+        return foodList;
     }
 }

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EDE7FF"
-    >
+    android:background="#EDE7FF">
 
     <LinearLayout
         android:id="@id/search"
@@ -47,5 +46,4 @@
         app:itemTextColor="#6746C2"
         app:layout_anchorGravity="bottom|end"
         app:menu="@menu/bottom_navigation_menu" />
-
 </RelativeLayout>

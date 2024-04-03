@@ -59,8 +59,10 @@ public class EditFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_food);
         AutoCompleteTextView textField = findViewById(R.id.food_autocomplete);
+
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
+
         chooseImage = findViewById(R.id.choose_image);
         saveFood = findViewById(R.id.save_food);
         chooseImage.setOnClickListener(new View.OnClickListener() {

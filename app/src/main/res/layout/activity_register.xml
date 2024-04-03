@@ -19,7 +19,7 @@
             android:gravity="center_horizontal|top"
             android:includeFontPadding="false"
             android:lineHeight="36dp"
-            android:text="Login\nWelcome back!"
+            android:text="Register, Welcome!"
             android:textColor="#FF000000"
             android:textSize="24dp" />
         <!--Username field-->
@@ -52,12 +52,87 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Your address" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="City">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/register_addresses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="162dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="3dp"
+                android:hint="Ward">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="162dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="3dp"
+                android:hint="District">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/house_number"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="3dp"
+            android:hint="Number, Street name"
+            app:startIconContentDescription="Number, Street name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <Button
             android:id="@+id/login"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="LOGIN"
             android:textAlignment="center" />
 
@@ -65,20 +140,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account? "
+                android:text="Already had an account? "
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/sign_up"
+                android:id="@+id/sign_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign up"
+                android:text="Sign in"
                 android:textColor="#6750a4"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -87,25 +162,26 @@
             android:layout_width="300dp"
             android:layout_height="2dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="#9A9A9A" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="7dp"
             android:text="Or"
             android:textSize="15dp" />
     </LinearLayout>
     <!--  Google button   -->
     <ImageView
         android:id="@+id/google_login"
-        android:layout_width="300dp"
+        android:layout_width="150dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="10dp"
         android:layout_height="48dp"
         android:layout_below="@+id/container_login_form"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:background="@drawable/google_login_button"
         android:scaleType="centerInside" />
 
@@ -121,27 +197,27 @@
         android:src="@drawable/img_google_logo" />
 
     <TextView
-        android:layout_width="162dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/google_login"
-        android:layout_marginLeft="50dp"
         android:layout_marginTop="17dp"
         android:layout_toEndOf="@+id/img_google_logo"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="LOGIN WITH GOOGLE"
+        android:text="GOOGLE"
         android:textAlignment="center"
         android:textColor="#FF000000"
-        android:textSize="14dp" />
-    <!--  Facebook button   -->
+        android:textSize="14dp" /><!--  Facebook button   -->
     <ImageView
         android:id="@+id/facebook_login"
-        android:layout_width="300dp"
+        android:layout_width="150dp"
         android:layout_height="48dp"
-        android:layout_below="@+id/google_login"
+        android:layout_marginStart="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/google_login"
+        android:layout_alignBottom="@+id/google_login"
         android:background="@drawable/facebook_login_button"
         android:scaleType="centerInside" />
 
@@ -157,16 +233,15 @@
         android:src="@drawable/img_facebook_logo" />
 
     <TextView
-        android:layout_width="162dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/facebook_login"
-        android:layout_marginLeft="50dp"
         android:layout_marginTop="17dp"
         android:layout_toEndOf="@+id/img_facebook_logo"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="LOGIN WITH FACEBOOK"
+        android:text="FACEBOOK"
         android:textAlignment="center"
         android:textColor="#FFFFFFFF"
         android:textSize="14dp" />

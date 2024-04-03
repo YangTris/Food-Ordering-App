@@ -17,9 +17,12 @@ import com.example.food_ordering_app.models.Food;
 import java.util.ArrayList;
 
 public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.ViewHolder> {
+
+    private Context mContext;
     private ArrayList<Food> mFoods;
 
-    public AdminFoodAdapter(ArrayList<Food> mFoods) {
+    public AdminFoodAdapter(Context context, ArrayList<Food> mFoods) {
+        this.mContext = context;
         this.mFoods = mFoods;
     }
 
@@ -30,9 +33,9 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mImageFood = itemView.findViewById(R.id.food_img);
-            mTextName = itemView.findViewById(R.id.food_name);
-            mTextPrice = itemView.findViewById(R.id.food_price);
+            mImageFood = itemView.findViewById(R.id.item_food_img);
+            mTextName = itemView.findViewById(R.id.item_food_name);
+            mTextPrice = itemView.findViewById(R.id.item_food_price);
         }
     }
 
@@ -40,8 +43,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     @NonNull
     @Override
     public AdminFoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         View foodView = inflater.inflate(R.layout.admin_food_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(foodView);
         return viewHolder;
@@ -50,11 +52,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     @Override
     public void onBindViewHolder(@NonNull AdminFoodAdapter.ViewHolder holder, int position) {
         Food food = mFoods.get(position);
-//        Glide.with(mContext)
-//                .load(food.getImgURL())
-//                .placeholder(R.drawable.category_breakfast)
-//                .error(R.drawable.image_holder)
-//                .into(holder.mImageFood);
+        Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.error).into(holder.mImageFood);
         holder.mTextName.setText(food.getName());
         holder.mTextPrice.setText(String.valueOf(food.getPrice()));
     }
