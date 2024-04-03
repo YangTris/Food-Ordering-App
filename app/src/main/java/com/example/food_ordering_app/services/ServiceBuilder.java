@@ -19,8 +19,6 @@ public class ServiceBuilder {
     //
     private static final String URL = "http://192.168.1.11:8080/";
 
-    //    // E.402
-//    private static final String URL = "http://192.168.28.226:9000/";
     // Create logger
     private static HttpLoggingInterceptor logger =
             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);

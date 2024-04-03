@@ -1,7 +1,6 @@
 package com.example.food_ordering_app;
 
 
-import static com.android.volley.VolleyLog.TAG;
 import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -11,16 +10,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.food_ordering_app.services.MapService;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Granularity;
 import com.google.android.gms.location.LocationCallback;
@@ -43,13 +46,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
-import java.util.Arrays;
+import com.google.maps.android.PolyUtil;
+import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -62,7 +61,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean requestingLocationUpdates = false;
     private LocationCallback locationCallback;
     private Marker currentMarker;
-    private static LatLng nga6 = new LatLng(10.7598,106.6690);
+    private static LatLng nga6 = new LatLng(10.7598, 106.6690);
+    private MapService mapService = new MapService(MapsActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,35 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
 
-
-        Places.initializeWithNewPlacesApiEnabled(getApplicationContext(), BuildConfig.MAPS_API_KEY);
-
-        // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(this);
-
-        // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME)).setCountry("VN");
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            }
-
-
-            @Override
-            public void onError(@NonNull Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
-
+        Log.d("Place",getLocationFromAddress(MapsActivity.this,"273 An Dương Vương Phường 3 Quận 5").toString());
 
     }
 
@@ -159,16 +132,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentMarker != null) {
             currentMarker.remove();
         }
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        currentMarker = mMap.addMarker(getMarkerOption(latLng));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        String address = "137/80 Đường Phan Anh Phường Bình Trị Đông Quận Bình Tân";
+        LatLng destination = getLocationFromAddress(MapsActivity.this,address) ;
+        mapService.getDirection(origin,destination,mMap);
+        currentMarker = mMap.addMarker(getMarkerOption(origin));
         currentMarker.showInfoWindow();
-
-//        LatLng currentLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-//        mMap.addPolyline(new PolylineOptions().add(currentLng,nga6)
-//                .width(5)
-//                .color(Color.BLUE)
-//                .geodesic(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 15));
     }
 
     protected void getCurrentLocation(SupportMapFragment mapFragment) {
@@ -272,5 +242,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         option.title("Current Location").snippet("This is cool");
         option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         return option;
+    }
+
+    public LatLng getLocationFromAddress(Context context, String inputtedAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng resLatLng = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(inputtedAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            if (address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            resLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return resLatLng;
     }
 }

@@ -53,12 +53,12 @@ dependencies {
     implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
-
+    implementation("com.google.maps.android:android-maps-utils:3.8.0")
 
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.1.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.1.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.10.0")
