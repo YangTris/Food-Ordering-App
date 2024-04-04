@@ -15,13 +15,14 @@ import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Food> mFoods;
+    private List<Food> mFoods;
 
-    public AdminFoodAdapter(Context context, ArrayList<Food> mFoods) {
+    public AdminFoodAdapter(Context context, List<Food> mFoods) {
         this.mContext = context;
         this.mFoods = mFoods;
     }
@@ -60,5 +61,10 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     @Override
     public int getItemCount() {
         return mFoods.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/admin_foods"
+        android:color="#6750a4"
+        android:enabled="true"
+        android:icon="@drawable/admin_dish"
+        android:title="Foods" />
+    <item
+        android:id="@+id/admin_orders"
+        android:color="#6750a4"
+        android:enabled="true"
+        android:icon="@drawable/delivering"
+        android:title="Orders" />
+    <item
+        android:id="@+id/admin_users"
+        android:color="#6750a4"
+        android:enabled="true"
+        android:icon="@drawable/profile"
+        android:title="Users" />
+    <item
+        android:id="@+id/logout"
+        android:color="#6750a4"
+        android:enabled="true"
+        android:icon="@drawable/logout"
+        android:title="Log out" />
+</menu>

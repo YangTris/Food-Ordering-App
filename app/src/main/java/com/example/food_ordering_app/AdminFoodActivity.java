@@ -2,6 +2,7 @@ package com.example.food_ordering_app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -29,18 +31,25 @@ import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AdminFoodActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private FirebaseStorage storage;
     private FloatingActionButton addFoodButton;
     private FirebaseFirestore firestore;
+    private CardView foodCard;
+
+    ImageView deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_all_foods);
         addFoodButton = findViewById(R.id.fab);
+        deleteButton = findViewById(R.id.admin_delete);
+        foodCard = findViewById(R.id.admin_food_card);
 
         // Retrieve data from Firebase
         storage = FirebaseStorage.getInstance();
@@ -59,10 +68,25 @@ public class AdminFoodActivity extends AppCompatActivity {
                 startActivity(new Intent(AdminFoodActivity.this, EditFoodActivity.class));
             }
         });
+
+        foodCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Click a food to send data to edit food activity
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Delete an item
+            }
+        });
     }
 
-    private ArrayList<Food> sampleFoodList() {
-        ArrayList<Food> foodList = new ArrayList<>();
+
+    private List<Food> sampleFoodList() {
+        List<Food> foodList = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             String name = "Food " + i;
             String description = "Description " + i;
