@@ -10,14 +10,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.food_ordering_app.services.MapService;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Granularity;
@@ -41,6 +46,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.PolyUtil;
+import java.io.IOException;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -53,22 +61,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean requestingLocationUpdates = false;
     private LocationCallback locationCallback;
     private Marker currentMarker;
-    private static LatLng nga6 = new LatLng(10.7598,106.6690);
+    private static LatLng nga6 = new LatLng(10.7598, 106.6690);
+    private MapService mapService = new MapService(MapsActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        permissionCheck();
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        updateValuesFromBundle(savedInstanceState, mapFragment);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        permissionCheck(mapFragment);
+        updateValuesFromBundle(savedInstanceState, mapFragment);
+
         if (!requestingLocationUpdates) {
-            getCurrentLocation(mapFragment);
             createLocationRequest();
         } else {
             startLocationUpdates();
@@ -91,9 +99,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         };
+
+        Log.d("Place",getLocationFromAddress(MapsActivity.this,"273 An Dương Vương Phường 3 Quận 5").toString());
+
     }
 
-    private void permissionCheck() {
+    private void permissionCheck(SupportMapFragment mapFragment) {
         ActivityResultLauncher<String[]> locationPermissionRequest =
                 registerForActivityResult(new ActivityResultContracts
                                 .RequestMultiplePermissions(), result -> {
@@ -101,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     Manifest.permission.ACCESS_FINE_LOCATION, false);
                             if (fineLocationGranted != null && fineLocationGranted) {
                                 // Precise location access granted.
+                                getCurrentLocation(mapFragment);
                             } else {
                                 // No location access granted.
                                 onDestroy();
@@ -120,16 +132,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentMarker != null) {
             currentMarker.remove();
         }
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        currentMarker = mMap.addMarker(getMarkerOption(latLng));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        String address = "137/80 Đường Phan Anh Phường Bình Trị Đông Quận Bình Tân";
+        LatLng destination = getLocationFromAddress(MapsActivity.this,address) ;
+        mapService.getDirection(origin,destination,mMap);
+        currentMarker = mMap.addMarker(getMarkerOption(origin));
         currentMarker.showInfoWindow();
-
-        LatLng currentLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        mMap.addPolyline(new PolylineOptions().add(currentLng,nga6)
-                .width(5)
-                .color(Color.BLUE)
-                .geodesic(true));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 15));
     }
 
     protected void getCurrentLocation(SupportMapFragment mapFragment) {
@@ -233,5 +242,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         option.title("Current Location").snippet("This is cool");
         option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         return option;
+    }
+
+    public LatLng getLocationFromAddress(Context context, String inputtedAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng resLatLng = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(inputtedAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            if (address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            resLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return resLatLng;
     }
 }
