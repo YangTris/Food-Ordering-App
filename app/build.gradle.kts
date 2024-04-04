@@ -51,7 +51,9 @@ android {
             res {
                 srcDirs("src\\main\\res", "src\\main\\res\\layouts\\admin_food",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_food", "src\\main\\res", "src\\main\\res\\layouts\\admin_order"
+                    "src\\main\\res\\layouts\\customer_food", "src\\main\\res", "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_profile"
                 )
             }
         }
