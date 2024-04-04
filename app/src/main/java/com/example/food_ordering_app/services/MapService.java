@@ -3,6 +3,7 @@ package com.example.food_ordering_app.services;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +52,7 @@ public class MapService {
         }
     }
 
-    public void getDirection(LatLng origin, LatLng destination, GoogleMap map){
+    public void getDirection(LatLng origin, LatLng destination, GoogleMap map, TextView txtTime, TextView txtDistance){
         String originString = convertLatLongToString(origin);
         String desString = convertLatLongToString(destination);
         Call<MapInfo> request = mapController.getDirection(originString,desString, BuildConfig.API_KEY);
@@ -62,14 +65,16 @@ public class MapService {
                 if(polylines != null){
                     map.clear();
                 }
+                txtTime.setText("Thời gian dự kiến : "+info.getRoutes().get(0).getLegs().get(0).getDuration().getText());
+                txtDistance.setText("Quãng đường dự kiến : "+info.getRoutes().get(0).getLegs().get(0).getDistance().getText());
                 polylines = PolyUtil.decode(info.getRoutes().get(0).getOverviewPolyline().getPoints().replace("\\\\","\\"));
                 //Draw Marker
-                Marker marker = map.addMarker(getMarkerOption(polylines.get(polylines.size()-1)));
+                Marker marker = map.addMarker(getMarkerOption(polylines.get(polylines.size()-1),"Vị trí đơn hàng"));
                 marker.showInfoWindow();
                 //Add polyline
                 PolylineOptions polylineOptions = new PolylineOptions();
                 polylineOptions.addAll(polylines);
-                polylineOptions.width(5).color(Color.RED).geodesic(true);
+                polylineOptions.width(5).color(Color.BLUE).geodesic(true);
                 map.addPolyline(polylineOptions);
             }
 
@@ -86,11 +91,11 @@ public class MapService {
         return latitude + "," + longitude;
     }
     @NonNull
-    private MarkerOptions getMarkerOption(LatLng location) {
+    private MarkerOptions getMarkerOption(LatLng location,String title) {
         MarkerOptions option = new MarkerOptions();
         option.position(location);
-        option.title("Current Location").snippet("This is cool");
-        option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        option.title(title);
+        option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         return option;
     }
 }
