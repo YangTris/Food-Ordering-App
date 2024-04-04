@@ -46,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
 //                }
                 if (username.equals("test") && password.equals("test")) {
-                    Log.d("key", BuildConfig.MAPS_API_KEY);
                     startActivity(new Intent(LoginActivity.this, MapsActivity.class));
                 }
 

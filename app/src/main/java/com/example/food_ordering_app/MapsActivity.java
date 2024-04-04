@@ -20,6 +20,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.services.MapService;
@@ -61,14 +64,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean requestingLocationUpdates = false;
     private LocationCallback locationCallback;
     private Marker currentMarker;
-    private static LatLng nga6 = new LatLng(10.7598, 106.6690);
     private MapService mapService = new MapService(MapsActivity.this);
+    private Button btnGetDirection;
+    private TextView txtTime;
+    private TextView txtDistance;
+    private TextView txtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        btnGetDirection = findViewById(R.id.btnGetDirection);
+        txtDistance = findViewById(R.id.txtDistance);
+        txtTime = findViewById(R.id.txtTime);
+        txtAddress = findViewById(R.id.txtAddress);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -99,9 +109,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         };
-
-        Log.d("Place",getLocationFromAddress(MapsActivity.this,"273 An Dương Vương Phường 3 Quận 5").toString());
-
     }
 
     private void permissionCheck(SupportMapFragment mapFragment) {
@@ -133,12 +140,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             currentMarker.remove();
         }
         LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        String address = "137/80 Đường Phan Anh Phường Bình Trị Đông Quận Bình Tân";
-        LatLng destination = getLocationFromAddress(MapsActivity.this,address) ;
-        mapService.getDirection(origin,destination,mMap);
-        currentMarker = mMap.addMarker(getMarkerOption(origin));
+        currentMarker = mMap.addMarker(getMarkerOption(origin,"Vị trí hiện tại"));
         currentMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 15));
+        btnGetDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String address = "137/80 Đường Phan Anh Phường Bình Trị Đông Quận Bình Tân";
+                txtAddress.setText(address);
+                LatLng destination = getLocationFromAddress(MapsActivity.this,address) ;
+                mapService.getDirection(origin,destination,mMap,txtTime,txtDistance);
+            }
+        });
     }
 
     protected void getCurrentLocation(SupportMapFragment mapFragment) {
@@ -236,10 +249,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @NonNull
-    private MarkerOptions getMarkerOption(LatLng location) {
+    private MarkerOptions getMarkerOption(LatLng location,String title) {
         MarkerOptions option = new MarkerOptions();
         option.position(location);
-        option.title("Current Location").snippet("This is cool");
+        option.title(title);
         option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         return option;
     }
