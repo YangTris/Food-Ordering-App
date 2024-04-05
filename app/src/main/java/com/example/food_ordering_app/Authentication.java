@@ -68,7 +68,8 @@ public class Authentication extends AppCompatActivity {
         };
 
         buttonSendVerificationCode.setOnClickListener(v -> {
-            String phoneNumber = editTextPhone.getEditText().getText().toString();
+            //84 is VN country code
+            String phoneNumber ="+84" + editTextPhone.getEditText().getText().toString();
             startPhoneNumberVerification(phoneNumber);
         });
 
