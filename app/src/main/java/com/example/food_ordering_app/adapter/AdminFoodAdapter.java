@@ -1,6 +1,9 @@
 package com.example.food_ordering_app.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.food_ordering_app.AdminFoodActivity;
+import com.example.food_ordering_app.EditFoodActivity;
 import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
 
@@ -48,6 +53,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
                     if(pos != RecyclerView.NO_POSITION){
                         Food food = mFoods.get(pos);
                         Toast.makeText(v.getContext(), "You clicked " + food.getName(), Toast.LENGTH_SHORT).show();
+                        mContext.startActivity(new Intent(mContext, EditFoodActivity.class));
                     }
                 }
             });
