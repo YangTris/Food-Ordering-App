@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,15 +33,26 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
         private ImageView mImageFood;
         private TextView mTextName;
         private TextView mTextPrice;
+        private ImageView mDeleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mImageFood = itemView.findViewById(R.id.item_food_img);
             mTextName = itemView.findViewById(R.id.item_food_name);
             mTextPrice = itemView.findViewById(R.id.item_food_price);
+            mDeleteButton= itemView.findViewById(R.id.admin_delete);
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        Food food = mFoods.get(pos);
+                        Toast.makeText(v.getContext(), "You clicked " + food.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
-
 
     @NonNull
     @Override
@@ -56,6 +69,16 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
         Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.error).into(holder.mImageFood);
         holder.mTextName.setText(food.getName());
         holder.mTextPrice.setText(String.valueOf(food.getPrice()));
+
+        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    removeItem(adapterPosition);
+                }
+            }
+        });
     }
 
     @Override
@@ -66,5 +89,11 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
+    }
+
+    public void removeItem(int position) {
+        mFoods.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 }

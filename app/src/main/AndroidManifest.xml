@@ -23,6 +23,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Authentication"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".EditFoodActivity"
             android:exported="false" />
         <!--
@@ -50,9 +55,9 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-            <!--main -->
-        </activity>
 
+            <!-- main -->
+        </activity>
         <activity
             android:name=".AdminFoodActivity"
             android:exported="true">
@@ -62,12 +67,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".FoodActivity"
             android:exported="true"
             android:label="Food"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 
