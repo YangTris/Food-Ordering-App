@@ -45,10 +45,6 @@ public class LoginActivity extends AppCompatActivity {
 //                else {
 //                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
 //                }
-                if (username.equals("test") && password.equals("test")) {
-                    startActivity(new Intent(LoginActivity.this, MapsActivity.class));
-                }
-
                 if (username.equals("admin") && password.equals("admin")) {
                     startActivity(new Intent(LoginActivity.this, AdminFoodActivity.class));
                 }
