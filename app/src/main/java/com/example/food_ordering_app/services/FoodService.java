@@ -1,10 +1,21 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
+import android.media.Image;
+import android.util.Log;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.food_ordering_app.R;
+import com.example.food_ordering_app.adapter.AdminFoodAdapter;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.controllers.FoodController;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +32,9 @@ public class FoodService {
         this.context = context;
     }
 
-    public void responseSuccess(Response response){
+    public void responseSuccess(Response response) {
         if (response.isSuccessful()) {
-            response.body().toString();
+            Log.d("response",response.body().toString());
         } else if (response.code() == 401) {
             Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
         } else {
@@ -31,7 +42,7 @@ public class FoodService {
         }
     }
 
-    public void responseFailure(Throwable throwable){
+    public void responseFailure(Throwable throwable) {
         if (throwable instanceof IOException) {
             Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
         } else {
@@ -39,12 +50,15 @@ public class FoodService {
         }
     }
 
-    public void getAllFoods(){
+    public void getAllFoods(RecyclerView recyclerView) {
         Call<ArrayList<Food>> request = foodController.getAllFoods();
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
-                responseSuccess(response);
+                recyclerView.setAdapter(null);
+                AdminFoodAdapter foodAdapter = new AdminFoodAdapter(context, response.body());
+                recyclerView.setAdapter(foodAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
 
             @Override
@@ -54,12 +68,22 @@ public class FoodService {
         });
     }
 
-    public void getFoodDetails(String id){
+    public void getFoodDetails(String id, TextInputEditText txtFoodName, TextInputEditText txtFoodPrice, TextInputEditText txtFoodDes, AutoCompleteTextView txtCategory, ImageView imageView) {
         Call<Food> request = foodController.getFoodDetails(id);
         request.enqueue(new Callback<Food>() {
             @Override
             public void onResponse(Call<Food> call, Response<Food> response) {
-                responseSuccess(response);
+                Food food = response.body();
+                txtFoodName.setText(food.getName());
+                txtFoodPrice.setText(Double.valueOf(food.getPrice()).toString());
+                txtFoodDes.setText(food.getDescription());
+                Glide.with(context).load(food.getImgURL()).error(R.drawable.error).into(imageView);
+                txtCategory.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        txtCategory.setText(food.getCategory(), false);
+                    }
+                }, 10);
             }
 
             @Override
@@ -69,37 +93,37 @@ public class FoodService {
         });
     }
 
-    public void createFood(Food food){
-        Call<Food> request = foodController.createFood(food);
-        request.enqueue(new Callback<Food>() {
+    public void createFood(Food food) {
+        Call<String> request = foodController.createFood(food);
+        request.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Food> call, Response<Food> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 responseSuccess(response);
             }
 
             @Override
-            public void onFailure(Call<Food> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 responseFailure(t);
             }
         });
     }
 
-    public void updateFood(String id, Food food){
-        Call<Food> request = foodController.updateFood(id,food);
-        request.enqueue(new Callback<Food>() {
+    public void updateFood(String id, Food food) {
+        Call<String> request = foodController.updateFood(id, food);
+        request.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Food> call, Response<Food> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 responseSuccess(response);
             }
 
             @Override
-            public void onFailure(Call<Food> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 responseFailure(t);
             }
         });
     }
 
-    public void deleteFood(String id){
+    public void deleteFood(String id) {
         Call<String> request = foodController.deleteFood(id);
         request.enqueue(new Callback<String>() {
             @Override

@@ -23,7 +23,6 @@
         android:text="Chose image" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/food_name"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,6 +31,7 @@
         app:startIconContentDescription="Food name">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,7 +55,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/food_description"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -64,12 +63,12 @@
         app:startIconContentDescription="Food description">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/food_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/food_price"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -79,6 +78,7 @@
         app:suffixText="VND">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/food_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number" />
