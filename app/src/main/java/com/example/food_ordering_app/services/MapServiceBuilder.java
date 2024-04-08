@@ -9,6 +9,7 @@ public class MapServiceBuilder {
     private static final String URL = "https://maps.googleapis.com/maps/api/directions/";
 
     private static Retrofit retrofit = null;
+    //
     public static Retrofit getClient(){
         if(retrofit==null){
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
