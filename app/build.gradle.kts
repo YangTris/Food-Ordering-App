@@ -55,7 +55,7 @@ android {
                     "src\\main\\res",
                     "src\\main\\res\\layouts\\customer_profile", "src\\main\\res", "src\\main\\res\\layouts\\customer_order",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_cart"
+                    "src\\main\\res\\layouts\\customer_cart", "src\\main\\res", "src\\main\\res\\layouts\\admin_order"
                 )
             }
         }
