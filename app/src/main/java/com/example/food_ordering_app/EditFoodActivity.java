@@ -104,7 +104,9 @@ public class EditFoodActivity extends AppCompatActivity {
                 } else {
                     foodService.createFood(food);
                 }
-                onNewIntent(new Intent(EditFoodActivity.this, AdminFoodActivity.class));
+                Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }
@@ -117,12 +119,5 @@ public class EditFoodActivity extends AppCompatActivity {
                 Toast.makeText(EditFoodActivity.this, "Image upload successfully", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        startActivity(intent);
-        finish();
     }
 }

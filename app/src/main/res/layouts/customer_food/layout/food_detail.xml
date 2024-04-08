@@ -48,13 +48,13 @@
         android:textSize="25dp" />
 
     <Button
-        android:id="@+id/add_to_cart"
+        android:id="@+id/add_to_cart_button"
         style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="ADD TO CART"
         android:textSize="30dp"
-        app:icon="@drawable/cart"
+        app:icon="@drawable/add_cart"
         app:iconSize="30dp" />
 </LinearLayout>
