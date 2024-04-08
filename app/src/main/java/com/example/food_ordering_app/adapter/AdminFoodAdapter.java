@@ -53,11 +53,8 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Food food = mFoods.get(pos);
-                        Log.d("food123",food.toString());
-                        Toast.makeText(v.getContext(), "You clicked " + food.getName(), Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(mContext, EditFoodActivity.class);
                         i.putExtra("foodId",food.getId());
-                        Log.d("test",food.getId());
                         mContext.startActivity(i);
                     }
                 }

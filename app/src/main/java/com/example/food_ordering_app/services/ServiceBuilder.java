@@ -2,6 +2,9 @@ package com.example.food_ordering_app.services;
 
 import android.os.Build;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +16,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ServiceBuilder {
 
@@ -42,9 +46,13 @@ public class ServiceBuilder {
                     })
                     .addInterceptor(logger);
 
+    static Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
 
     private static Retrofit.Builder builder = new Retrofit.Builder().baseUrl(URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttp.build());
 
     private static Retrofit retrofit = builder.build();
