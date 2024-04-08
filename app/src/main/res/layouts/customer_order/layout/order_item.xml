@@ -65,5 +65,44 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/delivery_ongoing" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/deliverly_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/deliverly_status"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="Preparing"
+                android:textAlignment="center"
+                android:textSize="50px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:includeFontPadding="false"
+                android:text="Delivering"
+                android:textAlignment="center"
+                android:textSize="50px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:includeFontPadding="false"
+                android:text="Delivered"
+                android:textAlignment="center"
+                android:textSize="50px"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>
