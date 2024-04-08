@@ -13,5 +13,18 @@
         card_view:cardElevation="7dp"
         card_view:cardUseCompatPadding="true">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_food_img"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
