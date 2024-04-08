@@ -1,7 +1,5 @@
 package com.example.food_ordering_app.adapter;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -17,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.EditFoodActivity;
 import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
@@ -38,52 +35,6 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
         this.foodService = new FoodService(context);
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View foodView = inflater.inflate(R.layout.admin_food_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(foodView);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Food food = mFoods.get(position);
-        Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.error)
-                .into(holder.mImageFood);
-        holder.mTextName.setText(food.getName());
-        holder.mTextPrice.setText(String.valueOf(food.getPrice()));
-
-        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                Log.d("food123", mFoods.get(adapterPosition).toString());
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    removeItem(adapterPosition);
-                }
-            }
-        });
-    }
-    public void removeItem(int position) {
-        Log.d("foodName", mFoods.get(position).getName());
-        foodService.deleteFood(mFoods.get(position).getId());
-        mFoods.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, getItemCount());
-    }
-    @Override
-    public int getItemCount() {
-        return mFoods.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
-    }
-
-
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageFood;
         private TextView mTextName;
@@ -95,22 +46,65 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
             mImageFood = itemView.findViewById(R.id.item_food_img);
             mTextName = itemView.findViewById(R.id.item_food_name);
             mTextPrice = itemView.findViewById(R.id.item_food_price);
-            mDeleteButton = itemView.findViewById(R.id.admin_delete);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            mDeleteButton= itemView.findViewById(R.id.admin_delete);
+            itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v){
                     int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
+                    if(pos != RecyclerView.NO_POSITION){
                         Food food = mFoods.get(pos);
-                        Log.d("food123", food.toString());
-                        Toast.makeText(v.getContext(), "You clicked " + food.getName(), Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(mContext, EditFoodActivity.class);
-                        i.putExtra("foodId", food.getId());
-                        Log.d("test", food.getId());
+                        i.putExtra("foodId",food.getId());
                         mContext.startActivity(i);
                     }
                 }
             });
         }
+    }
+
+    @NonNull
+    @Override
+    public AdminFoodAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View foodView = inflater.inflate(R.layout.admin_food_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(foodView);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull AdminFoodAdapter.ViewHolder holder, int position) {
+        Food food = mFoods.get(position);
+        Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.error).into(holder.mImageFood);
+        holder.mTextName.setText(food.getName());
+        holder.mTextPrice.setText(String.valueOf(food.getPrice()));
+
+        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                Log.d("food123",mFoods.get(adapterPosition).toString());
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    removeItem(adapterPosition);
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return mFoods.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    public void removeItem(int position) {
+        Log.d("foodName",mFoods.get(position).getName());
+        foodService.deleteFood(mFoods.get(position).getId());
+        mFoods.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 }
