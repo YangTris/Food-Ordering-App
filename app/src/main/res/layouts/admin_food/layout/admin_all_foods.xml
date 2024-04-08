@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#EDE7FF">
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DDD0FF"
+        android:orientation="vertical">
+
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            android:id="@+id/search_bar"
+            style="@style/MaterialSearchBarLight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:mt_maxSuggestionsCount="10"
+            app:mt_placeholder="Find foods and drinks" />
+    </LinearLayout>
+</RelativeLayout>
