@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="15dp"
+        card_view:cardElevation="7dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/order_id"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:maxLines="2"
+                android:text="Order No. xxxxxxxxxxxxxxxxxxxxx"
+                android:textAlignment="center"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/deliverly_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_id"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="37dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/delivery_bar" />
+
+                <!-- Background của giai đoạn này đang lấy ví dụ,  chứ ban đầu nó là
+                delivery_ongoing chứ chưa done liền được
+                -->
+
+                <View
+                    android:id="@+id/preparing"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/delivery_done" />
+
+                <!-- Ý tưởng là mỗi lần xong giai đoạn nào thì đổi cái background
+                từ delivery_ongoing sang delivery_done mà không biết được không nữa-->
+
+                <View
+                    android:id="@+id/progress_delivering"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/delivery_ongoing" />
+
+                <View
+                    android:id="@+id/progress_delivered"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/delivery_ongoing" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/deliverly_labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/deliverly_status"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="Preparing"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:includeFontPadding="false"
+                    android:text="Delivering"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:includeFontPadding="false"
+                    android:text="Delivered"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/total"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/deliverly_labels"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Total: xx.xxx VND"
+                android:textSize="22dp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
