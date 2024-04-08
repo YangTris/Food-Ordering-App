@@ -24,9 +24,7 @@ public class AdminFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AdminFoodActivity.this, EditFoodActivity.class));
-                finish();
             }
         });
     }
-    //Test12345
 }
