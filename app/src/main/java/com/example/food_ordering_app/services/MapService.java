@@ -16,11 +16,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,19 +28,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapService {
-    private MapController mapController = MapServiceBuilder.getClient().create(MapController.class);
-    private Context context;
+    private final MapController mapController = MapServiceBuilder.getClient().create(MapController.class);
+    private final Context context;
     private List<LatLng> polylines;
     public MapService(Context context) {this.context = context;}
-    public void responseSuccess(Response response){
-        if (response.isSuccessful()) {
-            response.body().toString();
-        } else if (response.code() == 401) {
-            Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "Failed to retrieve items", Toast.LENGTH_LONG).show();
-        }
-    }
 
     public void responseFailure(Throwable throwable){
         if (throwable instanceof IOException) {

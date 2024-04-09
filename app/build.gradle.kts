@@ -49,9 +49,19 @@ android {
     sourceSets {
         getByName("main") {
             res {
-                srcDirs("src\\main\\res", "src\\main\\res\\layouts\\admin_food",
+                srcDirs(
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_food"
+                    "src\\main\\res\\layouts\\admin_food",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_food",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_profile",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_order",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_cart",
                 )
             }
         }
@@ -70,15 +80,15 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-auth")
+    implementation ("com.firebaseui:firebase-ui-storage:7.2.0")
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.10.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.10.0")
-
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")

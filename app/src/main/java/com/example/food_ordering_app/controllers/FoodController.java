@@ -18,14 +18,14 @@ public interface FoodController {
     Call<ArrayList<Food>> getAllFoods();
 
     @GET("food/{id}")
-    Call<Food> getFoodDetails(@Path("id")String id);
+    Call<Food> getFoodDetails(@Path("id") String id);
 
     @POST("food")
-    Call<Food> createFood(@Body Food food);
+    Call<String> createFood(@Body Food food);
 
     @PUT("food/{id}")
-    Call<Food> updateFood(@Path("id")String id, @Body Food food);
+    Call<String> updateFood(@Path("id") String id, @Body Food food);
 
     @DELETE("food/{id}")
-    Call<String> deleteFood(@Path("id")String id);
+    Call<String> deleteFood(@Path("id") String id);
 }

@@ -3,6 +3,7 @@ package com.example.food_ordering_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class Authentication extends AppCompatActivity {
 
     TextInputLayout editTextVerificationCode, editTextPhone;
-    Button buttonSendVerificationCode, buttonVerify ;
+    Button buttonSendVerificationCode, buttonVerify;
     private FirebaseAuth mAuth;
     private boolean mVerificationInProgress = false;
     private String mVerificationId;
@@ -69,24 +70,24 @@ public class Authentication extends AppCompatActivity {
 
         buttonSendVerificationCode.setOnClickListener(v -> {
             //84 is VN country code
-            String phoneNumber ="+84" + editTextPhone.getEditText().getText().toString();
+            String phoneNumber = "+84" + editTextPhone.getEditText().getText().toString();
             startPhoneNumberVerification(phoneNumber);
         });
 
         buttonVerify.setOnClickListener(v -> {
             String verificationCode = editTextVerificationCode.getEditText().getText().toString();
             verifyPhoneNumberWithCode(verificationCode);
+            Intent intent = new Intent(Authentication.this, AdminFoodActivity.class);
+            startActivity(intent);
         });
     }
 
     public void startPhoneNumberVerification(String phoneNumber) {
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(phoneNumber)       // Phone number to verify
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(mAuth).setPhoneNumber(phoneNumber)       // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setActivity(this)                 // Activity (for callback binding)
+                .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
 
         mVerificationInProgress = true;
@@ -98,19 +99,22 @@ public class Authentication extends AppCompatActivity {
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success
-                        Toast.makeText(Authentication.this, "Authentication successful", Toast.LENGTH_SHORT).show();
-                        FirebaseUser user = task.getResult().getUser();
-                    } else {
-                        // Sign in failed
-                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                            // Invalid verification code
-                            Toast.makeText(Authentication.this, "Invalid verification code", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // Sign in success
+                Toast.makeText(Authentication.this, "Authentication successful", Toast.LENGTH_SHORT).show();
+                FirebaseUser user = task.getResult().getUser();
+                Intent i = new Intent(this, RegisterActivity.class);
+                String phoneNumber = "+84" + editTextPhone.getEditText().getText().toString();
+                i.putExtra("phoneNumber", phoneNumber);
+                this.startActivity(i);
+            } else {
+                // Sign in failed
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                    // Invalid verification code
+                    Toast.makeText(Authentication.this, "Invalid verification code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

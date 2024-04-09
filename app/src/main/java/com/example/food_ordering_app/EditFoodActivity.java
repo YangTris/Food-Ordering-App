@@ -4,11 +4,13 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,10 +18,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.food_ordering_app.models.Food;
+import com.example.food_ordering_app.services.FoodService;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.bumptech.glide.Glide;
@@ -28,15 +32,18 @@ import java.util.UUID;
 
 public class EditFoodActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
-    private String[] items = {"Catgory 1", "Catgory 2", "Catgory 3", "Catgory 4"};
+    private String[] items = {"món chính", "fast food", "slow food", "món fụ", "khai zị", "tráng mịn", "món xế"};
     private Button chooseImage;
-
     private ImageView imageView;
     private Uri image;
     private Button saveFood;
-
     private StorageReference storageRef;
     private FirebaseStorage storage;
+    private TextInputEditText txtFoodName;
+    private TextInputEditText txtFoodDes;
+    private TextInputEditText txtFoodPrice;
+    private AutoCompleteTextView txtCategory;
+    private FoodService foodService = new FoodService(this);
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -46,7 +53,6 @@ public class EditFoodActivity extends AppCompatActivity {
                     saveFood.setEnabled(true);
                     imageView = findViewById(R.id.food_image);
                     Glide.with(getApplicationContext()).load(image).error(R.drawable.error).into(imageView);
-
                 }
             } else {
                 Toast.makeText(EditFoodActivity.this, "Select a image", Toast.LENGTH_SHORT).show();
@@ -58,13 +64,16 @@ public class EditFoodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_food);
-        AutoCompleteTextView textField = findViewById(R.id.food_autocomplete);
+        txtCategory = findViewById(R.id.food_autocomplete);
 
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-
+        imageView = findViewById(R.id.food_image);
         chooseImage = findViewById(R.id.choose_image);
         saveFood = findViewById(R.id.save_food);
+        txtFoodDes = findViewById(R.id.food_description);
+        txtFoodName = findViewById(R.id.food_name);
+        txtFoodPrice = findViewById(R.id.food_price);
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,25 +82,56 @@ public class EditFoodActivity extends AppCompatActivity {
                 activityResultLauncher.launch(intent);
             }
         });
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
+        txtCategory.setAdapter(adapter);
 
-
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        if (bundle != null) {
+            String id = bundle.get("foodId").toString();
+            foodService.getFoodDetails(id, txtFoodName, txtFoodPrice, txtFoodDes, txtCategory, imageView,null);
+        }
         saveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage(image);
+                Food food = new Food();
+                food.setCategory(txtCategory.getText().toString());
+                food.setDescription(txtFoodDes.getText().toString());
+                food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
+                food.setName(txtFoodName.getText().toString());
+                uploadImage(image,food);
+
+                if (bundle != null) {
+                    String id = bundle.get("foodId").toString();
+                    foodService.updateFood(id, food);
+                } else {
+                    foodService.createFood(food);
+                }
+                Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
-
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, items);
-        textField.setAdapter(adapter);
     }
 
-    private void uploadImage(Uri image) {
+    private void uploadImage(Uri image,Food food) {
         StorageReference reference = storageRef.child("images/" + UUID.randomUUID().toString());
         reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(EditFoodActivity.this, "Image upload successfully", Toast.LENGTH_SHORT).show();
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        food.setImgURL(uri.toString());
+                        Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditFoodActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

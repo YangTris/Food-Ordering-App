@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout usernameInput;
     private TextInputLayout passwordInput;
     private Button loginButton;
+
+    private TextView registerButton;
 
 
     // Dummies:
@@ -31,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         usernameInput = findViewById(R.id.username);
         passwordInput = findViewById(R.id.password);
-        loginButton = findViewById(R.id.login);
+        loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.sign_up);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,13 +49,16 @@ public class LoginActivity extends AppCompatActivity {
 //                else {
 //                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
 //                }
-                if (username.equals("test") && password.equals("test")) {
-                    startActivity(new Intent(LoginActivity.this, MapsActivity.class));
-                }
-
                 if (username.equals("admin") && password.equals("admin")) {
                     startActivity(new Intent(LoginActivity.this, AdminFoodActivity.class));
                 }
+            }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, Authentication.class));
             }
         });
 

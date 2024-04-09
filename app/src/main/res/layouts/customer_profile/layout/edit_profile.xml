@@ -13,74 +13,55 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:src="@drawable/category_breakfast" />
+        android:src="@drawable/image_holder" />
 
     <Button
         android:id="@+id/choose_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Chose image" />
+        android:text="Chose profile picture" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customer_name"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:hint="Food name"
-        app:startIconContentDescription="Food name">
+        android:hint="Your name"
+        app:startIconContentDescription="Your name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/category"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:id="@+id/customer_mail"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:background="#000"
-        android:hint="Category">
-
-        <AutoCompleteTextView
-            android:id="@+id/food_autocomplete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:hint="Food description"
-        app:startIconContentDescription="Food description">
+        android:layout_marginTop="20dp"
+        android:hint="Your email"
+        app:startIconContentDescription="Your email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/food_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customer_phone"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:hint="Food price"
-        app:startIconContentDescription="Food price"
-        app:suffixText="VND">
+        android:layout_marginTop="20dp"
+        android:hint="Your phone number"
+        app:startIconContentDescription="Your phone number">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/food_price"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/detail_food_img"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/image_holder" />
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/detail_food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/detail_food_img"
+            android:text="Food name"
+            android:textSize="32dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/detail_food_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_food_name"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/detail_food_img"
+            android:text="Price VND"
+            android:textSize="28dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/detail_food_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus convallis nec turpis id fringilla. Aliquam erat volutpat. Sed a gravida tellus, eu bibendum libero. Aliquam ut nulla vel leo auctor pretium nec in magna. Sed sodales, felis in scelerisque faucibus, turpis ligula varius metus, sed consectetur ante ligula in lectus."
+        android:textSize="25dp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+
+    <Button
+        android:id="@+id/add_to_cart_button"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="ADD TO CART"
+        android:textSize="30dp"
+        app:icon="@drawable/add_cart"
+        app:iconSize="30dp" />
+</LinearLayout>

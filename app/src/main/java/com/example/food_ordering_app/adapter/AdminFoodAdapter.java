@@ -1,9 +1,8 @@
 package com.example.food_ordering_app.adapter;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.EditFoodActivity;
 import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
+import com.example.food_ordering_app.services.FoodService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,12 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
 
     private Context mContext;
     private List<Food> mFoods;
+    private FoodService foodService;
 
     public AdminFoodAdapter(Context context, List<Food> mFoods) {
         this.mContext = context;
         this.mFoods = mFoods;
+        this.foodService = new FoodService(context);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,8 +53,9 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Food food = mFoods.get(pos);
-                        Toast.makeText(v.getContext(), "You clicked " + food.getName(), Toast.LENGTH_SHORT).show();
-                        mContext.startActivity(new Intent(mContext, EditFoodActivity.class));
+                        Intent i = new Intent(mContext, EditFoodActivity.class);
+                        i.putExtra("foodId",food.getId());
+                        mContext.startActivity(i);
                     }
                 }
             });
@@ -80,6 +82,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
             @Override
             public void onClick(View v) {
                 int adapterPosition = holder.getAdapterPosition();
+                Log.d("food123",mFoods.get(adapterPosition).toString());
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     removeItem(adapterPosition);
                 }
@@ -98,6 +101,8 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     }
 
     public void removeItem(int position) {
+        Log.d("foodName",mFoods.get(position).getName());
+        foodService.deleteFood(mFoods.get(position).getId());
         mFoods.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());

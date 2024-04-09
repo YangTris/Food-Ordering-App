@@ -22,6 +22,14 @@ public class Food {
         this.imgURL = imgURL;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public String getId() {
         return id;
     }

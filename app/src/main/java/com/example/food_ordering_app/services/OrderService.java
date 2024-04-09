@@ -1,12 +1,12 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.example.food_ordering_app.controllers.OrderController;
+import com.example.food_ordering_app.controllers.PaymentController;
 import com.example.food_ordering_app.models.Cart;
-import com.example.food_ordering_app.models.CartItem;
-import com.example.food_ordering_app.controllers.CartController;
+import com.example.food_ordering_app.models.Order;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,15 +15,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartService {
-    private CartController cartController = ServiceBuilder.buildService(CartController.class);
+public class OrderService {
+    private OrderController orderController = ServiceBuilder.buildService(OrderController.class);
     private Context context;
 
-    public CartService(Context context) {
+    public OrderService(Context context) {
         this.context = context;
     }
-
-    public void responseSuccess(Response response) {
+    public void responseSuccess(Response response){
         if (response.isSuccessful()) {
             response.body().toString();
         } else if (response.code() == 401) {
@@ -33,7 +32,7 @@ public class CartService {
         }
     }
 
-    public void responseFailure(Throwable throwable) {
+    public void responseFailure(Throwable throwable){
         if (throwable instanceof IOException) {
             Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
         } else {
@@ -41,29 +40,36 @@ public class CartService {
         }
     }
 
-    public void getCartId(String userId, CartItem item){
-        Call<String> request = cartController.getCartId(userId);
-        request.enqueue(new Callback<String>() {
+    public void getOrder(String orderId){
+        Call<Order> request = orderController.getOrder(orderId);
+        request.enqueue(new Callback<Order>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String res = response.body().toString();
-                if(res==""){
-                    createCart(userId,item);
-                }
-                else{
-                    addFoodToCart(res,item);
-                }
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                responseSuccess(response);
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Order> call, Throwable t) {
                 responseFailure(t);
             }
         });
     }
+    public void getAllOrder(String userId){
+        Call<List<Order>> request = orderController.getAllOrder(userId);
+        request.enqueue(new Callback<List<Order>>() {
+            @Override
+            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                responseSuccess(response);
+            }
 
-    public void createCart(String cartId,CartItem cartItem){
-        Call<String> request = cartController.createCart(cartId,cartItem);
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+    public void createOrder(Cart cart){
+        Call<String> request = orderController.createOrder(cart);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -76,39 +82,8 @@ public class CartService {
             }
         });
     }
-
-    public void addFoodToCart(String cartId, CartItem cartItem){
-        Call<String> request = cartController.addFoodToCart(cartId,cartItem);
-        request.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                responseSuccess(response);
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                responseFailure(t);
-            }
-        });
-    }
-
-    public void deleteCartItem(String cartId,String foodId){
-        Call<String> request = cartController.deleteCartItem(cartId,foodId);
-        request.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                responseSuccess(response);
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                responseFailure(t);
-            }
-        });
-    }
-
-    public void deleteCart(String userId){
-        Call<String> request = cartController.deleteCart(userId);
+    public void updateShipperId(Order order){
+        Call<String> request = orderController.updateShipperId(order);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -122,4 +97,3 @@ public class CartService {
         });
     }
 }
-

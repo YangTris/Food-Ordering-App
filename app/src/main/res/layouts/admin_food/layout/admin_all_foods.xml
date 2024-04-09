@@ -30,6 +30,7 @@
         android:layout_below="@+id/search" />
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_above="@+id/bottom_navigation"
