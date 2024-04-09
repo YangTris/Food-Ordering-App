@@ -3,6 +3,7 @@ package com.example.food_ordering_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,16 +15,22 @@ public class CategoryActivity extends AppCompatActivity {
     private CardView breakfastCard;
     private CardView lunchCard;
     private CardView dinnerCard;
+    private TextView welcomeText;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-        CardView foodsCard = findViewById(R.id.foods);
-        CardView drinksCard = findViewById(R.id.drinks);
-        CardView dessertsCard = findViewById(R.id.derserts);
-        CardView breakfastCard = findViewById(R.id.breakfast);
-        CardView lunchCard = findViewById(R.id.lunch);
-        CardView dinnerCard = findViewById(R.id.dinner);
+        foodsCard = findViewById(R.id.foods);
+        drinksCard = findViewById(R.id.drinks);
+        dessertsCard = findViewById(R.id.derserts);
+        breakfastCard = findViewById(R.id.breakfast);
+        lunchCard = findViewById(R.id.lunch);
+        dinnerCard = findViewById(R.id.dinner);
+        welcomeText = findViewById(R.id.welcome_text);
+
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        welcomeText.setText("Welcome, " + bundle.get("name").toString());
         foodsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
