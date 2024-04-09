@@ -3,6 +3,7 @@ package com.example.food_ordering_app.models;
 public class CartItem {
     private String foodId;
     private String foodName;
+    private String imgURL;
     private int quantity;
     private double price;
     private double total;
@@ -24,6 +25,14 @@ public class CartItem {
 
     public void setFoodId(String foodId) {
         this.foodId = foodId;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
     public int getQuantity() {

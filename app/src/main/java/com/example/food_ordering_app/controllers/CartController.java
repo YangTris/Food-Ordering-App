@@ -1,6 +1,5 @@
 package com.example.food_ordering_app.controllers;
 
-import com.example.food_ordering_app.models.Cart;
 import com.example.food_ordering_app.models.CartItem;
 
 import java.util.List;
@@ -16,6 +15,9 @@ import retrofit2.http.Path;
 public interface CartController {
     @GET("cart/{id}")
     Call<String> getCartId(@Path("id") String id);
+
+    @GET("getUserCart/{userId}")
+    Call<List<CartItem>> getUserCart(@Path("userId") String userId);
 
     @POST("cart/{cartId}")
     Call<String> createCart(@Path("cartId") String cartId, @Body CartItem cartItem);

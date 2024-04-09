@@ -2,8 +2,14 @@ package com.example.food_ordering_app.services;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.food_ordering_app.adapter.CartAdapter;
 import com.example.food_ordering_app.models.Cart;
 import com.example.food_ordering_app.models.CartItem;
 import com.example.food_ordering_app.controllers.CartController;
@@ -62,6 +68,24 @@ public class CartService {
         });
     }
 
+    public void getUserCart(String userId, RecyclerView recyclerView, TextView txtTotal){
+        Call<List<CartItem>> request = cartController.getUserCart(userId);
+        request.enqueue(new Callback<List<CartItem>>() {
+            @Override
+            public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
+                List<CartItem> items = response.body();
+                CartAdapter adapter = new CartAdapter(context,items,txtTotal);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            }
+
+            @Override
+            public void onFailure(Call<List<CartItem>> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
     public void createCart(String cartId,CartItem cartItem){
         Call<String> request = cartController.createCart(cartId,cartItem);
         request.enqueue(new Callback<String>() {
@@ -92,8 +116,8 @@ public class CartService {
         });
     }
 
-    public void deleteCartItem(String cartId,String foodId){
-        Call<String> request = cartController.deleteCartItem(cartId,foodId);
+    public void deleteCartItem(String cartId,String itemId){
+        Call<String> request = cartController.deleteCartItem(cartId,itemId);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
