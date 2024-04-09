@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.FoodService;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
@@ -92,12 +94,13 @@ public class EditFoodActivity extends AppCompatActivity {
         saveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //uploadImage(image);
                 Food food = new Food();
                 food.setCategory(txtCategory.getText().toString());
                 food.setDescription(txtFoodDes.getText().toString());
                 food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
                 food.setName(txtFoodName.getText().toString());
+                uploadImage(image,food);
+
                 if (bundle != null) {
                     String id = bundle.get("foodId").toString();
                     foodService.updateFood(id, food);
@@ -111,12 +114,24 @@ public class EditFoodActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadImage(Uri image) {
+    private void uploadImage(Uri image,Food food) {
         StorageReference reference = storageRef.child("images/" + UUID.randomUUID().toString());
         reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(EditFoodActivity.this, "Image upload successfully", Toast.LENGTH_SHORT).show();
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        food.setImgURL(uri.toString());
+                        Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditFoodActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -76,6 +76,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.3")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-auth")
+    implementation ("com.firebaseui:firebase-ui-storage:7.2.0")
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -84,7 +85,6 @@ dependencies {
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.10.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.10.0")
-
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")

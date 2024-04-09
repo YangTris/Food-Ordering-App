@@ -3,6 +3,7 @@ package com.example.food_ordering_app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
@@ -76,6 +77,8 @@ public class Authentication extends AppCompatActivity {
         buttonVerify.setOnClickListener(v -> {
             String verificationCode = editTextVerificationCode.getEditText().getText().toString();
             verifyPhoneNumberWithCode(verificationCode);
+            Intent intent = new Intent(Authentication.this, AdminFoodActivity.class);
+            startActivity(intent);
         });
     }
 
