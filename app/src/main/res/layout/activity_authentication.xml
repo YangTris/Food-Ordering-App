@@ -14,7 +14,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal|top"
         android:lineHeight="36dp"
-        android:text="Phone number authentication"
+        android:text="Enter your phone number\nfor authentication"
         android:textAllCaps="true"
         android:textSize="20dp" />
 

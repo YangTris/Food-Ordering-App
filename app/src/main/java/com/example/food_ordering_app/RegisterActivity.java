@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.example.food_ordering_app.models.User;
+import com.example.food_ordering_app.services.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class RegisterActivity extends AppCompatActivity {
     private AutoCompleteTextView district;
     private TextInputEditText houseNumber;
     private TextView loginButton;
+
+    UserService userService = new UserService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
-
+        User newUser = new User();
+        newUser.setEmail(String.valueOf(username.getText()));
 
     }
 }
