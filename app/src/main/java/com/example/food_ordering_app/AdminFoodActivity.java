@@ -19,7 +19,7 @@ public class AdminFoodActivity extends AppCompatActivity {
         setContentView(R.layout.admin_all_foods);
         FloatingActionButton addFoodButton = findViewById(R.id.fab);
         RecyclerView recyclerView = findViewById(R.id.recyclerView_foodList);
-        foodService.getAllFoods(recyclerView);
+        foodService.getAllFoods(recyclerView,"");
         addFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

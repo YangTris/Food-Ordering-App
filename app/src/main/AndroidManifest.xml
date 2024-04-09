@@ -25,10 +25,6 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".FoodDetailActivity"
@@ -67,16 +63,18 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+
+            <!-- main -->
+        </activity>
+        <activity
+            android:name=".AdminFoodActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- main -->
         </activity>
-        <activity
-            android:name=".AdminFoodActivity"
-            android:exported="true" />
         <activity
             android:name=".FoodActivity"
             android:exported="true"

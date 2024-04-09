@@ -94,27 +94,12 @@ public class EditFoodActivity extends AppCompatActivity {
         saveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Food food = new Food();
-                food.setCategory(txtCategory.getText().toString());
-                food.setDescription(txtFoodDes.getText().toString());
-                food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
-                food.setName(txtFoodName.getText().toString());
-                uploadImage(image,food);
-
-                if (bundle != null) {
-                    String id = bundle.get("foodId").toString();
-                    foodService.updateFood(id, food);
-                } else {
-                    foodService.createFood(food);
-                }
-                Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                addFood(image);
             }
         });
     }
 
-    private void uploadImage(Uri image,Food food) {
+    private void addFood(Uri image) {
         StorageReference reference = storageRef.child("images/" + UUID.randomUUID().toString());
         reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -123,7 +108,23 @@ public class EditFoodActivity extends AppCompatActivity {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        Food food = new Food();
+                        food.setCategory(txtCategory.getText().toString());
+                        food.setDescription(txtFoodDes.getText().toString());
+                        food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
+                        food.setName(txtFoodName.getText().toString());
                         food.setImgURL(uri.toString());
+                        Intent i = getIntent();
+                        Bundle bundle = i.getExtras();
+                        if (bundle != null) {
+                            String id = bundle.get("foodId").toString();
+                            foodService.updateFood(id, food);
+                        } else {
+                            foodService.createFood(food);
+                        }
+                        Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

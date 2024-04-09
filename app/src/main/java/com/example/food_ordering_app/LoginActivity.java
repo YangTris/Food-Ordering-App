@@ -42,19 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = usernameInput.getEditText().getText().toString().trim();
                 String password = passwordInput.getEditText().getText().toString().trim();
-                Log.d("Username", username);
-                Log.d("Password", password);
                 userService.loginUser(username,password);
-
-                if (username.equals("user") && password.equals("user")) {
-                    startActivity(new Intent(LoginActivity.this, CategoryActivity.class));
-                }
-//                else {
-//                    Toast.makeText(getApplicationContext(), "Incorrect information, please check again", Toast.LENGTH_SHORT).show();
-//                }
-                if (username.equals("admin") && password.equals("admin")) {
-                    startActivity(new Intent(LoginActivity.this, AdminFoodActivity.class));
-                }
             }
         });
 

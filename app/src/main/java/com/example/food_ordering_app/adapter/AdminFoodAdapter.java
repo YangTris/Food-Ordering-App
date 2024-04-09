@@ -74,7 +74,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     @Override
     public void onBindViewHolder(@NonNull AdminFoodAdapter.ViewHolder holder, int position) {
         Food food = mFoods.get(position);
-        Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.img_bg).error(R.drawable.error).into(holder.mImageFood);
+        Glide.with(mContext).load(food.getImgURL()).placeholder(R.drawable.category_foods).error(R.drawable.error).into(holder.mImageFood);
         holder.mTextName.setText(food.getName());
         holder.mTextPrice.setText(String.valueOf(food.getPrice()));
 

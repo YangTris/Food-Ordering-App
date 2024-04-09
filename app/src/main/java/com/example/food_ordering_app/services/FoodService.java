@@ -55,8 +55,8 @@ public class FoodService {
         }
     }
 
-    public void getAllFoods(RecyclerView recyclerView) {
-        Call<ArrayList<Food>> request = foodController.getAllFoods();
+    public void getAllFoods(RecyclerView recyclerView,String query) {
+        Call<ArrayList<Food>> request = foodController.getAllFoods(query);
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
