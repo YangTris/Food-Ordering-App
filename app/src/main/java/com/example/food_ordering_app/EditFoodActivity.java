@@ -89,7 +89,7 @@ public class EditFoodActivity extends AppCompatActivity {
         Bundle bundle = i.getExtras();
         if (bundle != null) {
             String id = bundle.get("foodId").toString();
-            foodService.getFoodDetails(id, txtFoodName, txtFoodPrice, txtFoodDes, txtCategory, imageView);
+            foodService.getFoodDetails(id, txtFoodName, txtFoodPrice, txtFoodDes, txtCategory, imageView,null);
         }
         saveFood.setOnClickListener(new View.OnClickListener() {
             @Override

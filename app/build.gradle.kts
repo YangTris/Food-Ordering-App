@@ -49,15 +49,19 @@ android {
     sourceSets {
         getByName("main") {
             res {
-                srcDirs("src\\main\\res", "src\\main\\res\\layouts\\admin_food",
+                srcDirs(
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_food", "src\\main\\res", "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res\\layouts\\admin_food",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_profile", "src\\main\\res", "src\\main\\res\\layouts\\customer_order",
+                    "src\\main\\res\\layouts\\customer_food",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_cart", "src\\main\\res", "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res\\layouts\\admin_order",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_order"
+                    "src\\main\\res\\layouts\\customer_profile",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_order",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_cart",
                 )
             }
         }
@@ -81,7 +85,7 @@ dependencies {
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.10.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.10.0")

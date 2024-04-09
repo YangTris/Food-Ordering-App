@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:hint="Enter your username"
+            android:hint="Enter your phone number"
             app:startIconContentDescription="Username">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +53,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/login_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

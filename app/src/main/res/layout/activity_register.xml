@@ -11,34 +11,49 @@
         android:orientation="vertical">
         <!--Login banner-->
         <TextView
-            android:id="@+id/text_banner_welcome_back"
+            android:id="@+id/text_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="50dp"
             android:gravity="center_horizontal|top"
             android:includeFontPadding="false"
             android:lineHeight="36dp"
             android:text="Register, Welcome!"
             android:textColor="#FF000000"
             android:textSize="24dp" />
-        <!--Username field-->
+        <!--Phone field-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/username"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:hint="Enter your username"
+            app:startIconContentDescription="Phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Name field-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:hint="Enter your name"
             app:startIconContentDescription="Username">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <!--Password field-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -47,6 +62,7 @@
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -132,13 +148,14 @@
 
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/register_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="LOGIN"
-            android:textAlignment="center" />
+            android:text="REGISTER"
+            android:textAlignment="center"
+            android:textAllCaps="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"

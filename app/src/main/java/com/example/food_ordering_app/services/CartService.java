@@ -1,6 +1,7 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.models.Cart;
@@ -45,17 +46,18 @@ public class CartService {
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.body()==null){
+                String res = response.body().toString();
+                if(res==""){
                     createCart(userId,item);
                 }
                 else{
-                    addFoodToCart(response.body(),item);
+                    addFoodToCart(res,item);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                responseFailure(t);
             }
         });
     }
