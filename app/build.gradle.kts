@@ -49,15 +49,19 @@ android {
     sourceSets {
         getByName("main") {
             res {
-                srcDirs("src\\main\\res", "src\\main\\res\\layouts\\admin_food",
+                srcDirs(
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_food", "src\\main\\res", "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res\\layouts\\admin_food",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_profile", "src\\main\\res", "src\\main\\res\\layouts\\customer_order",
+                    "src\\main\\res\\layouts\\customer_food",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_cart", "src\\main\\res", "src\\main\\res\\layouts\\admin_order",
+                    "src\\main\\res\\layouts\\admin_order",
                     "src\\main\\res",
-                    "src\\main\\res\\layouts\\customer_order"
+                    "src\\main\\res\\layouts\\customer_profile",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_order",
+                    "src\\main\\res",
+                    "src\\main\\res\\layouts\\customer_cart",
                 )
             }
         }
