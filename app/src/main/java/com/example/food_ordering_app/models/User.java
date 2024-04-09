@@ -13,7 +13,7 @@ public class User {
     }
 
     public User(String userId, String name, int roleId, String address, String phone, String email,
-            String password) {
+                String password) {
         this.userId = userId;
         this.name = name;
         this.roleId = roleId;
@@ -79,4 +79,16 @@ public class User {
         this.roleId = roleId;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", roleId=" + roleId +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

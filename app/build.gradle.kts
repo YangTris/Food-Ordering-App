@@ -86,6 +86,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.5.0")
+
     // Glide for image loading
     implementation("com.github.bumptech.glide:glide:4.10.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.10.0")
