@@ -1,8 +1,11 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.food_ordering_app.AdminFoodActivity;
+import com.example.food_ordering_app.FoodActivity;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.controllers.UserController;
 
@@ -57,7 +60,18 @@ public class UserService {
         request.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                responseSuccess(response);
+                User user =response.body();
+                Intent intent;
+                if(user.getRoleId()==0){
+                    intent= new Intent(context, FoodActivity.class);
+                    context.startActivity(intent);
+                }else if(user.getRoleId()==1){
+                    intent= new Intent(context, FoodActivity.class);
+                    context.startActivity(intent);
+                }else {
+                    intent= new Intent(context, AdminFoodActivity.class);
+                    context.startActivity(intent);
+                }
             }
 
             @Override
@@ -67,12 +81,17 @@ public class UserService {
         });
     }
 
-    public void loginUser(User user){
-        Call<String> request = userController.loginUser(user);
+    public void loginUser(String phoneNumber, String password){
+        Call<String> request = userController.loginUser(phoneNumber, password);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                responseSuccess(response);
+                String userId=response.body();
+                if(userId==""){
+                    Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
+                }else {
+                    getUserDetails(userId);
+                }
             }
 
             @Override

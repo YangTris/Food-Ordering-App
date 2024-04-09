@@ -19,8 +19,8 @@ public interface UserController {
     @GET("user/{id}")
     Call<User> getUserDetails(@Path("id") String id);
 
-    @POST("login")
-    Call<String> loginUser(@Body User user);
+    @POST("login/{phoneNumber}/{password}")
+    Call<String> loginUser(@Path("phoneNumber") String phoneNumber,@Path("password") String password);
 
     @POST("user")
     Call<String> createCustomer(@Body User user);
