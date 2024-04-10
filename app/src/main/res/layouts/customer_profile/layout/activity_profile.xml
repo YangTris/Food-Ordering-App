@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEAFF"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/roundedImageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/rounded_image"
-        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="30dp"
@@ -26,11 +19,30 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_image"
+        android:scaleType="centerInside" />
+
+    <Button
+        android:id="@+id/choose_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/avatar"
+        android:layout_centerHorizontal="true"
+        android:text="Choose image" />
+
     <RelativeLayout
         android:id="@+id/btnEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_below="@+id/choose_profile_image"
+        android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/edit_profile"
@@ -46,7 +58,7 @@
             android:layout_height="35dp"
             android:layout_alignStart="@+id/edit_profile"
             android:layout_alignTop="@+id/edit_profile"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="9dp"
             android:scaleType="centerInside"
             android:src="@drawable/edit" />
@@ -55,12 +67,13 @@
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/edit_profile"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
             android:layout_toEndOf="@+id/img_edit"
             android:includeFontPadding="false"
             android:text="Edit my profile"
+            android:textAlignment="center"
             android:textSize="20dp" />
     </RelativeLayout>
 
@@ -68,6 +81,8 @@
         android:id="@+id/btnEditAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/btnEditProfile"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal">
 
         <ImageView
@@ -84,7 +99,7 @@
             android:layout_height="35dp"
             android:layout_alignStart="@+id/edit_address"
             android:layout_alignTop="@+id/edit_address"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="9dp"
             android:scaleType="centerInside"
             android:src="@drawable/location" />
@@ -99,14 +114,16 @@
             android:layout_toEndOf="@+id/img_address"
             android:includeFontPadding="false"
             android:text="Edit my address"
+            android:textAlignment="center"
             android:textSize="20dp" />
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/btnLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnEditAddress"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:background="@drawable/logout_button"
@@ -131,4 +148,21 @@
             android:text="Logout"
             android:textStyle="bold" />
     </LinearLayout>
-</LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/bottom_navigation"
+        android:background="#6746C2" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#DDD0FF"
+        app:itemIconTint="@color/bottom_navigation"
+        app:itemTextColor="#6746C2"
+        app:menu="@menu/bottom_navigation_menu" />
+</RelativeLayout>
