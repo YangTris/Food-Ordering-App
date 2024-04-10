@@ -4,39 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/clear_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <Button
+            android:id="@+id/btnClearCart"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="clear cart"
+            android:textSize="50px" />
+    </LinearLayout>
+
     <include
         layout="@layout/cart_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/order" />
+        android:layout_above="@+id/total"
+        android:layout_below="@+id/clear_cart" />
 
-    <RelativeLayout
-        android:id="@+id/order"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@+id/line">
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:text="Total Price: 100000"
+        android:textSize="70px" />
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="Total Price: 100000"
-            android:textSize="70px" />
-
-        <Button
-            android:id="@+id/btnOrderCart"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@+id/total"
-            android:text="Order"
-            android:textSize="50px" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/btnOrderCart"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:layout_toEndOf="@+id/total"
+        android:text="Order"
+        android:textSize="50px" />
 
     <View
         android:id="@+id/line"
