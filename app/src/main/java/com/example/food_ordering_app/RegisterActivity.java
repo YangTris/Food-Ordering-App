@@ -3,9 +3,7 @@ package com.example.food_ordering_app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,16 +11,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.food_ordering_app.models.AddressHelper;
+import com.example.food_ordering_app.models.map.AddressHelper;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.services.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -2,6 +2,7 @@ package com.example.food_ordering_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<Food> mFoods;
     private CartService cartService;
+    private SharedPreferences sharedPreferences;
     public FoodAdapter(Context mContext, ArrayList<Food> mFoods) {
         this.mContext = mContext;
         this.mFoods = mFoods;
         this.cartService = new CartService(mContext);
+        this.sharedPreferences = mContext.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,7 +70,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                         item.setPrice(food.getPrice());
                         item.setQuantity(1);
                         item.setTotal(food.getPrice()*item.getQuantity());
-                        cartService.getCartId("123456",item);
+                        cartService.getCartId(sharedPreferences.getString("userIdKey",null),item);
                     }
                 }
             });
