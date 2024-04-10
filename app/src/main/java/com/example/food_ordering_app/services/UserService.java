@@ -7,8 +7,10 @@ import android.widget.Toast;
 
 import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.FoodActivity;
+import com.example.food_ordering_app.LoginActivity;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.controllers.UserController;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,7 +58,7 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id){
+    public void getUserDetails(String id, TextInputEditText txtName,TextInputEditText txtEmail,TextInputEditText txtPhone){
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
@@ -67,16 +69,27 @@ public class UserService {
                 SharedPreferences.Editor editor = sharedpref.edit();
                 editor.putString("usernameKey",user.getName());
                 editor.putString("userIdKey",user.getUserId());
+                editor.putString("passwordKey",user.getPassword());
+                editor.putString("addressKey",user.getAddress());
                 editor.commit();
-                if(user.getRoleId()==0){
-                    intent= new Intent(context, FoodActivity.class);
-                    context.startActivity(intent);
-                }else if(user.getRoleId()==1){
-                    intent= new Intent(context, FoodActivity.class);
-                    context.startActivity(intent);
-                }else {
-                    intent= new Intent(context, AdminFoodActivity.class);
-                    context.startActivity(intent);
+                //If login
+                if(context instanceof LoginActivity){
+                    if(user.getRoleId()==0){
+                        intent= new Intent(context, FoodActivity.class);
+                        context.startActivity(intent);
+                    }else if(user.getRoleId()==1){
+                        intent= new Intent(context, FoodActivity.class);
+                        context.startActivity(intent);
+                    }else {
+                        intent= new Intent(context, AdminFoodActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+                //If edit profile
+                else{
+                    txtName.setText(user.getName());
+                    txtEmail.setText(user.getEmail());
+                    txtPhone.setText(user.getPhone());
                 }
             }
 
@@ -96,7 +109,7 @@ public class UserService {
                 if(userId==""){
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
                 }else {
-                    getUserDetails(userId);
+                    getUserDetails(userId,null,null,null);
                 }
             }
 
@@ -123,6 +136,10 @@ public class UserService {
     }
 
     public void updateUser(String id, User user){
+        SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpref.edit();
+        editor.putString("usernameKey",user.getName());
+        editor.commit();
         Call<String> request = userController.updateUser(id,user);
         request.enqueue(new Callback<String>() {
             @Override

@@ -34,8 +34,9 @@ public class FoodActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
-                if(id == R.id.home){
-                    Log.d("case","home");
+                if(id == R.id.profile){
+                    intent = new Intent(FoodActivity.this, ProfileActivity.class);
+                    startActivity(intent);
                     return true;
                 }
                 return false;

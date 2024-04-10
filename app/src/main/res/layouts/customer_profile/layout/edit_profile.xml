@@ -23,7 +23,7 @@
         android:text="Chose profile picture" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/customer_name"
+
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,12 +32,12 @@
         app:startIconContentDescription="Your name">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/customer_mail"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -46,12 +46,12 @@
         app:startIconContentDescription="Your email">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/customer_phone"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -60,12 +60,13 @@
         app:startIconContentDescription="Your phone number">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/save_food"
+        android:id="@+id/save_customer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
