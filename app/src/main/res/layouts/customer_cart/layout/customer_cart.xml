@@ -34,7 +34,7 @@
         android:layout_above="@+id/line"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
-        android:text="Total Price: 100000"
+        android:text="Total Price: 0"
         android:textSize="70px" />
 
     <Button

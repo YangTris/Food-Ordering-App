@@ -1,10 +1,16 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.food_ordering_app.OrderActivity;
+import com.example.food_ordering_app.adapter.OrderAdapter;
 import com.example.food_ordering_app.controllers.OrderController;
-import com.example.food_ordering_app.controllers.PaymentController;
 import com.example.food_ordering_app.models.Cart;
 import com.example.food_ordering_app.models.Order;
 
@@ -17,6 +23,7 @@ import retrofit2.Response;
 
 public class OrderService {
     private OrderController orderController = ServiceBuilder.buildService(OrderController.class);
+    private CartService cartService;
     private Context context;
 
     public OrderService(Context context) {
@@ -54,12 +61,15 @@ public class OrderService {
             }
         });
     }
-    public void getAllOrder(String userId){
+    public void getAllOrder(String userId, RecyclerView recyclerView){
         Call<List<Order>> request = orderController.getAllOrder(userId);
         request.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
-                responseSuccess(response);
+                Log.d("list",response.body().toString());
+                OrderAdapter adapter = new OrderAdapter(context,response.body());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
 
             @Override
@@ -68,12 +78,16 @@ public class OrderService {
             }
         });
     }
-    public void createOrder(Cart cart){
+    public void createOrder(Cart cart,String userId){
         Call<String> request = orderController.createOrder(cart);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 responseSuccess(response);
+                cartService = new CartService(context);
+                cartService.deleteCart(userId);
+                Intent intent = new Intent(context, OrderActivity.class);
+                context.startActivity(intent);
             }
 
             @Override

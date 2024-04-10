@@ -28,6 +28,6 @@ public interface CartController {
     @DELETE("cart/{cartId}/{foodId}")
     Call<String> deleteCartItem(@Path("cartId") String cartId, @Path("foodId") String foodId);
 
-    @DELETE
+    @DELETE("cart/{userId}")
     Call<String> deleteCart(@Path("userId") String userId);
 }

@@ -1,7 +1,7 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +23,7 @@ import retrofit2.Response;
 
 public class CartService {
     private CartController cartController = ServiceBuilder.buildService(CartController.class);
+    private OrderService orderService;
     private Context context;
 
     public CartService(Context context) {
@@ -68,7 +69,7 @@ public class CartService {
         });
     }
 
-    public void getUserCart(String userId, RecyclerView recyclerView, TextView txtTotal){
+    public void getUserCart(String userId, RecyclerView recyclerView, TextView txtTotal,Button orderButton){
         Call<List<CartItem>> request = cartController.getUserCart(userId);
         request.enqueue(new Callback<List<CartItem>>() {
             @Override
@@ -77,11 +78,30 @@ public class CartService {
                 CartAdapter adapter = new CartAdapter(context,items,txtTotal);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                if(items!=null){
+                    double total = 0.0;
+                    for (CartItem item:items) {
+                        total += item.getTotal();
+                    }
+                    double finalTotal = total;
+                    orderButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Cart cart = new Cart();
+                            cart.setUserId(userId);
+                            cart.setCartId(userId);
+                            cart.setTotalPrice(finalTotal);
+                            cart.setCartItems(items);
+                            orderService = new OrderService(context);
+                            orderService.createOrder(cart,userId);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onFailure(Call<List<CartItem>> call, Throwable t) {
-                responseFailure(t);
+
             }
         });
     }

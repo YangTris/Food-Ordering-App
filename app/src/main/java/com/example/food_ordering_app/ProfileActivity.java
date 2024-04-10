@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -18,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private RelativeLayout btnEditAddress;
     private LinearLayout btnLogOut;
     private TextView profileName;
-
+    private BottomNavigationView menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +34,31 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogOut = findViewById(R.id.btnLogOut);
         profileName = findViewById(R.id.profile_name);
         profileName.setText(sharedPreferences.getString("usernameKey",null));
+        menu = findViewById(R.id.bottom_navigation);
+        menu.getMenu().getItem(3).setChecked(true);
+        menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                Intent intent;
+                if (id == R.id.cart) {
+                    intent = new Intent(ProfileActivity.this, CartActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                if (id == R.id.home) {
+                    intent = new Intent(ProfileActivity.this, FoodActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                if(id == R.id.orders){
+                    intent = new Intent(ProfileActivity.this,OrderActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
