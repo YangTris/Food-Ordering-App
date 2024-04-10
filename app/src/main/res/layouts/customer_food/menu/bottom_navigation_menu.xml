@@ -4,7 +4,6 @@
     <item
         android:id="@+id/home"
         android:color="#6750a4"
-        android:enabled="true"
         android:icon="@drawable/home"
         android:title="Home" />
     <item
@@ -14,15 +13,13 @@
         android:icon="@drawable/cart"
         android:title="Cart" />
     <item
-        android:id="@+id/delivering"
+        android:id="@+id/orders"
         android:color="#6750a4"
-        android:enabled="true"
         android:icon="@drawable/delivering"
         android:title="Delivering orders" />
     <item
         android:id="@+id/profile"
         android:color="#6750a4"
-        android:enabled="true"
         android:icon="@drawable/profile"
         android:title="Profile" />
 </menu>
