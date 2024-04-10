@@ -59,21 +59,28 @@
         <activity
             android:name=".MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps">
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-
-            <!-- main -->
-        </activity>
-        <activity
-            android:name=".AdminFoodActivity"
-            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- main -->
+        </activity>
+        <activity
+            android:name=".AdminFoodActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".CartActivity"
+            android:exported="true" >
+
         </activity>
         <activity
             android:name=".FoodActivity"

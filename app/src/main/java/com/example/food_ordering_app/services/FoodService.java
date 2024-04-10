@@ -1,7 +1,7 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class FoodService {
     private FoodController foodController = ServiceBuilder.buildService(FoodController.class);
     private Context context;
-
+    private SharedPreferences sharedPreferences;
     public FoodService(Context context) {
         this.context = context;
     }
@@ -108,7 +108,8 @@ public class FoodService {
                         @Override
                         public void onClick(View v) {
                             CartService cartService = new CartService(context);
-                            cartService.getCartId("123456",item);
+                            sharedPreferences = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+                            cartService.getCartId(sharedPreferences.getString("userIdKey",null),item);
                         }
                     });
                 }

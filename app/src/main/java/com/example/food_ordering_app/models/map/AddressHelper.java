@@ -1,4 +1,4 @@
-package com.example.food_ordering_app.models;
+package com.example.food_ordering_app.models.map;
 
 import java.util.ArrayList;
 import java.util.HashMap;

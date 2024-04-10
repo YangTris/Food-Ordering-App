@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +18,6 @@ import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.FoodService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.ViewHolder> {
@@ -82,7 +79,6 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
             @Override
             public void onClick(View v) {
                 int adapterPosition = holder.getAdapterPosition();
-                Log.d("food123",mFoods.get(adapterPosition).toString());
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     removeItem(adapterPosition);
                 }
@@ -101,7 +97,6 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
     }
 
     public void removeItem(int position) {
-        Log.d("foodName",mFoods.get(position).getName());
         foodService.deleteFood(mFoods.get(position).getId());
         mFoods.remove(position);
         notifyItemRemoved(position);

@@ -1,5 +1,7 @@
 package com.example.food_ordering_app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ public class CartActivity extends AppCompatActivity {
     private final CartService cartService = new CartService(this);
     private Button orderButton;
     private TextView txtTotal;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,7 @@ public class CartActivity extends AppCompatActivity {
         orderButton = findViewById(R.id.btnOrderCart);
         txtTotal = findViewById(R.id.total);
         RecyclerView recyclerView = findViewById(R.id.recyclerView_cartList);
-        cartService.getUserCart("123456",recyclerView,txtTotal);
+        sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
+        cartService.getUserCart(sharedPreferences.getString("userIdKey",null),recyclerView,txtTotal);
     }
 }

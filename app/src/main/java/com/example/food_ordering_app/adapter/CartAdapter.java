@@ -1,6 +1,7 @@
 package com.example.food_ordering_app.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +26,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private List<CartItem> mItems;
     private TextView txtTotal;
     private CartService cartService;
+    private SharedPreferences sharedPreferences;
     public CartAdapter(Context mContext, List<CartItem> mItems,TextView txtTotal){
         this.mContext = mContext;
         this.mItems = mItems;
         this.txtTotal = txtTotal;
         txtTotal.setText(calculateTotal());
         cartService = new CartService(mContext);
+        sharedPreferences = mContext.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -52,7 +55,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         CartItem item = mItems.get(pos);
-                        cartService.deleteCartItem("123456",item.getFoodId());
+                        cartService.deleteCartItem(sharedPreferences.getString("userIdKey",null),item.getFoodId());
                         mItems.remove(pos);
                         txtTotal.setText(calculateTotal().toString());
                         notifyItemRemoved(pos);

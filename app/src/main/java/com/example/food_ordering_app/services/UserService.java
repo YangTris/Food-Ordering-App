@@ -2,6 +2,7 @@ package com.example.food_ordering_app.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.AdminFoodActivity;
@@ -62,6 +63,11 @@ public class UserService {
             public void onResponse(Call<User> call, Response<User> response) {
                 User user =response.body();
                 Intent intent;
+                SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpref.edit();
+                editor.putString("usernameKey",user.getName());
+                editor.putString("userIdKey",user.getUserId());
+                editor.commit();
                 if(user.getRoleId()==0){
                     intent= new Intent(context, FoodActivity.class);
                     context.startActivity(intent);
