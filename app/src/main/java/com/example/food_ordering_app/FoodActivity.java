@@ -39,6 +39,11 @@ public class FoodActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
+                if(id == R.id.delivering){
+                    intent = new Intent(FoodActivity.this,OrderActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return false;
             }
         });

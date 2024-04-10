@@ -76,6 +76,9 @@
             android:name=".CartActivity"
             android:exported="true" />
         <activity
+            android:name=".OrderActivity"
+            android:exported="true" />
+        <activity
             android:name=".FoodActivity"
             android:exported="true"
             android:label="Food"

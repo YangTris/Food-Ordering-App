@@ -18,7 +18,7 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_orders);
         menu = findViewById(R.id.bottom_navigation);
-        menu.setSelectedItemId(R.id.orders);
+        menu.getMenu().getItem(2).setChecked(true);
 
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -30,8 +30,13 @@ public class OrderActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
-                if (id == R.id.orders) {
+                if (id == R.id.home) {
                     intent = new Intent(OrderActivity.this, FoodActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                if(id == R.id.profile){
+                    intent = new Intent(OrderActivity.this, ProfileActivity.class);
                     startActivity(intent);
                     return true;
                 }
