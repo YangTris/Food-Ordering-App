@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,13 +13,8 @@
     <RelativeLayout
         android:id="@+id/order"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000" />
+        android:layout_height="60dp"
+        android:layout_above="@+id/line">
 
         <TextView
             android:id="@+id/total"
@@ -26,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:text="Total Price: "
-            android:textSize="80px" />
+            android:text="Total Price: 100000"
+            android:textSize="70px" />
 
         <Button
             android:id="@+id/btnOrderCart"
@@ -39,7 +35,24 @@
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@+id/total"
             android:text="Order"
-            android:textSize="60px" />
+            android:textSize="50px" />
     </RelativeLayout>
 
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/bottom_navigation"
+        android:background="#6746C2" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#DDD0FF"
+        app:itemIconTint="@color/bottom_navigation"
+        app:itemTextColor="#6746C2"
+        app:layout_anchorGravity="bottom|end"
+        app:menu="@menu/bottom_navigation_menu" />
 </RelativeLayout>
