@@ -10,12 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_ordering_app.R;
-import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.models.Order;
-import com.example.food_ordering_app.services.FoodService;
 import com.example.food_ordering_app.services.OrderService;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,10 +29,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView orderId;
         private TextView total;
+        private View delivering;
+        private View delivered;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             orderId = itemView.findViewById(R.id.order_id);
             total = itemView.findViewById(R.id.total);
+            delivering = itemView.findViewById(R.id.progress_delivering);
+            delivered = itemView.findViewById(R.id.progress_delivered);
         }
     }
 
@@ -52,12 +52,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = mOrders.get(position);
-        holder.orderId.setText("Order No."+order.getOrderId());
+        holder.orderId.setText("Order Id:\n"+order.getOrderId());
         holder.total.setText("Total: "+order.getOrderTotal());
+        if(order.getOrderStatus().equals("Delivering")){
+            holder.delivering.setBackgroundResource(R.drawable.delivery_done);
+        }
+        if(order.getOrderStatus().equals("Delivered")){
+            holder.delivering.setBackgroundResource(R.drawable.delivery_done);
+            holder.delivered.setBackgroundResource(R.drawable.delivery_done);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mOrders.size();
     }
 }

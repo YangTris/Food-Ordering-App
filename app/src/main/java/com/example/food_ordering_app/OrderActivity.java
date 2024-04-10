@@ -1,25 +1,35 @@
 package com.example.food_ordering_app;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.food_ordering_app.services.OrderService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class OrderActivity extends AppCompatActivity {
     private BottomNavigationView menu;
+    private final OrderService orderService = new OrderService(this);
+    private SharedPreferences sharedPreferences;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_orders);
         menu = findViewById(R.id.bottom_navigation);
-        menu.getMenu().getItem(2).setChecked(true);
+        recyclerView = findViewById(R.id.recyclerView_orderList);
+        sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
+        orderService.getAllOrder(sharedPreferences.getString("userIdKey",null),recyclerView);
 
+        menu.getMenu().getItem(2).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -43,5 +53,11 @@ public class OrderActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        orderService.getAllOrder(sharedPreferences.getString("userIdKey",null),recyclerView);
     }
 }

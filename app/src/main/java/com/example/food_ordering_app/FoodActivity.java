@@ -25,7 +25,7 @@ public class FoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         menu = findViewById(R.id.bottom_navigation);
-        menu.getMenu().findItem(R.id.home).setChecked(true);
+        menu.getMenu().getItem(0).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -41,7 +41,7 @@ public class FoodActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
-                if(id == R.id.delivering){
+                if(id == R.id.orders){
                     intent = new Intent(FoodActivity.this,OrderActivity.class);
                     startActivity(intent);
                     return true;
