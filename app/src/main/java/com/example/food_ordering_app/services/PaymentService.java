@@ -1,6 +1,7 @@
 package com.example.food_ordering_app.services;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.controllers.PaymentController;
@@ -42,7 +43,8 @@ public class PaymentService {
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                responseSuccess(response);
+                String url=response.body();
+                Log.d("Url", url);
             }
 
             @Override

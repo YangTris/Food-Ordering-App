@@ -23,7 +23,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".ShipperOrderActivity"
+=======
+            android:name=".PaymentActivity"
+>>>>>>> 820bddbc8ea9fff816b02b35361138d8a71d5f4e
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,7 +74,14 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".LoginActivity"
+<<<<<<< HEAD
             android:exported="true"></activity>
+=======
+            android:exported="true">
+
+            <!-- main -->
+        </activity>
+>>>>>>> 820bddbc8ea9fff816b02b35361138d8a71d5f4e
         <activity
             android:name=".AdminFoodActivity"
             android:exported="true" />
