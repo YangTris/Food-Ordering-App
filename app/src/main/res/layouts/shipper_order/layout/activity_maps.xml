@@ -40,32 +40,55 @@
         android:layout_weight="1"
         tools:context=".MapsActivity" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Address:"
-        android:textColor="@color/colorRed"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Address:"
+            android:textColor="@color/colorRed"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Address"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18dp" />
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Address"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp" />
 
-    <Button
-        android:id="@+id/btnGetDirection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="#6750a4"
-        android:text="Bắt Đầu Đơn Hàng"
-        android:textAlignment="center"
-        android:textColor="@color/white" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <Button
+                android:id="@+id/btnGetDirection"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#6750a4"
+                android:text="Find Direction"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+            <Button
+                android:id="@+id/btnFinishOrder"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorRed"
+                android:text="Finish Order"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
