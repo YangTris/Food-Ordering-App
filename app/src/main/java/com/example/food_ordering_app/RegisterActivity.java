@@ -28,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
     private AutoCompleteTextView district;
     private TextInputEditText houseNumber;
     private TextView loginButton;
-
     private Button registerButton;
     private ArrayAdapter<String> cityAdapter;
     private ArrayAdapter<String> wardAdapter;
@@ -117,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Set email
                 newUser.setEmail("phamphukhanh.sgu.edu@gmail.com");
                 // Set address
-                String address = houseNumber.getText() + ", " + ward.getText() + ", " + district.getText() + ", " + city.getText();
+                String address = houseNumber.getText() + " " + ward.getText() + " " + district.getText() + " " + city.getText();
                 newUser.setAddress(address);
                 newUser.setRoleId(0);
 

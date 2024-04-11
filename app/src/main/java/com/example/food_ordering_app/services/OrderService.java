@@ -3,12 +3,19 @@ package com.example.food_ordering_app.services;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.food_ordering_app.EditFoodActivity;
+import com.example.food_ordering_app.MapsActivity;
 import com.example.food_ordering_app.OrderActivity;
+import com.example.food_ordering_app.R;
+import com.example.food_ordering_app.adapter.CartAdapter;
 import com.example.food_ordering_app.adapter.OrderAdapter;
 import com.example.food_ordering_app.controllers.OrderController;
 import com.example.food_ordering_app.models.Cart;
@@ -29,7 +36,8 @@ public class OrderService {
     public OrderService(Context context) {
         this.context = context;
     }
-    public void responseSuccess(Response response){
+
+    public void responseSuccess(Response response) {
         if (response.isSuccessful()) {
             response.body().toString();
         } else if (response.code() == 401) {
@@ -39,7 +47,7 @@ public class OrderService {
         }
     }
 
-    public void responseFailure(Throwable throwable){
+    public void responseFailure(Throwable throwable) {
         if (throwable instanceof IOException) {
             Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
         } else {
@@ -47,12 +55,36 @@ public class OrderService {
         }
     }
 
-    public void getOrder(String orderId){
+    public void getOrder(String orderId, TextView receiver, TextView address, RecyclerView orderItems, TextView total, View delivering, View delivered, Button navigate) {
         Call<Order> request = orderController.getOrder(orderId);
         request.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
-                responseSuccess(response);
+                Order order = response.body();
+                receiver.setText("Receiver: " + order.getUserPhone());
+                address.setText("Address: " + order.getUserAddress());
+                CartAdapter cartAdapter = new CartAdapter(context, order.getCart().getCartItems(), total);
+                orderItems.setAdapter(cartAdapter);
+                orderItems.setLayoutManager(new LinearLayoutManager(context));
+                if (order.getOrderStatus().equals("Delivering")) {
+                    delivering.setBackgroundResource(R.drawable.delivery_done);
+                }
+                if (order.getOrderStatus().equals("Delivered")) {
+                    delivering.setBackgroundResource(R.drawable.delivery_done);
+                    delivered.setBackgroundResource(R.drawable.delivery_done);
+                }
+
+                navigate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(context, MapsActivity.class);
+                        i.putExtra("orderID", orderId);
+                        i.putExtra("userAddress",order.getUserAddress());
+                        i.putExtra("userName", order.getUserName());
+                        i.putExtra("userPhone", order.getUserPhone());
+                        context.startActivity(i);
+                    }
+                });
             }
 
             @Override
@@ -61,13 +93,14 @@ public class OrderService {
             }
         });
     }
-    public void getAllOrder(String userId, RecyclerView recyclerView){
+
+    public void getAllOrder(String userId, RecyclerView recyclerView) {
         Call<List<Order>> request = orderController.getAllOrder(userId);
         request.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
-                Log.d("list",response.body().toString());
-                OrderAdapter adapter = new OrderAdapter(context,response.body());
+                Log.d("list", response.body().toString());
+                OrderAdapter adapter = new OrderAdapter(context, response.body());
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
@@ -78,7 +111,8 @@ public class OrderService {
             }
         });
     }
-    public void createOrder(Cart cart,String userId){
+
+    public void createOrder(Cart cart, String userId) {
         Call<String> request = orderController.createOrder(cart);
         request.enqueue(new Callback<String>() {
             @Override
@@ -96,7 +130,8 @@ public class OrderService {
             }
         });
     }
-    public void updateShipperId(Order order){
+
+    public void updateShipperId(Order order) {
         Call<String> request = orderController.updateShipperId(order);
         request.enqueue(new Callback<String>() {
             @Override

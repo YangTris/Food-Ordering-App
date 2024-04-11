@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Quãng đường dự kiến"
+            android:text="Estimated distance: "
             android:textColor="@color/colorPrimary"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Thời gian dự kiến"
+            android:text="Estimated time: "
             android:textColor="@color/colorPrimary"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Địa chỉ đơn hàng"
+        android:text="Address:"
         android:textColor="@color/colorRed"
         android:textSize="20dp"
         android:textStyle="bold" />

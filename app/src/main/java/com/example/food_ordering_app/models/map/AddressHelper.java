@@ -115,6 +115,36 @@ public class AddressHelper {
         addWard("Quận 12", "Phường Thạnh Xuân");
         addWard("Quận 12", "Phường Thới An");
         addWard("Quận 12", "Phường Trung Mỹ Tây");
+
+        // Thêm phường cho quận Bình Tân
+        addWard("Quận Bình Tân", "Phường An Lạc");
+        addWard("Quận Bình Tân", "Phường An Lạc A");
+        addWard("Quận Bình Tân", "Phường Bình Hưng Hòa");
+        addWard("Quận Bình Tân", "Phường Bình Hưng Hòa A");
+        addWard("Quận Bình Tân", "Phường Bình Hưng Hòa B");
+        addWard("Quận Bình Tân", "Phường Bình Trị Đông");
+        addWard("Quận Bình Tân", "Phường Bình Trị Đông A");
+        addWard("Quận Bình Tân", "Phường Bình Trị Đông B");
+        addWard("Quận Bình Tân", "Phường Tân Tạo");
+        addWard("Quận Bình Tân", "Phường Tân Tạo A");
+
+        // Thêm phường cho quận Bình Thạnh
+        // 1, 2, 3, 5, 6, 7, 11, 12, 13, 14, 15, 17, 19, 21, 22, 24, 25, 26, 27, 28
+        for (int i = 1; i <= 28; i++) {
+            if (i == 4 || i == 8 || i == 9 || i == 10 || i == 16 || i == 18 || i == 20 || i == 23) {
+                continue;
+            }
+            addWard("Quận Bình Thạnh", "Phường " + i);
+        }
+
+        // Thêm phường cho quận Gò Vấp
+        // 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+        for (int i = 1; i <= 17; i++) {
+            if (i == 2) {
+                continue;
+            }
+            addWard("Quận Gò Vấp", "Phường " + i);
+        }
     }
 
     // Thêm một thành phố vào map

@@ -68,6 +68,7 @@ public class UserService {
                 SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpref.edit();
                 editor.putString("usernameKey",user.getName());
+                editor.putInt("roleIdKey", user.getRoleId());
                 editor.putString("userIdKey",user.getUserId());
                 editor.putString("passwordKey",user.getPassword());
                 editor.putString("addressKey",user.getAddress());
