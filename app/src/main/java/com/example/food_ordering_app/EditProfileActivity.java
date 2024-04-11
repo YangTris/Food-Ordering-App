@@ -32,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.save_customer);
         userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone);
 
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

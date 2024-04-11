@@ -24,6 +24,8 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout btnLogOut;
     private TextView profileName;
     private BottomNavigationView menu;
+    private View line;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +33,19 @@ public class ProfileActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         btnEditProfile = findViewById(R.id.btnEditProfile);
         btnEditAddress = findViewById(R.id.btnEditAddress);
+        line = findViewById(R.id.line);
         btnLogOut = findViewById(R.id.btnLogOut);
-        profileName = findViewById(R.id.profile_name);
-        profileName.setText(sharedPreferences.getString("usernameKey",null));
         menu = findViewById(R.id.bottom_navigation);
+        int roleId = sharedPreferences.getInt("roleIdKey", 1);
+        if (roleId != 0) {
+            btnLogOut.setVisibility(View.INVISIBLE);
+            menu.setVisibility(View.INVISIBLE);
+            line.setVisibility(View.INVISIBLE);
+        }
+
+        profileName = findViewById(R.id.profile_name);
+        profileName.setText(sharedPreferences.getString("usernameKey", null));
+
         menu.getMenu().getItem(3).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -51,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
-                if(id == R.id.orders){
-                    intent = new Intent(ProfileActivity.this,OrderActivity.class);
+                if (id == R.id.orders) {
+                    intent = new Intent(ProfileActivity.this, OrderActivity.class);
                     startActivity(intent);
                     return true;
                 }
@@ -62,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileActivity.this,EditProfileActivity.class);
+                Intent i = new Intent(ProfileActivity.this, EditProfileActivity.class);
                 startActivity(i);
             }
         });
@@ -78,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-                Intent i = new Intent(ProfileActivity.this,LoginActivity.class);
+                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -88,6 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        profileName.setText(sharedPreferences.getString("usernameKey",null));
+        profileName.setText(sharedPreferences.getString("usernameKey", null));
     }
 }

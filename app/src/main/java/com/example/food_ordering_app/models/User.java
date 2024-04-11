@@ -3,17 +3,17 @@ package com.example.food_ordering_app.models;
 public class User {
     private String userId;
     private String name;
-    private int roleId;
+    private int roleId; // 0 is user 1 is shipper 2 is staff 3 is admin
     private String address;
     private String phone;
     private String email;
     private String password;
+    private String userImg;
 
     public User() {
     }
 
-    public User(String userId, String name, int roleId, String address, String phone, String email,
-                String password) {
+    public User(String userId, String name, int roleId, String address, String phone, String email, String password) {
         this.userId = userId;
         this.name = name;
         this.roleId = roleId;
@@ -21,6 +21,7 @@ public class User {
         this.phone = phone;
         this.email = email;
         this.password = password;
+        this.userImg = userImg;
     }
 
     public String getUserId() {
@@ -79,16 +80,12 @@ public class User {
         this.roleId = roleId;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", name='" + name + '\'' +
-                ", roleId=" + roleId +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getUserImg() {
+        return userImg;
     }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
+
 }

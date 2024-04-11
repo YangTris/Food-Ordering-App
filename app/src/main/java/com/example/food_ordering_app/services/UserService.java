@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.FoodActivity;
 import com.example.food_ordering_app.LoginActivity;
+import com.example.food_ordering_app.adapter.AdminFoodAdapter;
+import com.example.food_ordering_app.adapter.AdminUserAdapter;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.controllers.UserController;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,10 +27,12 @@ import retrofit2.Response;
 public class UserService {
     private UserController userController = ServiceBuilder.buildService(UserController.class);
     private Context context;
-    public UserService(Context context){
+
+    public UserService(Context context) {
         this.context = context;
     }
-    public void responseSuccess(Response response){
+
+    public void responseSuccess(Response response) {
         if (response.isSuccessful()) {
             response.body().toString();
         } else if (response.code() == 401) {
@@ -35,7 +42,7 @@ public class UserService {
         }
     }
 
-    public void responseFailure(Throwable throwable){
+    public void responseFailure(Throwable throwable) {
         if (throwable instanceof IOException) {
             Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
         } else {
@@ -43,12 +50,14 @@ public class UserService {
         }
     }
 
-    public void getAllUsers(){
+    public void getAllUsers(RecyclerView userList) {
         Call<List<User>> request = userController.getAllUsers();
         request.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                responseSuccess(response);
+                AdminUserAdapter adapter = new AdminUserAdapter(context, response.body());
+                userList.setAdapter(adapter);
+                userList.setLayoutManager(new LinearLayoutManager(context));
             }
 
             @Override
@@ -58,36 +67,36 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id, TextInputEditText txtName,TextInputEditText txtEmail,TextInputEditText txtPhone){
+    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone) {
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                User user =response.body();
+                User user = response.body();
                 Intent intent;
-                SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+                SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpref.edit();
-                editor.putString("usernameKey",user.getName());
+                editor.putString("usernameKey", user.getName());
                 editor.putInt("roleIdKey", user.getRoleId());
-                editor.putString("userIdKey",user.getUserId());
-                editor.putString("passwordKey",user.getPassword());
-                editor.putString("addressKey",user.getAddress());
+                editor.putString("userIdKey", user.getUserId());
+                editor.putString("passwordKey", user.getPassword());
+                editor.putString("addressKey", user.getAddress());
                 editor.commit();
                 //If login
-                if(context instanceof LoginActivity){
-                    if(user.getRoleId()==0){
-                        intent= new Intent(context, FoodActivity.class);
+                if (context instanceof LoginActivity) {
+                    if (user.getRoleId() == 0) {
+                        intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
-                    }else if(user.getRoleId()==1){
-                        intent= new Intent(context, FoodActivity.class);
+                    } else if (user.getRoleId() == 1) {
+                        intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
-                    }else {
-                        intent= new Intent(context, AdminFoodActivity.class);
+                    } else {
+                        intent = new Intent(context, AdminFoodActivity.class);
                         context.startActivity(intent);
                     }
                 }
                 //If edit profile
-                else{
+                else {
                     txtName.setText(user.getName());
                     txtEmail.setText(user.getEmail());
                     txtPhone.setText(user.getPhone());
@@ -101,16 +110,16 @@ public class UserService {
         });
     }
 
-    public void loginUser(String phoneNumber, String password){
+    public void loginUser(String phoneNumber, String password) {
         Call<String> request = userController.loginUser(phoneNumber, password);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                String userId=response.body();
-                if(userId==""){
+                String userId = response.body();
+                if (userId == "") {
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
-                }else {
-                    getUserDetails(userId,null,null,null);
+                } else {
+                    getUserDetails(userId, null, null, null);
                 }
             }
 
@@ -121,7 +130,7 @@ public class UserService {
         });
     }
 
-    public void createCustomer(User user){
+    public void createCustomer(User user) {
         Call<String> request = userController.createCustomer(user);
         request.enqueue(new Callback<String>() {
             @Override
@@ -136,12 +145,12 @@ public class UserService {
         });
     }
 
-    public void updateUser(String id, User user){
-        SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+    public void updateUser(String id, User user) {
+        SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpref.edit();
-        editor.putString("usernameKey",user.getName());
+        editor.putString("usernameKey", user.getName());
         editor.commit();
-        Call<String> request = userController.updateUser(id,user);
+        Call<String> request = userController.updateUser(id, user);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -155,7 +164,7 @@ public class UserService {
         });
     }
 
-    public void deleteUser(String id){
+    public void deleteUser(String id) {
         Call<String> request = userController.deleteUser(id);
         request.enqueue(new Callback<String>() {
             @Override
