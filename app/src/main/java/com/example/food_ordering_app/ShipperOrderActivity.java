@@ -10,8 +10,6 @@ import com.example.food_ordering_app.services.OrderService;
 public class ShipperOrderActivity extends AppCompatActivity {
     RecyclerView ordersRecyclerview;
     OrderService orderService = new OrderService(this);
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +17,12 @@ public class ShipperOrderActivity extends AppCompatActivity {
         setContentView(R.layout.shipper_orders);
         ordersRecyclerview = findViewById(R.id.recyclerView_orderList);
         orderService.getAllOrder(sampleUserId, ordersRecyclerview);
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String sampleUserId = "hkkBz8WdHEyq5Qc0asTK";
+        orderService.getAllOrder(sampleUserId, ordersRecyclerview);
     }
 }

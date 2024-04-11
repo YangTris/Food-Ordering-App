@@ -78,7 +78,7 @@ public class OrderService {
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent(context, MapsActivity.class);
-                        i.putExtra("orderID", orderId);
+                        i.putExtra("orderId", order.getOrderId());
                         i.putExtra("userAddress",order.getUserAddress());
                         i.putExtra("userName", order.getUserName());
                         i.putExtra("userPhone", order.getUserPhone());
@@ -104,7 +104,6 @@ public class OrderService {
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             }
-
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 responseFailure(t);
@@ -130,9 +129,8 @@ public class OrderService {
             }
         });
     }
-
-    public void updateShipperId(Order order) {
-        Call<String> request = orderController.updateShipperId(order);
+    public void updateOrderStatus(String orderId,String shipperID,String status){
+        Call<String> request = orderController.updateOrderStatus(orderId,shipperID,status);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

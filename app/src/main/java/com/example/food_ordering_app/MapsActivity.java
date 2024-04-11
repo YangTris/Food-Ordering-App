@@ -11,9 +11,10 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.services.MapService;
+import com.example.food_ordering_app.services.OrderService;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Granularity;
@@ -45,11 +47,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.food_ordering_app.databinding.ActivityMapsBinding;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.maps.android.PolyUtil;
 import java.io.IOException;
 import java.util.List;
 
@@ -66,31 +66,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentMarker;
     private MapService mapService = new MapService(MapsActivity.this);
     private Button btnGetDirection;
+    private Button btnFinishOrder;
     private TextView txtTime;
     private TextView txtDistance;
     private TextView txtAddress;
+    private LatLng userAddress;
+    private String userName;
+    private String userPhone;
+    private String orderId;
+    private OrderService orderService = new OrderService(this);
+    private SharedPreferences sharedPreferences;
+    private String shipperId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Set View
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //Set ID
         btnGetDirection = findViewById(R.id.btnGetDirection);
+        btnFinishOrder = findViewById(R.id.btnFinishOrder);
         txtDistance = findViewById(R.id.txtDistance);
         txtTime = findViewById(R.id.txtTime);
         txtAddress = findViewById(R.id.txtAddress);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        permissionCheck(mapFragment);
+        //Get Permission
         updateValuesFromBundle(savedInstanceState, mapFragment);
-
+        permissionCheck(mapFragment);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        //Get information
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        userAddress = getLocationFromAddress(this,bundle.getString("userAddress"));
+        userName =bundle.getString("userName");
+        userPhone = bundle.getString("userPhone");
+        orderId = bundle.getString("orderId");
+        txtAddress.setText(bundle.getString("userAddress"));
+        sharedPreferences = getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
+        shipperId = sharedPreferences.getString("userIdKey",null);
+        //Get location
         if (!requestingLocationUpdates) {
             createLocationRequest();
         } else {
             startLocationUpdates();
         }
+        //Update current location
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -139,17 +161,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentMarker != null) {
             currentMarker.remove();
         }
+        //Draw Marker
         LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        currentMarker = mMap.addMarker(getMarkerOption(origin,"Vị trí hiện tại"));
+        currentMarker = mMap.addMarker(getMarkerOption(origin,"Vị trí hiện tại",null));
         currentMarker.showInfoWindow();
+        Marker marker = mMap.addMarker(getMarkerOption(userAddress,userName,userPhone));
+        marker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(origin, 15));
         btnGetDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String address = "137/80 Đường Phan Anh Phường Bình Trị Đông Quận Bình Tân";
-                txtAddress.setText(address);
-                LatLng destination = getLocationFromAddress(MapsActivity.this,address) ;
-                mapService.getDirection(origin,destination,mMap,txtTime,txtDistance);
+                mapService.getDirection(origin,userAddress,mMap,txtTime,txtDistance,userName,userPhone);
+                orderService.updateOrderStatus(orderId,shipperId,"Delivering");
+                //Clickable after pressing btnGetDirection
+                btnFinishOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        orderService.updateOrderStatus(orderId,shipperId,"Delivered");
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -249,10 +280,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @NonNull
-    private MarkerOptions getMarkerOption(LatLng location,String title) {
+    private MarkerOptions getMarkerOption(LatLng location,String title,String snippet) {
         MarkerOptions option = new MarkerOptions();
         option.position(location);
-        option.title(title);
+        option.title(title).snippet(snippet);
         option.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         return option;
     }
