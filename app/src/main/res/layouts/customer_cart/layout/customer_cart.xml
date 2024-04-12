@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right">
-
         <Button
             android:id="@+id/btnClearCart"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -19,14 +18,20 @@
             android:text="clear cart"
             android:textSize="50px" />
     </LinearLayout>
-
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indeterminateAnimationType="contiguous"
+        app:indicatorColor="@array/progress_colors"
+        android:layout_marginTop="45dp"/>
     <include
         layout="@layout/cart_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/total"
         android:layout_below="@+id/clear_cart" />
-
     <TextView
         android:id="@+id/total"
         android:layout_width="wrap_content"

@@ -89,85 +89,13 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:background="#9A9A9A" />
-
-        <TextView
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:text="Or"
-            android:textSize="15dp" />
+            android:indeterminate="true"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
     </LinearLayout>
-    <!--  Google button   -->
-    <ImageView
-        android:id="@+id/google_login"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_below="@+id/container_login_form"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/google_login_button"
-        android:scaleType="centerInside" />
-
-    <ImageView
-        android:id="@+id/img_google_logo"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignLeft="@+id/google_login"
-        android:layout_alignTop="@+id/google_login"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/img_google_logo" />
-
-    <TextView
-        android:layout_width="162dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/google_login"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/img_google_logo"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="LOGIN WITH GOOGLE"
-        android:textAlignment="center"
-        android:textColor="#FF000000"
-        android:textSize="14dp" />
-    <!--  Facebook button   -->
-    <ImageView
-        android:id="@+id/facebook_login"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_below="@+id/google_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/facebook_login_button"
-        android:scaleType="centerInside" />
-
-    <ImageView
-        android:id="@+id/img_facebook_logo"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignLeft="@+id/facebook_login"
-        android:layout_alignTop="@+id/facebook_login"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/img_facebook_logo" />
-
-    <TextView
-        android:layout_width="162dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/facebook_login"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/img_facebook_logo"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="LOGIN WITH FACEBOOK"
-        android:textAlignment="center"
-        android:textColor="#FFFFFFFF"
-        android:textSize="14dp" />
 </RelativeLayout>

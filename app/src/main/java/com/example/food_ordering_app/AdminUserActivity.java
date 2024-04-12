@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.food_ordering_app.services.UserService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class AdminUserActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    UserService userService = new UserService(this);
+    private RecyclerView recyclerView;
+    private UserService userService = new UserService(this);
     private BottomNavigationView adminMenu;
+    private LinearProgressIndicator linearProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +23,15 @@ public class AdminUserActivity extends AppCompatActivity {
         adminMenu = findViewById(R.id.admin_bottom_navigation);
         adminMenu.setSelectedItemId(R.id.admin_users);
         recyclerView = findViewById(R.id.recyclerView_userList);
-        userService.getAllUsers(recyclerView);
+        linearProgressIndicator = findViewById(R.id.progressBar);
+        userService.getAllUsers(recyclerView,linearProgressIndicator);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        userService.getAllUsers(recyclerView);
+        linearProgressIndicator.setVisibility(View.VISIBLE);
+        userService.getAllUsers(recyclerView,linearProgressIndicator);
     }
 
 }

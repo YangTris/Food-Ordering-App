@@ -13,6 +13,8 @@ import com.example.food_ordering_app.adapter.CartAdapter;
 import com.example.food_ordering_app.models.Cart;
 import com.example.food_ordering_app.models.CartItem;
 import com.example.food_ordering_app.controllers.CartController;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,17 +50,17 @@ public class CartService {
         }
     }
 
-    public void getCartId(String userId, CartItem item){
+    public void getCartId(String userId, CartItem item, CircularProgressIndicator circularProgressIndicator){
         Call<String> request = cartController.getCartId(userId);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String res = response.body().toString();
                 if(res==""){
-                    createCart(userId,item);
+                    createCart(userId,item,circularProgressIndicator);
                 }
                 else{
-                    addFoodToCart(res,item);
+                    addFoodToCart(res,item,circularProgressIndicator);
                 }
             }
 
@@ -69,11 +71,12 @@ public class CartService {
         });
     }
 
-    public void getUserCart(String userId, RecyclerView recyclerView, TextView txtTotal,Button orderButton){
+    public void getUserCart(String userId, RecyclerView recyclerView, TextView txtTotal, Button orderButton, LinearProgressIndicator linearProgressIndicator){
         Call<List<CartItem>> request = cartController.getUserCart(userId);
         request.enqueue(new Callback<List<CartItem>>() {
             @Override
             public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
+                linearProgressIndicator.setVisibility(View.INVISIBLE);
                 List<CartItem> items = response.body();
                 CartAdapter adapter = new CartAdapter(context,items,txtTotal);
                 recyclerView.setAdapter(adapter);
@@ -106,11 +109,13 @@ public class CartService {
         });
     }
 
-    public void createCart(String cartId,CartItem cartItem){
+    public void createCart(String cartId,CartItem cartItem,CircularProgressIndicator circularProgressIndicator){
         Call<String> request = cartController.createCart(cartId,cartItem);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                if(circularProgressIndicator!=null)
+                    circularProgressIndicator.setVisibility(View.INVISIBLE);
                 responseSuccess(response);
             }
 
@@ -121,11 +126,13 @@ public class CartService {
         });
     }
 
-    public void addFoodToCart(String cartId, CartItem cartItem){
+    public void addFoodToCart(String cartId, CartItem cartItem,CircularProgressIndicator circularProgressIndicator){
         Call<String> request = cartController.addFoodToCart(cartId,cartItem);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                if(circularProgressIndicator!=null)
+                    circularProgressIndicator.setVisibility(View.INVISIBLE);
                 responseSuccess(response);
             }
 

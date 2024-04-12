@@ -14,16 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.food_ordering_app.services.FoodService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 
 public class FoodActivity extends AppCompatActivity {
     private final FoodService foodService = new FoodService(this);
     private BottomNavigationView menu;
+    private LinearProgressIndicator progressIndicator;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        progressIndicator = findViewById(R.id.progressBar);
         menu = findViewById(R.id.bottom_navigation);
         menu.getMenu().getItem(0).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -49,8 +53,14 @@ public class FoodActivity extends AppCompatActivity {
                 return false;
             }
         });
+        recyclerView = findViewById(R.id.recyclerView_foodList);
+        foodService.getAllFoods(recyclerView,progressIndicator,"");
+    }
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView_foodList);
-        foodService.getAllFoods(recyclerView, "");
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressIndicator.setVisibility(View.VISIBLE);
+        foodService.getAllFoods(recyclerView,progressIndicator,"");
     }
 }

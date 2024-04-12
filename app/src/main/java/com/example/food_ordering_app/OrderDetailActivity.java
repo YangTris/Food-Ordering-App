@@ -20,20 +20,19 @@ import com.example.food_ordering_app.services.OrderService;
 import java.util.ArrayList;
 
 public class OrderDetailActivity extends AppCompatActivity {
-    AutoCompleteTextView orderStatus;
+    private AutoCompleteTextView orderStatus;
+    private TextView orderId;
+    private TextView receiver;
+    private TextView address;
+    private TextView total;
+    private RecyclerView orderItems;
 
-    TextView orderId;
-    TextView receiver;
-    TextView address;
-    TextView total;
-    RecyclerView orderItems;
-
-    View deliveringStatus;
-    View deliveredStatus;
-    Button navigate;
+    private View deliveringStatus;
+    private View deliveredStatus;
+    private Button navigate;
     private final OrderService orderService = new OrderService(this);
-
     private SharedPreferences sharedPreferences;
+    private String orderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +48,21 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderItems = findViewById(R.id.recyclerView_orderFoodList);
 
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
-        int roleId = sharedPreferences.getInt("roleIdKey", 2);
+        int roleId = sharedPreferences.getInt("roleIdKey", 0);
         Log.d("ROLE", String.valueOf(roleId));
         if (roleId == 0) {
             navigate.setVisibility(View.INVISIBLE);
         }
         Intent i = getIntent();
         Bundle b = i.getExtras();
-        orderId.setText("Order ID:" + b.get("orderId").toString());
-        orderService.getOrder(b.get("orderId").toString(), receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
+        orderID = b.get("orderId").toString();
+        orderId.setText("Order ID:" + orderID);
+        orderService.getOrder(orderID, receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        orderService.getOrder(orderID, receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
     }
 }

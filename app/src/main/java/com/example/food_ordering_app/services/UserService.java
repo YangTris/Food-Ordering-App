@@ -3,6 +3,7 @@ package com.example.food_ordering_app.services;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import com.example.food_ordering_app.adapter.AdminFoodAdapter;
 import com.example.food_ordering_app.adapter.AdminUserAdapter;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.controllers.UserController;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
@@ -50,11 +53,12 @@ public class UserService {
         }
     }
 
-    public void getAllUsers(RecyclerView userList) {
+    public void getAllUsers(RecyclerView userList, LinearProgressIndicator linearProgressIndicator) {
         Call<List<User>> request = userController.getAllUsers();
         request.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                linearProgressIndicator.setVisibility(View.INVISIBLE);
                 AdminUserAdapter adapter = new AdminUserAdapter(context, response.body());
                 userList.setAdapter(adapter);
                 userList.setLayoutManager(new LinearLayoutManager(context));
@@ -67,11 +71,14 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone) {
+    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone,CircularProgressIndicator circularProgressIndicator) {
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                if(circularProgressIndicator!=null)
+                    circularProgressIndicator.setVisibility(View.INVISIBLE);
+
                 User user = response.body();
                 Intent intent;
                 SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
@@ -90,7 +97,7 @@ public class UserService {
                     } else if (user.getRoleId() == 1) {
                         intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
-                    } else {
+                    } else if (user.getRoleId() == 2){
                         intent = new Intent(context, AdminFoodActivity.class);
                         context.startActivity(intent);
                     }
@@ -110,7 +117,7 @@ public class UserService {
         });
     }
 
-    public void loginUser(String phoneNumber, String password) {
+    public void loginUser(String phoneNumber, String password, CircularProgressIndicator circularProgressIndicator) {
         Call<String> request = userController.loginUser(phoneNumber, password);
         request.enqueue(new Callback<String>() {
             @Override
@@ -118,8 +125,9 @@ public class UserService {
                 String userId = response.body();
                 if (userId == "") {
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
+                    circularProgressIndicator.setVisibility(View.INVISIBLE);
                 } else {
-                    getUserDetails(userId, null, null, null);
+                    getUserDetails(userId, null, null, null,circularProgressIndicator);
                 }
             }
 

@@ -20,6 +20,7 @@ import com.example.food_ordering_app.adapter.OrderAdapter;
 import com.example.food_ordering_app.controllers.OrderController;
 import com.example.food_ordering_app.models.Cart;
 import com.example.food_ordering_app.models.Order;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,6 +56,23 @@ public class OrderService {
         }
     }
 
+    public void getAllOrder(RecyclerView recyclerView, LinearProgressIndicator linearProgressIndicator){
+        Call<List<Order>> request = orderController.getAllOrder();
+        request.enqueue(new Callback<List<Order>>() {
+            @Override
+            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                linearProgressIndicator.setVisibility(View.INVISIBLE);
+                OrderAdapter adapter = new OrderAdapter(context, response.body());
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+
+            }
+        });
+    }
     public void getOrder(String orderId, TextView receiver, TextView address, RecyclerView orderItems, TextView total, View delivering, View delivered, Button navigate) {
         Call<Order> request = orderController.getOrder(orderId);
         request.enqueue(new Callback<Order>() {
@@ -94,12 +112,12 @@ public class OrderService {
         });
     }
 
-    public void getAllOrder(String userId, RecyclerView recyclerView) {
+    public void getAllOrder(String userId, RecyclerView recyclerView, LinearProgressIndicator linearProgressIndicator) {
         Call<List<Order>> request = orderController.getAllOrder(userId);
         request.enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
-                Log.d("list", response.body().toString());
+                linearProgressIndicator.setVisibility(View.INVISIBLE);
                 OrderAdapter adapter = new OrderAdapter(context, response.body());
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));

@@ -22,6 +22,7 @@ import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.services.FoodService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -43,6 +44,7 @@ public class EditFoodActivity extends AppCompatActivity {
     private TextInputEditText txtFoodDes;
     private TextInputEditText txtFoodPrice;
     private AutoCompleteTextView txtCategory;
+    private CircularProgressIndicator circularProgressIndicator;
     private FoodService foodService = new FoodService(this);
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -65,7 +67,6 @@ public class EditFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_food);
         txtCategory = findViewById(R.id.food_autocomplete);
-
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         imageView = findViewById(R.id.food_image);
@@ -74,6 +75,7 @@ public class EditFoodActivity extends AppCompatActivity {
         txtFoodDes = findViewById(R.id.food_description);
         txtFoodName = findViewById(R.id.food_name);
         txtFoodPrice = findViewById(R.id.food_price);
+        circularProgressIndicator = findViewById(R.id.progress_circular);
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,11 +91,12 @@ public class EditFoodActivity extends AppCompatActivity {
         Bundle bundle = i.getExtras();
         if (bundle != null) {
             String id = bundle.get("foodId").toString();
-            foodService.getFoodDetails(id, txtFoodName, txtFoodPrice, txtFoodDes, txtCategory, imageView,null);
+            foodService.getFoodDetails(id, txtFoodName, txtFoodPrice, txtFoodDes, txtCategory, imageView,null,null);
         }
         saveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                circularProgressIndicator.setVisibility(View.VISIBLE);
                 addFood(image);
             }
         });
@@ -122,10 +125,11 @@ public class EditFoodActivity extends AppCompatActivity {
                         } else {
                             foodService.createFood(food);
                         }
+                        circularProgressIndicator.setVisibility(View.INVISIBLE);
                         Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

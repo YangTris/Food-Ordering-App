@@ -5,4 +5,9 @@
     <color name="colorAccent">#3397FD</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorRed">#ff0000</color>
+    <color name="one">#ef476f</color>
+    <color name="two">#ffd166</color>
+    <color name="three">#06d6a0</color>
+    <color name="four">#118ab2</color>
+    <color name="five">#073b4c</color>
 </resources>

@@ -8,10 +8,12 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.food_ordering_app.services.FoodService;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class FoodDetailActivity extends AppCompatActivity {
     private final FoodService foodService = new FoodService(this);
+    private CircularProgressIndicator circularProgressIndicator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +23,10 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextInputEditText txtFoodPrice = findViewById(R.id.detail_food_price);
         ImageView imageView = findViewById(R.id.detail_food_img);
         Button btnAddToCart = findViewById(R.id.add_to_cart_button);
+        circularProgressIndicator = findViewById(R.id.progress_circular);
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         String foodId = bundle.get("foodId").toString();
-        foodService.getFoodDetails(foodId,txtFoodName,txtFoodDes,txtFoodPrice,null,imageView,btnAddToCart);
+        foodService.getFoodDetails(foodId,txtFoodName,txtFoodDes,txtFoodPrice,null,imageView,btnAddToCart,circularProgressIndicator);
     }
 }

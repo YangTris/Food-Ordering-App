@@ -20,6 +20,13 @@
             android:layout_margin="10dp"
             app:mt_maxSuggestionsCount="10"
             app:mt_placeholder="Find user" />
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:indeterminateAnimationType="contiguous"
+            app:indicatorColor="@array/progress_colors" />
     </LinearLayout>
 
     <include

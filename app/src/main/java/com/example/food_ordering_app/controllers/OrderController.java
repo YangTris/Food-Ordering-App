@@ -13,6 +13,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface OrderController {
+    @GET("order")
+    Call<List<Order>> getAllOrder();
     @GET("order/{orderId}")
     Call<Order> getOrder(@Path("orderId") String orderId);
     @GET("order/orderhistory/{userId}")

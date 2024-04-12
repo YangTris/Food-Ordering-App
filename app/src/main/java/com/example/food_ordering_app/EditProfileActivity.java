@@ -24,6 +24,7 @@ import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.services.UserService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +39,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputEditText txtEmail;
     private TextInputEditText txtPhone;
     private ImageView imageView;
+    private CircularProgressIndicator circularProgressIndicator;
     private Button btnSave, chooseImage;
     private Uri image;
     private StorageReference storageRef;
@@ -65,14 +67,14 @@ public class EditProfileActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-
+        circularProgressIndicator = findViewById(R.id.progress_circular);
         txtName = findViewById(R.id.customer_name);
         txtEmail = findViewById(R.id.customer_mail);
         txtPhone = findViewById(R.id.customer_phone);
         btnSave = findViewById(R.id.save_customer);
         imageView=findViewById(R.id.user_image);
         chooseImage = findViewById(R.id.choose_image);
-        userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone);
+        userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone,null);
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,16 +87,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                User user = new User();
-//                user.setUserId(sharedPreferences.getString("userIdKey",null));
-//                user.setName(txtName.getText().toString());
-//                user.setEmail(txtEmail.getText().toString());
-//                user.setPhone(txtPhone.getText().toString());
-//                user.setAddress(sharedPreferences.getString("addressKey",null));
-//                user.setPassword(sharedPreferences.getString("passwordKey",null));
-//                userService.updateUser(user.getUserId(),user);
-//                finish();
-
+                circularProgressIndicator.setVisibility(View.VISIBLE);
                 addUser(image);
             }
         });
@@ -117,24 +110,20 @@ public class EditProfileActivity extends AppCompatActivity {
                         user.setAddress(sharedPreferences.getString("addressKey",null));
                         user.setPassword(sharedPreferences.getString("passwordKey",null));
                         userService.updateUser(user.getUserId(),user);
-                        finish();
-
                         Intent i = getIntent();
                         Bundle bundle = i.getExtras();
+                        Intent intent;
                         if (bundle != null) {
                             String id = bundle.get("userId").toString();
                             userService.updateUser(id, user);
-                            Intent intent = new Intent(EditProfileActivity.this, AdminFoodActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            intent = new Intent(EditProfileActivity.this, AdminFoodActivity.class);
                         } else {
                             userService.createCustomer(user);
-                            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            intent = new Intent(EditProfileActivity.this, LoginActivity.class);
                         }
-
-                    //    Toast.makeText(EditProfileActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+                        circularProgressIndicator.setVisibility(View.INVISIBLE);
+                        startActivity(intent);
+                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

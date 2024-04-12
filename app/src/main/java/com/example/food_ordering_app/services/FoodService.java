@@ -20,6 +20,8 @@ import com.example.food_ordering_app.adapter.FoodAdapter;
 import com.example.food_ordering_app.models.CartItem;
 import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.controllers.FoodController;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
@@ -55,11 +57,12 @@ public class FoodService {
         }
     }
 
-    public void getAllFoods(RecyclerView recyclerView, String query) {
+    public void getAllFoods(RecyclerView recyclerView, LinearProgressIndicator progressIndicator, String query) {
         Call<ArrayList<Food>> request = foodController.getAllFoods(query);
         request.enqueue(new Callback<ArrayList<Food>>() {
             @Override
             public void onResponse(Call<ArrayList<Food>> request, Response<ArrayList<Food>> response) {
+                progressIndicator.setVisibility(View.INVISIBLE);
                 if(context instanceof AdminFoodActivity){
                     AdminFoodAdapter foodAdapter = new AdminFoodAdapter(context, response.body());
                     recyclerView.setAdapter(foodAdapter);
@@ -77,7 +80,7 @@ public class FoodService {
         });
     }
 
-    public void getFoodDetails(String id, TextInputEditText txtFoodName, TextInputEditText txtFoodPrice, TextInputEditText txtFoodDes, AutoCompleteTextView txtCategory, ImageView imageView, Button btnAddToCart) {
+    public void getFoodDetails(String id, TextInputEditText txtFoodName, TextInputEditText txtFoodPrice, TextInputEditText txtFoodDes, AutoCompleteTextView txtCategory, ImageView imageView, Button btnAddToCart, CircularProgressIndicator circularProgressIndicator) {
         Call<Food> request = foodController.getFoodDetails(id);
         request.enqueue(new Callback<Food>() {
             @Override
@@ -107,9 +110,10 @@ public class FoodService {
                     btnAddToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            circularProgressIndicator.setVisibility(View.VISIBLE);
                             CartService cartService = new CartService(context);
                             sharedPreferences = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
-                            cartService.getCartId(sharedPreferences.getString("userIdKey",null),item);
+                            cartService.getCartId(sharedPreferences.getString("userIdKey",null),item,circularProgressIndicator);
                         }
                     });
                 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.food_ordering_app.services.CartService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class CartActivity extends AppCompatActivity {
     private final CartService cartService = new CartService(this);
@@ -24,6 +25,8 @@ public class CartActivity extends AppCompatActivity {
     private TextView txtTotal;
     private SharedPreferences sharedPreferences;
     private BottomNavigationView menu;
+    private RecyclerView recyclerView;
+    private LinearProgressIndicator linearProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
         orderButton = findViewById(R.id.btnOrderCart);
         txtTotal = findViewById(R.id.total);
         menu = findViewById(R.id.bottom_navigation);
+        linearProgressIndicator = findViewById(R.id.progressBar);
         menu.getMenu().getItem(1).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -57,14 +61,21 @@ public class CartActivity extends AppCompatActivity {
                 return false;
             }
         });
-        RecyclerView recyclerView = findViewById(R.id.recyclerView_cartList);
+        recyclerView = findViewById(R.id.recyclerView_cartList);
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
-        cartService.getUserCart(sharedPreferences.getString("userIdKey",null),recyclerView,txtTotal,orderButton);
+        cartService.getUserCart(sharedPreferences.getString("userIdKey",null),recyclerView,txtTotal,orderButton,linearProgressIndicator);
         clearCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cartService.deleteCart(sharedPreferences.getString("userIdKey",null));
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        linearProgressIndicator.setVisibility(View.VISIBLE);
+        cartService.getUserCart(sharedPreferences.getString("userIdKey",null),recyclerView,txtTotal,orderButton,linearProgressIndicator);
     }
 }

@@ -70,7 +70,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                         item.setPrice(food.getPrice());
                         item.setQuantity(1);
                         item.setTotal(food.getPrice()*item.getQuantity());
-                        cartService.getCartId(sharedPreferences.getString("userIdKey",null),item);
+                        cartService.getCartId(sharedPreferences.getString("userIdKey",null),item,null);
                     }
                 }
             });
