@@ -60,6 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         }
     });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +73,10 @@ public class EditProfileActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.customer_mail);
         txtPhone = findViewById(R.id.customer_phone);
         btnSave = findViewById(R.id.save_customer);
-        imageView=findViewById(R.id.user_image);
+        imageView = findViewById(R.id.user_image);
         Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         chooseImage = findViewById(R.id.choose_image);
-        userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone,null);
+        userService.getUserDetails(sharedPreferences.getString("userIdKey", null), txtName, txtEmail, txtPhone, null);
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,14 +105,14 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         User user = new User();
-                        user.setUserId(sharedPreferences.getString("userIdKey",null));
+                        user.setUserId(sharedPreferences.getString("userIdKey", null));
                         user.setName(txtName.getText().toString());
                         user.setEmail(txtEmail.getText().toString());
                         user.setPhone(txtPhone.getText().toString());
-                        user.setAddress(sharedPreferences.getString("addressKey",null));
-                        user.setPassword(sharedPreferences.getString("passwordKey",null));
+                        user.setAddress(sharedPreferences.getString("addressKey", null));
+                        user.setPassword(sharedPreferences.getString("passwordKey", null));
                         user.setUserImg(uri.toString());
-                        userService.updateUser(user.getUserId(),user);
+                        userService.updateUser(user.getUserId(), user);
                         Intent i = getIntent();
                         Bundle bundle = i.getExtras();
                         Intent intent;
@@ -120,7 +121,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             userService.updateUser(id, user);
                             intent = new Intent(EditProfileActivity.this, AdminUserActivity.class);
                         } else {
-                            userService.updateUser(sharedPreferences.getString("userIdKey",null),user);
+                            userService.updateUser(sharedPreferences.getString("userIdKey", null), user);
                             intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
                         }
                         circularProgressIndicator.setVisibility(View.INVISIBLE);

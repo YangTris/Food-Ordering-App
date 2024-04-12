@@ -52,7 +52,7 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         User user = mUsers.get(pos);
-                        Intent i = new Intent(mContext, ProfileActivity.class);
+                        Intent i = new Intent(mContext, EditProfileActivity.class);
                         i.putExtra("userId", user.getUserId());
                         mContext.startActivity(i);
                     }

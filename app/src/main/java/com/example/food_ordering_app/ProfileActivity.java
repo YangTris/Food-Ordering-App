@@ -40,17 +40,9 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogOut = findViewById(R.id.btnLogOut);
         menu = findViewById(R.id.bottom_navigation);
         imageView = findViewById(R.id.avatar);
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-
-        int roleId = sharedPreferences.getInt("roleIdKey", 1);
-        if (roleId != 0) {
-            btnLogOut.setVisibility(View.INVISIBLE);
-            menu.setVisibility(View.INVISIBLE);
-            line.setVisibility(View.INVISIBLE);
-        }
-
         profileName = findViewById(R.id.profile_name);
+
+
         profileName.setText(sharedPreferences.getString("usernameKey", null));
         Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         menu.getMenu().getItem(3).setChecked(true);
@@ -87,7 +79,6 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         btnLogOut.setOnClickListener(new View.OnClickListener() {

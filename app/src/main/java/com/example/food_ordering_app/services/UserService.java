@@ -71,12 +71,12 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone,CircularProgressIndicator circularProgressIndicator) {
+    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone, CircularProgressIndicator circularProgressIndicator) {
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(circularProgressIndicator!=null)
+                if (circularProgressIndicator != null)
                     circularProgressIndicator.setVisibility(View.INVISIBLE);
 
                 User user = response.body();
@@ -88,7 +88,7 @@ public class UserService {
                 editor.putString("userIdKey", user.getUserId());
                 editor.putString("passwordKey", user.getPassword());
                 editor.putString("addressKey", user.getAddress());
-                editor.putString("imgKey",user.getUserImg());
+                editor.putString("imgKey", user.getUserImg());
                 editor.commit();
                 //If login
                 if (context instanceof LoginActivity) {
@@ -98,7 +98,7 @@ public class UserService {
                     } else if (user.getRoleId() == 1) {
                         intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
-                    } else if (user.getRoleId() == 2){
+                    } else if (user.getRoleId() == 2) {
                         intent = new Intent(context, AdminFoodActivity.class);
                         context.startActivity(intent);
                     }
@@ -128,7 +128,7 @@ public class UserService {
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
                     circularProgressIndicator.setVisibility(View.INVISIBLE);
                 } else {
-                    getUserDetails(userId, null, null, null,circularProgressIndicator);
+                    getUserDetails(userId, null, null, null, circularProgressIndicator);
                 }
             }
 
