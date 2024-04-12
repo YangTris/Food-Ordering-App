@@ -40,6 +40,9 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogOut = findViewById(R.id.btnLogOut);
         menu = findViewById(R.id.bottom_navigation);
         imageView = findViewById(R.id.avatar);
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+
         int roleId = sharedPreferences.getInt("roleIdKey", 1);
         if (roleId != 0) {
             btnLogOut.setVisibility(View.INVISIBLE);
