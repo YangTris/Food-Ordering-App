@@ -19,23 +19,36 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatar"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:background="@drawable/rounded_image"
-        android:scaleType="centerInside" />
+        android:background="@drawable/image_holder"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circle_image"
+        app:strokeColor="@color/colorPrimaryDark"
+        app:strokeWidth="5dp" />
 
-    <RelativeLayout
-        android:layout_marginTop="50dp"
-        android:id="@+id/btnEditProfile"
+    <Button
+        android:id="@+id/choose_profile_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/avatar"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Choose image" />
+
+    <RelativeLayout
+        android:id="@+id/btnEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choose_profile_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/edit_profile"
@@ -60,9 +73,9 @@
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/edit_profile"
+            android:layout_alignEnd="@+id/edit_profile"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            android:layout_alignEnd="@+id/edit_profile"
             android:layout_toEndOf="@+id/img_edit"
             android:includeFontPadding="false"
             android:text="Edit profile"
@@ -71,13 +84,13 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/btnEditAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnEditProfile"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/edit_address"
