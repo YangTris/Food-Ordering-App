@@ -31,17 +31,17 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-                if(url.contains("https://truyenqqvn.com") ){
-                    Intent intent = new Intent(PaymentActivity.this, FoodActivity.class);
+                if(url.contains("http://localhost:8080/payment-return") ){
+                    Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                //    finish();
                 }
                 return true;
             }
         });
-
-        paymentService.createPayment("50000",webView);
-
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        double total = Double.valueOf(bundle.getString("ammount","50000"));
+        paymentService.createPayment((int)total,webView);
     }
-
 }

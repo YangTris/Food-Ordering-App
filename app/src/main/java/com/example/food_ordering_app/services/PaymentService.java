@@ -39,8 +39,8 @@ public class PaymentService {
         }
     }
 
-    public void createPayment(String amount, WebView webView){
-        Call<String> request = paymentController.createPayment(amount);
+    public void createPayment(Integer ammount, WebView webView){
+        Call<String> request = paymentController.createPayment(ammount);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

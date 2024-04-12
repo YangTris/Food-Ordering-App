@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.food_ordering_app.EditFoodActivity;
 import com.example.food_ordering_app.MapsActivity;
 import com.example.food_ordering_app.OrderActivity;
+import com.example.food_ordering_app.PaymentActivity;
 import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.adapter.CartAdapter;
 import com.example.food_ordering_app.adapter.OrderAdapter;
@@ -137,7 +138,8 @@ public class OrderService {
                 responseSuccess(response);
                 cartService = new CartService(context);
                 cartService.deleteCart(userId);
-                Intent intent = new Intent(context, OrderActivity.class);
+                Intent intent = new Intent(context, PaymentActivity.class);
+                intent.putExtra("ammount",response.body());
                 context.startActivity(intent);
             }
 

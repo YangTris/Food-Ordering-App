@@ -88,6 +88,7 @@ public class UserService {
                 editor.putString("userIdKey", user.getUserId());
                 editor.putString("passwordKey", user.getPassword());
                 editor.putString("addressKey", user.getAddress());
+                editor.putString("imgKey",user.getUserImg());
                 editor.commit();
                 //If login
                 if (context instanceof LoginActivity) {

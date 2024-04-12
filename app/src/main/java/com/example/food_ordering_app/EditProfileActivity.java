@@ -73,6 +73,7 @@ public class EditProfileActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.customer_phone);
         btnSave = findViewById(R.id.save_customer);
         imageView=findViewById(R.id.user_image);
+        Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         chooseImage = findViewById(R.id.choose_image);
         userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone,null);
         chooseImage.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +110,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         user.setPhone(txtPhone.getText().toString());
                         user.setAddress(sharedPreferences.getString("addressKey",null));
                         user.setPassword(sharedPreferences.getString("passwordKey",null));
+                        user.setUserImg(uri.toString());
                         userService.updateUser(user.getUserId(),user);
                         Intent i = getIntent();
                         Bundle bundle = i.getExtras();
@@ -116,10 +118,10 @@ public class EditProfileActivity extends AppCompatActivity {
                         if (bundle != null) {
                             String id = bundle.get("userId").toString();
                             userService.updateUser(id, user);
-                            intent = new Intent(EditProfileActivity.this, AdminFoodActivity.class);
+                            intent = new Intent(EditProfileActivity.this, AdminUserActivity.class);
                         } else {
-                            userService.createCustomer(user);
-                            intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                            userService.updateUser(sharedPreferences.getString("userIdKey",null),user);
+                            intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
                         }
                         circularProgressIndicator.setVisibility(View.INVISIBLE);
                         startActivity(intent);
