@@ -2,6 +2,7 @@ package com.example.food_ordering_app.services;
 
 import android.content.Context;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.example.food_ordering_app.controllers.PaymentController;
@@ -38,13 +39,13 @@ public class PaymentService {
         }
     }
 
-    public void createPayment(String amount){
+    public void createPayment(String amount, WebView webView){
         Call<String> request = paymentController.createPayment(amount);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 String url=response.body();
-                Log.d("Url", url);
+                webView.loadUrl(url);
             }
 
             @Override
