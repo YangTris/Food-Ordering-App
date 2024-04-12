@@ -1,17 +1,35 @@
 package com.example.food_ordering_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.bumptech.glide.Glide;
+import com.example.food_ordering_app.models.Food;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.services.UserService;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 public class EditProfileActivity extends AppCompatActivity {
     private final UserService userService = new UserService(this);
@@ -19,32 +37,111 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextInputEditText txtName;
     private TextInputEditText txtEmail;
     private TextInputEditText txtPhone;
-    private Button btnSave;
+    private ImageView imageView;
+    private Button btnSave, chooseImage;
+    private Uri image;
+    private StorageReference storageRef;
+    private FirebaseStorage storage;
 
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == RESULT_OK) {
+                if (result.getData() != null) {
+                    image = result.getData().getData();
+                    btnSave.setEnabled(true);
+                    imageView = findViewById(R.id.user_image);
+                    Glide.with(getApplicationContext()).load(image).error(R.drawable.error).into(imageView);
+                }
+            } else {
+                Toast.makeText(EditProfileActivity.this, "Select a image", Toast.LENGTH_SHORT).show();
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
         txtName = findViewById(R.id.customer_name);
         txtEmail = findViewById(R.id.customer_mail);
         txtPhone = findViewById(R.id.customer_phone);
         btnSave = findViewById(R.id.save_customer);
+        imageView=findViewById(R.id.user_image);
+        chooseImage = findViewById(R.id.choose_image);
         userService.getUserDetails(sharedPreferences.getString("userIdKey",null),txtName,txtEmail,txtPhone);
-
+        chooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                activityResultLauncher.launch(intent);
+            }
+        });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User();
-                user.setUserId(sharedPreferences.getString("userIdKey",null));
-                user.setName(txtName.getText().toString());
-                user.setEmail(txtEmail.getText().toString());
-                user.setPhone(txtPhone.getText().toString());
-                user.setAddress(sharedPreferences.getString("addressKey",null));
-                user.setPassword(sharedPreferences.getString("passwordKey",null));
-                userService.updateUser(user.getUserId(),user);
-                finish();
+//                User user = new User();
+//                user.setUserId(sharedPreferences.getString("userIdKey",null));
+//                user.setName(txtName.getText().toString());
+//                user.setEmail(txtEmail.getText().toString());
+//                user.setPhone(txtPhone.getText().toString());
+//                user.setAddress(sharedPreferences.getString("addressKey",null));
+//                user.setPassword(sharedPreferences.getString("passwordKey",null));
+//                userService.updateUser(user.getUserId(),user);
+//                finish();
+
+                addUser(image);
+            }
+        });
+    }
+
+    private void addUser(Uri image) {
+        StorageReference reference = storageRef.child("users/" + UUID.randomUUID().toString());
+        reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(EditProfileActivity.this, "Image upload successfully", Toast.LENGTH_SHORT).show();
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        User user = new User();
+                        user.setUserId(sharedPreferences.getString("userIdKey",null));
+                        user.setName(txtName.getText().toString());
+                        user.setEmail(txtEmail.getText().toString());
+                        user.setPhone(txtPhone.getText().toString());
+                        user.setAddress(sharedPreferences.getString("addressKey",null));
+                        user.setPassword(sharedPreferences.getString("passwordKey",null));
+                        userService.updateUser(user.getUserId(),user);
+                        finish();
+
+                        Intent i = getIntent();
+                        Bundle bundle = i.getExtras();
+                        if (bundle != null) {
+                            String id = bundle.get("userId").toString();
+                            userService.updateUser(id, user);
+                            Intent intent = new Intent(EditProfileActivity.this, AdminFoodActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        } else {
+                            userService.createCustomer(user);
+                            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+
+                    //    Toast.makeText(EditProfileActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditProfileActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
