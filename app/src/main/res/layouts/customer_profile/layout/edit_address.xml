@@ -35,7 +35,8 @@
         android:layout_marginTop="20dp"
         android:text="Update your address here: "
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -117,4 +118,12 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="Save" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
 </LinearLayout>

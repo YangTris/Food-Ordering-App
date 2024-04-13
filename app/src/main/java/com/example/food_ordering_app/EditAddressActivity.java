@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.food_ordering_app.models.User;
 import com.example.food_ordering_app.models.map.AddressHelper;
 import com.example.food_ordering_app.services.UserService;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class EditAddressActivity extends AppCompatActivity {
     private Button saveButton;
     private UserService userService = new UserService(this);
     private AddressHelper addressHelper = new AddressHelper();
+    private CircularProgressIndicator circularProgressIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,10 @@ public class EditAddressActivity extends AppCompatActivity {
         city = findViewById(R.id.edit_city);
         district = findViewById(R.id.edit_district);
         ward = findViewById(R.id.edit_ward);
+        houseNumber = findViewById(R.id.edit_house_number);
         currentAddress = findViewById(R.id.current_address);
         saveButton = findViewById(R.id.save_address);
-
+        circularProgressIndicator = findViewById(R.id.progress_circular);
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         String address = sharedPreferences.getString("addressKey", null).toString();
         String userId = sharedPreferences.getString("userIdKey", null).toString();
@@ -66,10 +69,18 @@ public class EditAddressActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String address = city + " " + district + " " + ward;
+                circularProgressIndicator.setVisibility(View.VISIBLE);
+                String address = houseNumber.getText() + " " + ward.getText() + " " + district.getText() + " " + city.getText();
                 User user = new User();
                 user.setAddress(address);
+                user.setUserId(sharedPreferences.getString("userIdKey", null));
+                user.setName(sharedPreferences.getString("usernameKey", null));
+                user.setPassword(sharedPreferences.getString("passwordKey", null));
+                user.setUserImg(sharedPreferences.getString("imgKey", null));
+                user.setPhone(sharedPreferences.getString("phoneKey", null));
+                user.setEmail(sharedPreferences.getString("emailKey", null));
                 userService.updateUser(userId, user);
+                finish();
             }
         });
     }

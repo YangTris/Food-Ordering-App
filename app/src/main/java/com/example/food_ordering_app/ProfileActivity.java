@@ -77,6 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(ProfileActivity.this, EditAddressActivity.class);
+                startActivity(i);
             }
         });
         btnLogOut.setOnClickListener(new View.OnClickListener() {

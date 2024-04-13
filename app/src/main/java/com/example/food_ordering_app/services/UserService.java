@@ -92,6 +92,8 @@ public class UserService {
                     editor.putString("passwordKey", user.getPassword());
                     editor.putString("addressKey", user.getAddress());
                     editor.putString("imgKey", user.getUserImg());
+                    editor.putString("phoneKey",user.getPhone());
+                    editor.putString("emailKey",user.getEmail());
                     editor.commit();
                     if (user.getRoleId() == 0) {
                         intent = new Intent(context, FoodActivity.class);
@@ -160,6 +162,7 @@ public class UserService {
         SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpref.edit();
         editor.putString("usernameKey", user.getName());
+        editor.putString("addressKey", user.getAddress());
         editor.commit();
         Call<String> request = userController.updateUser(id, user);
         request.enqueue(new Callback<String>() {
