@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class AdminFoodActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_all_foods);
+        sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         FloatingActionButton addFoodButton = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recyclerView_foodList);
         progressIndicator = findViewById(R.id.progressBar);
@@ -37,7 +39,7 @@ public class AdminFoodActivity extends AppCompatActivity {
                 startActivity(new Intent(AdminFoodActivity.this, EditFoodActivity.class));
             }
         });
-        menu = findViewById(R.id.bottom_navigation);
+        menu = findViewById(R.id.admin_bottom_navigation);
         menu.getMenu().getItem(0).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -26,21 +26,22 @@
         android:textSize="25dp"
         android:textStyle="bold" />
 
-    <fragment
-        android:id="@+id/order_detail_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/order_detail_address"
+    <TextView
+        android:id="@+id/payment_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_address"
         android:layout_margin="8dp"
-        tools:context=".MapsActivity" />
+        android:text="Payment status: "
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <include
         layout="@layout/order_food_recycleview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/line"
-        android:layout_below="@+id/order_detail_map" />
+        android:layout_below="@+id/payment_status" />
 
     <View
         android:id="@+id/line"

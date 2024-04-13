@@ -50,7 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         int roleId = sharedPreferences.getInt("roleIdKey", 0);
         Log.d("ROLE", String.valueOf(roleId));
-        if (roleId == 0) {
+        if (roleId == 0 || roleId == 2) {
             navigate.setVisibility(View.INVISIBLE);
         }
         Intent i = getIntent();
