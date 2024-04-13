@@ -52,9 +52,7 @@ public class EditFoodActivity extends AppCompatActivity {
             if (result.getResultCode() == RESULT_OK) {
                 if (result.getData() != null) {
                     image = result.getData().getData();
-                    saveFood.setEnabled(true);
-                    imageView = findViewById(R.id.food_image);
-                    Glide.with(getApplicationContext()).load(image).error(R.drawable.error).into(imageView);
+                    Glide.with(EditFoodActivity.this).load(image).error(R.drawable.error).into(imageView);
                 }
             } else {
                 Toast.makeText(EditFoodActivity.this, "Select a image", Toast.LENGTH_SHORT).show();
@@ -97,12 +95,17 @@ public class EditFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 circularProgressIndicator.setVisibility(View.VISIBLE);
-                addFood(image);
+                if(image!=null){
+                    uploadImage(image);
+                }
+                else{
+                    editFood(bundle.get("imgUrl").toString());
+                }
             }
         });
     }
 
-    private void addFood(Uri image) {
+    private void uploadImage(Uri image) {
         StorageReference reference = storageRef.child("images/" + UUID.randomUUID().toString());
         reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -111,25 +114,7 @@ public class EditFoodActivity extends AppCompatActivity {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Food food = new Food();
-                        food.setCategory(txtCategory.getText().toString());
-                        food.setDescription(txtFoodDes.getText().toString());
-                        food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
-                        food.setName(txtFoodName.getText().toString());
-                        food.setImgURL(uri.toString());
-                        Intent i = getIntent();
-                        Bundle bundle = i.getExtras();
-                        if (bundle != null) {
-                            String id = bundle.get("foodId").toString();
-                            foodService.updateFood(id, food);
-                        } else {
-                            foodService.createFood(food);
-                        }
-                        circularProgressIndicator.setVisibility(View.INVISIBLE);
-                        Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        editFood(uri.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -139,5 +124,30 @@ public class EditFoodActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void editFood(String imgUrl){
+        Food food = new Food();
+        food.setCategory(txtCategory.getText().toString());
+        food.setDescription(txtFoodDes.getText().toString());
+        food.setPrice(Double.valueOf(txtFoodPrice.getText().toString()));
+        food.setName(txtFoodName.getText().toString());
+        food.setImgURL(imgUrl);
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        //If food exists
+        if (bundle != null) {
+            String id = bundle.get("foodId").toString();
+            foodService.updateFood(id, food);
+        }
+        //If not
+        else {
+            foodService.createFood(food);
+        }
+        circularProgressIndicator.setVisibility(View.INVISIBLE);
+        Intent intent = new Intent(EditFoodActivity.this, AdminFoodActivity.class);
+        startActivity(intent);
+        Toast.makeText(EditFoodActivity.this, "get link url successfully", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

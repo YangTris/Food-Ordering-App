@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.food_ordering_app.EditFoodActivity;
+import com.example.food_ordering_app.EditProfileActivity;
 import com.example.food_ordering_app.ProfileActivity;
 import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.Food;
@@ -51,8 +52,11 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         User user = mUsers.get(pos);
-                        Intent i = new Intent(mContext, ProfileActivity.class);
-                        i.putExtra("foodId", user.getUserId());
+                        Intent i = new Intent(mContext, EditProfileActivity.class);
+                        i.putExtra("userId", user.getUserId());
+                        i.putExtra("userImg",user.getUserImg());
+                        i.putExtra("password",user.getPassword());
+                        i.putExtra("address",user.getAddress());
                         mContext.startActivity(i);
                     }
                 }

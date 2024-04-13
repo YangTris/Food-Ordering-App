@@ -21,16 +21,6 @@ public class PaymentService {
         this.context = context;
     }
 
-    public void responseSuccess(Response response){
-        if (response.isSuccessful()) {
-            response.body().toString();
-        } else if (response.code() == 401) {
-            Toast.makeText(context, "Your session has expired", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "Failed to retrieve items", Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void responseFailure(Throwable throwable){
         if (throwable instanceof IOException) {
             Toast.makeText(context, "A connection error occured", Toast.LENGTH_LONG).show();
@@ -39,8 +29,8 @@ public class PaymentService {
         }
     }
 
-    public void createPayment(String amount, WebView webView){
-        Call<String> request = paymentController.createPayment(amount);
+    public void createPayment(Integer ammount, WebView webView){
+        Call<String> request = paymentController.createPayment(ammount);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

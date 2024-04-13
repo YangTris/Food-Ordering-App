@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -25,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileName;
     private BottomNavigationView menu;
     private View line;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +39,10 @@ public class ProfileActivity extends AppCompatActivity {
         line = findViewById(R.id.line);
         btnLogOut = findViewById(R.id.btnLogOut);
         menu = findViewById(R.id.bottom_navigation);
-        int roleId = sharedPreferences.getInt("roleIdKey", 1);
-        if (roleId != 0) {
-            btnLogOut.setVisibility(View.INVISIBLE);
-            menu.setVisibility(View.INVISIBLE);
-            line.setVisibility(View.INVISIBLE);
-        }
-
+        imageView = findViewById(R.id.avatar);
         profileName = findViewById(R.id.profile_name);
         profileName.setText(sharedPreferences.getString("usernameKey", null));
-
+        Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         menu.getMenu().getItem(3).setChecked(true);
         menu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -80,7 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(ProfileActivity.this, EditAddressActivity.class);
+                startActivity(i);
             }
         });
         btnLogOut.setOnClickListener(new View.OnClickListener() {

@@ -6,5 +6,5 @@ import retrofit2.http.Query;
 
 public interface PaymentController {
     @POST("payment")
-    Call<String> createPayment(@Query("amount") String amount);
+    Call<String> createPayment(@Query("amount") Integer amount);
 }
