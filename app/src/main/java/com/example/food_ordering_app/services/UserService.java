@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.FoodActivity;
 import com.example.food_ordering_app.LoginActivity;
+import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.adapter.AdminFoodAdapter;
 import com.example.food_ordering_app.adapter.AdminUserAdapter;
 import com.example.food_ordering_app.models.User;
@@ -71,27 +74,25 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone, CircularProgressIndicator circularProgressIndicator) {
+    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone, ImageView imageView, CircularProgressIndicator circularProgressIndicator) {
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (circularProgressIndicator != null)
-                    circularProgressIndicator.setVisibility(View.INVISIBLE);
-
                 User user = response.body();
-                Intent intent;
-                SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpref.edit();
-                editor.putString("usernameKey", user.getName());
-                editor.putInt("roleIdKey", user.getRoleId());
-                editor.putString("userIdKey", user.getUserId());
-                editor.putString("passwordKey", user.getPassword());
-                editor.putString("addressKey", user.getAddress());
-                editor.putString("imgKey", user.getUserImg());
-                editor.commit();
                 //If login
                 if (context instanceof LoginActivity) {
+                    circularProgressIndicator.setVisibility(View.INVISIBLE);
+                    Intent intent;
+                    SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpref.edit();
+                    editor.putString("usernameKey", user.getName());
+                    editor.putInt("roleIdKey", user.getRoleId());
+                    editor.putString("userIdKey", user.getUserId());
+                    editor.putString("passwordKey", user.getPassword());
+                    editor.putString("addressKey", user.getAddress());
+                    editor.putString("imgKey", user.getUserImg());
+                    editor.commit();
                     if (user.getRoleId() == 0) {
                         intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
@@ -105,6 +106,7 @@ public class UserService {
                 }
                 //If edit profile
                 else {
+                    Glide.with(context).load(user.getUserImg()).error(R.drawable.error).into(imageView);
                     txtName.setText(user.getName());
                     txtEmail.setText(user.getEmail());
                     txtPhone.setText(user.getPhone());
@@ -128,7 +130,7 @@ public class UserService {
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
                     circularProgressIndicator.setVisibility(View.INVISIBLE);
                 } else {
-                    getUserDetails(userId, null, null, null, circularProgressIndicator);
+                    getUserDetails(userId, null, null, null,null, circularProgressIndicator);
                 }
             }
 

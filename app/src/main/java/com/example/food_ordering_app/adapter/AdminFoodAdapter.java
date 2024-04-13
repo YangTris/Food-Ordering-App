@@ -52,6 +52,7 @@ public class AdminFoodAdapter extends RecyclerView.Adapter<AdminFoodAdapter.View
                         Food food = mFoods.get(pos);
                         Intent i = new Intent(mContext, EditFoodActivity.class);
                         i.putExtra("foodId",food.getId());
+                        i.putExtra("imgUrl",food.getImgURL());
                         mContext.startActivity(i);
                     }
                 }

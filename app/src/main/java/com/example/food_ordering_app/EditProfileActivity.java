@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,7 +53,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (result.getData() != null) {
                     image = result.getData().getData();
                     btnSave.setEnabled(true);
-                    imageView = findViewById(R.id.user_image);
                     Glide.with(getApplicationContext()).load(image).error(R.drawable.error).into(imageView);
                 }
             } else {
@@ -74,9 +74,15 @@ public class EditProfileActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.customer_phone);
         btnSave = findViewById(R.id.save_customer);
         imageView = findViewById(R.id.user_image);
-        Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         chooseImage = findViewById(R.id.choose_image);
-        userService.getUserDetails(sharedPreferences.getString("userIdKey", null), txtName, txtEmail, txtPhone, null);
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        if (bundle != null) {
+            String id = bundle.get("userId").toString();
+            userService.getUserDetails(id, txtName, txtEmail, txtPhone,imageView, null);
+        } else {
+            userService.getUserDetails(sharedPreferences.getString("userIdKey", null), txtName, txtEmail, txtPhone,imageView, null);
+        }
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,12 +96,17 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 circularProgressIndicator.setVisibility(View.VISIBLE);
-                addUser(image);
+                if(image!=null){
+                    uploadImg(image);
+                }
+                else{
+                    editUser(null);
+                }
             }
         });
     }
 
-    private void addUser(Uri image) {
+    private void uploadImg(Uri image) {
         StorageReference reference = storageRef.child("users/" + UUID.randomUUID().toString());
         reference.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -104,29 +115,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        User user = new User();
-                        user.setUserId(sharedPreferences.getString("userIdKey", null));
-                        user.setName(txtName.getText().toString());
-                        user.setEmail(txtEmail.getText().toString());
-                        user.setPhone(txtPhone.getText().toString());
-                        user.setAddress(sharedPreferences.getString("addressKey", null));
-                        user.setPassword(sharedPreferences.getString("passwordKey", null));
-                        user.setUserImg(uri.toString());
-                        userService.updateUser(user.getUserId(), user);
-                        Intent i = getIntent();
-                        Bundle bundle = i.getExtras();
-                        Intent intent;
-                        if (bundle != null) {
-                            String id = bundle.get("userId").toString();
-                            userService.updateUser(id, user);
-                            intent = new Intent(EditProfileActivity.this, AdminUserActivity.class);
-                        } else {
-                            userService.updateUser(sharedPreferences.getString("userIdKey", null), user);
-                            intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
-                        }
-                        circularProgressIndicator.setVisibility(View.INVISIBLE);
-                        startActivity(intent);
-                        finish();
+                        editUser(uri.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -136,5 +125,40 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void editUser(String imgUrl){
+        User user = new User();
+        user.setName(txtName.getText().toString());
+        user.setEmail(txtEmail.getText().toString());
+        user.setPhone(txtPhone.getText().toString());
+        user.setUserImg(imgUrl);
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
+        Intent intent;
+        //if admin edit
+        if (bundle != null) {
+            String id = bundle.get("userId").toString();
+            user.setUserId(id);
+            user.setAddress(bundle.get("address").toString());
+            user.setPassword(bundle.get("password").toString());
+            if(imgUrl == null)
+                user.setUserImg(bundle.get("userImg").toString());
+            userService.updateUser(id, user);
+            intent = new Intent(EditProfileActivity.this, AdminUserActivity.class);
+        }
+        //if user edit
+        else {
+            user.setUserId(sharedPreferences.getString("userIdKey", null));
+            user.setAddress(sharedPreferences.getString("addressKey", null));
+            user.setPassword(sharedPreferences.getString("passwordKey", null));
+            if(imgUrl == null)
+                user.setUserImg(sharedPreferences.getString("imgKey", null));
+            userService.updateUser(sharedPreferences.getString("userIdKey", null), user);
+            intent = new Intent(EditProfileActivity.this, ProfileActivity.class);
+        }
+        circularProgressIndicator.setVisibility(View.INVISIBLE);
+        startActivity(intent);
+        finish();
     }
 }

@@ -54,6 +54,9 @@ public class AdminUserAdapter extends RecyclerView.Adapter<AdminUserAdapter.View
                         User user = mUsers.get(pos);
                         Intent i = new Intent(mContext, EditProfileActivity.class);
                         i.putExtra("userId", user.getUserId());
+                        i.putExtra("userImg",user.getUserImg());
+                        i.putExtra("password",user.getPassword());
+                        i.putExtra("address",user.getAddress());
                         mContext.startActivity(i);
                     }
                 }

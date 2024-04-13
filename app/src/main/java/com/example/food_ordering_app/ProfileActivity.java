@@ -41,8 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
         menu = findViewById(R.id.bottom_navigation);
         imageView = findViewById(R.id.avatar);
         profileName = findViewById(R.id.profile_name);
-
-
         profileName.setText(sharedPreferences.getString("usernameKey", null));
         Glide.with(this).load(sharedPreferences.getString("imgKey", null)).error(R.drawable.error).into(imageView);
         menu.getMenu().getItem(3).setChecked(true);

@@ -85,7 +85,9 @@
             android:exported="true" />
         <activity
             android:name=".AdminFoodActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".CartActivity"
             android:exported="true" />
