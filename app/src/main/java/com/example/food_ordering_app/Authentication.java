@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Authentication extends AppCompatActivity {
 
-    TextInputLayout editTextVerificationCode, editTextPhone;
+    TextInputEditText editTextVerificationCode, editTextPhone;
     Button buttonSendVerificationCode, buttonVerify;
     private FirebaseAuth mAuth;
     private boolean mVerificationInProgress = false;
@@ -35,8 +36,8 @@ public class Authentication extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        editTextPhone = findViewById(R.id.editTextPhone);
-        editTextVerificationCode = findViewById(R.id.editTextVerificationCode);
+        editTextPhone = findViewById(R.id.phone);
+        editTextVerificationCode = findViewById(R.id.code);
         buttonSendVerificationCode = findViewById(R.id.buttonSendVerificationCode);
         buttonVerify = findViewById(R.id.buttonVerify);
 
@@ -70,12 +71,12 @@ public class Authentication extends AppCompatActivity {
 
         buttonSendVerificationCode.setOnClickListener(v -> {
             //84 is VN country code
-            String phoneNumber = "+84" + editTextPhone.getEditText().getText().toString();
+            String phoneNumber = "+84" + editTextPhone.getText().toString();
             startPhoneNumberVerification(phoneNumber);
         });
 
         buttonVerify.setOnClickListener(v -> {
-            String verificationCode = editTextVerificationCode.getEditText().getText().toString();
+            String verificationCode = editTextVerificationCode.getText().toString();
             verifyPhoneNumberWithCode(verificationCode);
         });
     }
@@ -87,7 +88,6 @@ public class Authentication extends AppCompatActivity {
                 .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                 .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
-
         mVerificationInProgress = true;
     }
 
@@ -95,6 +95,7 @@ public class Authentication extends AppCompatActivity {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
         signInWithPhoneAuthCredential(credential);
         Intent intent = new Intent(Authentication.this, RegisterActivity.class);
+        intent.putExtra("phoneNumber", editTextPhone.getText().toString());
         startActivity(intent);
     }
 
@@ -104,10 +105,6 @@ public class Authentication extends AppCompatActivity {
                 // Sign in success
                 Toast.makeText(Authentication.this, "Authentication successful", Toast.LENGTH_SHORT).show();
                 FirebaseUser user = task.getResult().getUser();
-                Intent i = new Intent(this, RegisterActivity.class);
-                String phoneNumber = "+84" + editTextPhone.getEditText().getText().toString();
-                i.putExtra("phoneNumber", editTextPhone.getEditText().getText().toString());
-                this.startActivity(i);
             } else {
                 // Sign in failed
                 if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {

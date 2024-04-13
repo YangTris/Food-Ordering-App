@@ -54,6 +54,22 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--Email field-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:hint="Enter your email"
+            app:startIconContentDescription="Username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!--Password field-->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="330dp"
@@ -185,56 +201,7 @@
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="300dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="#9A9A9A" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="7dp"
-            android:text="Or"
-            android:textSize="15dp" />
     </LinearLayout>
     <!--  Google button   -->
-    <ImageView
-        android:id="@+id/google_login"
-        android:layout_width="150dp"
-        android:layout_height="48dp"
-        android:layout_below="@+id/container_login_form"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/google_login_button"
-        android:scaleType="centerInside" />
 
-    <ImageView
-        android:id="@+id/img_google_logo"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignLeft="@+id/google_login"
-        android:layout_alignTop="@+id/google_login"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/img_google_logo" />
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/google_login"
-        android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/img_google_logo"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="GOOGLE"
-        android:textAlignment="center"
-        android:textColor="#FF000000"
-        android:textSize="14dp" />
 </RelativeLayout>

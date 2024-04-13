@@ -23,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText phone;
     private TextInputEditText name;
+    private TextInputEditText email;
     private TextInputEditText password;
     private AutoCompleteTextView city;
     private AutoCompleteTextView ward;
@@ -48,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById((R.id.register_password));
         city = findViewById(R.id.register_city);
         ward = findViewById(R.id.register_ward);
+        email = findViewById(R.id.register_email);
         district = findViewById(R.id.register_district);
         houseNumber = findViewById(R.id.register_house_number);
         registerButton = findViewById(R.id.register_button);
@@ -87,49 +89,28 @@ public class RegisterActivity extends AppCompatActivity {
 //            phone.setText(bundle.get("phoneNumber").toString());
 //        }
 //        phone.setText(bundle.get("phoneNumber").toString());
-        String test= bundle.get("phoneNumber").toString();
+        String test = bundle.get("phoneNumber").toString();
         phone.setText(test);
         Log.d("phoneNumber", "Get phoneNumber " + test);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // Get user data from register layout and assign to a new user
                 User newUser = new User();
                 // Phone (from authentication screen)
                 Intent i = getIntent();
                 Bundle bundle = i.getExtras();
-                newUser.setPhone(bundle.get("phoneNumber").toString());
-                Log.d("phoneNumber is: ", bundle.get("phoneNumber").toString());
-
-//                if (bundle == null) {
-//                    newUser.setPhone("0987654321");
-//                } else {
-//                    // Set phone number for new user
-//                    newUser.setPhone(bundle.get("phoneNumber").toString());
-//                }
-
-                // Set id
-                // TODO: Auto-generated id
-            //    newUser.setUserId("19uasihgid8a7wdasdihasuhdiu");
-
-                //Set name
-            //    newUser.setName(String.valueOf(name.getText()));
-                // Set password
-//                newUser.setPassword(String.valueOf(password.getText()));
-//                // Set email
-//                newUser.setEmail("phamphukhanh.sgu.edu@gmail.com");
-//                // Set address
-//                String address = houseNumber.getText() + " " + ward.getText() + " " + district.getText() + " " + city.getText();
-//                newUser.setAddress(address);
-//                newUser.setRoleId(0);
+                if (bundle != null) {
+                    newUser.setPhone(bundle.get("phoneNumber").toString());
+                }
 
                 newUser.setName(name.getText().toString());
                 String address = houseNumber.getText().toString() + " " + ward.getText().toString() + " " + district.getText().toString() + " " + city.getText().toString();
                 newUser.setAddress(address);
                 newUser.setRoleId(0);
                 newUser.setPassword(password.getText().toString());
-                newUser.setEmail("email@gmail.com");
+                newUser.setEmail(email.getText().toString());
+
 
                 // Create new user in Firebase
                 userService.createCustomer(newUser);
