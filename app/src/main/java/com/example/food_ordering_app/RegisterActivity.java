@@ -79,12 +79,13 @@ public class RegisterActivity extends AppCompatActivity {
         });
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-        if (bundle == null) {
-            phone.setText("0774600374");
-        } else {
-            // Display phone number again
-            phone.setText(bundle.get("phoneNumber").toString());
-        }
+//        if (bundle == null) {
+//            phone.setText("0774600374");
+//        } else {
+//            // Display phone number again
+//            phone.setText(bundle.get("phoneNumber").toString());
+//        }
+        phone.setText(bundle.get("phoneNumber").toString());
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,35 +95,40 @@ public class RegisterActivity extends AppCompatActivity {
                 // Phone (from authentication screen)
                 Intent i = getIntent();
                 Bundle bundle = i.getExtras();
+                newUser.setPhone(bundle.get("phoneNumber").toString());
 
-
-                if (bundle == null) {
-                    newUser.setPhone("0774600374");
-                } else {
-                    // Set phone number for new user
-                    newUser.setPhone(bundle.get("phoneNumber").toString());
-                }
+//                if (bundle == null) {
+//                    newUser.setPhone("0987654321");
+//                } else {
+//                    // Set phone number for new user
+//                    newUser.setPhone(bundle.get("phoneNumber").toString());
+//                }
 
                 // Set id
                 // TODO: Auto-generated id
-                newUser.setUserId("19uasihgid8a7wdasdihasuhdiu");
+            //    newUser.setUserId("19uasihgid8a7wdasdihasuhdiu");
 
                 //Set name
-                newUser.setName(String.valueOf(name.getText()));
-
+            //    newUser.setName(String.valueOf(name.getText()));
                 // Set password
-                newUser.setPassword(String.valueOf(password.getText()));
+//                newUser.setPassword(String.valueOf(password.getText()));
+//                // Set email
+//                newUser.setEmail("phamphukhanh.sgu.edu@gmail.com");
+//                // Set address
+//                String address = houseNumber.getText() + " " + ward.getText() + " " + district.getText() + " " + city.getText();
+//                newUser.setAddress(address);
+//                newUser.setRoleId(0);
 
-                // Set email
-                newUser.setEmail("phamphukhanh.sgu.edu@gmail.com");
-                // Set address
-                String address = houseNumber.getText() + " " + ward.getText() + " " + district.getText() + " " + city.getText();
+                newUser.setName(name.getText().toString());
+                String address = houseNumber.getText().toString() + " " + ward.getText().toString() + " " + district.getText().toString() + " " + city.getText().toString();
                 newUser.setAddress(address);
                 newUser.setRoleId(0);
+                newUser.setPassword(password.getText().toString());
+                newUser.setEmail("email@gmail.com");
 
                 // Create new user in Firebase
                 userService.createCustomer(newUser);
-                Intent categoryIntent = new Intent(RegisterActivity.this, CategoryActivity.class);
+                Intent categoryIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 categoryIntent.putExtra("name", String.valueOf(name.getText()));
                 startActivity(categoryIntent);
             }

@@ -77,8 +77,6 @@ public class Authentication extends AppCompatActivity {
         buttonVerify.setOnClickListener(v -> {
             String verificationCode = editTextVerificationCode.getEditText().getText().toString();
             verifyPhoneNumberWithCode(verificationCode);
-            Intent intent = new Intent(Authentication.this, AdminFoodActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -96,6 +94,8 @@ public class Authentication extends AppCompatActivity {
     private void verifyPhoneNumberWithCode(String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
         signInWithPhoneAuthCredential(credential);
+        Intent intent = new Intent(Authentication.this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -106,7 +106,7 @@ public class Authentication extends AppCompatActivity {
                 FirebaseUser user = task.getResult().getUser();
                 Intent i = new Intent(this, RegisterActivity.class);
                 String phoneNumber = "+84" + editTextPhone.getEditText().getText().toString();
-                i.putExtra("phoneNumber", phoneNumber);
+                i.putExtra("phoneNumber", editTextPhone.getEditText().getText().toString());
                 this.startActivity(i);
             } else {
                 // Sign in failed
