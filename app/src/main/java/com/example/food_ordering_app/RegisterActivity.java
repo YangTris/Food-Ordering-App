@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -85,7 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
 //            // Display phone number again
 //            phone.setText(bundle.get("phoneNumber").toString());
 //        }
-        phone.setText(bundle.get("phoneNumber").toString());
+//        phone.setText(bundle.get("phoneNumber").toString());
+        String test= bundle.get("phoneNumber").toString();
+        phone.setText(test);
+        Log.d("phoneNumber", "Get phoneNumber " + test);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent i = getIntent();
                 Bundle bundle = i.getExtras();
                 newUser.setPhone(bundle.get("phoneNumber").toString());
+                Log.d("phoneNumber is: ", bundle.get("phoneNumber").toString());
 
 //                if (bundle == null) {
 //                    newUser.setPhone("0987654321");

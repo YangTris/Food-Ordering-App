@@ -23,6 +23,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Test"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".EditAddressActivity"
             android:exported="false" />
         <activity
@@ -31,6 +36,7 @@
         <activity
             android:name=".AdminUserActivity"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".OrderDetailActivity"
@@ -40,7 +46,6 @@
             android:exported="true">
 
         </activity>
-
         <activity
             android:name=".EditProfileActivity"
             android:exported="true" />
@@ -52,7 +57,6 @@
             android:exported="true">
 
         </activity>
-
         <activity
             android:name=".FoodDetailActivity"
             android:exported="false" />
@@ -86,6 +90,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
