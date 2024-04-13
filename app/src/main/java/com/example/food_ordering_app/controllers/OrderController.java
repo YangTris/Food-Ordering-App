@@ -20,7 +20,7 @@ public interface OrderController {
     @GET("order/orderhistory/{userId}")
     Call<List<Order>> getAllOrder(@Path("userId") String userId);
     @POST("order")
-    Call<String> createOrder(@Body Cart cart);
+    Call<Order> createOrder(@Body Cart cart);
     @PUT("order/{orderId}/{shipperId}/{status}")
     Call<String> updateOrderStatus(@Path("orderId") String orderId,@Path("shipperId") String shipperId,@Path("status") String status);
 }

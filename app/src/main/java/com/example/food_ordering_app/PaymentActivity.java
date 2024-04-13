@@ -22,8 +22,9 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        Intent i = getIntent();
+        Bundle bundle = i.getExtras();
         webView=findViewById(R.id.webView);
-
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -32,15 +33,14 @@ public class PaymentActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 if(url.contains("http://localhost:8080/payment-return") ){
-                    Intent intent = new Intent(PaymentActivity.this, OrderActivity.class);
+                    Intent intent = new Intent(PaymentActivity.this, OrderDetailActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("orderId",bundle.get("orderId").toString());
                     startActivity(intent);
                 }
                 return true;
             }
         });
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
         double total = Double.valueOf(bundle.getString("ammount","50000"));
         paymentService.createPayment((int)total,webView);
     }

@@ -131,20 +131,22 @@ public class OrderService {
     }
 
     public void createOrder(Cart cart, String userId) {
-        Call<String> request = orderController.createOrder(cart);
-        request.enqueue(new Callback<String>() {
+        Call<Order> request = orderController.createOrder(cart);
+        request.enqueue(new Callback<Order>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Order> call, Response<Order> response) {
                 responseSuccess(response);
                 cartService = new CartService(context);
                 cartService.deleteCart(userId);
+
                 Intent intent = new Intent(context, PaymentActivity.class);
-                intent.putExtra("ammount",response.body());
+                intent.putExtra("ammount",response.body().getOrderTotal());
+                intent.putExtra("orderId",response.body().getOrderId());
                 context.startActivity(intent);
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Order> call, Throwable t) {
                 responseFailure(t);
             }
         });
