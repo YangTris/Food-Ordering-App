@@ -23,6 +23,7 @@ public class AdminOrderActivity extends AppCompatActivity {
         adminMenu = findViewById(R.id.admin_bottom_navigation);
         adminMenu.setSelectedItemId(R.id.admin_orders);
         recyclerView = findViewById(R.id.recyclerView_userList);
-//        orderService.getAllOrder(recyclerView, );
+        linearProgressIndicator= findViewById(R.id.progressBar);
+        orderService.getAllOrder(recyclerView, linearProgressIndicator);
     }
 }

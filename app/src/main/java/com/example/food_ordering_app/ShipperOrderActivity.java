@@ -19,6 +19,7 @@ public class ShipperOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shipper_orders);
         ordersRecyclerview = findViewById(R.id.recyclerView_orderList);
+        linearProgressIndicator=findViewById(R.id.progressBar);
         orderService.getAllOrder(ordersRecyclerview,linearProgressIndicator);
     }
 

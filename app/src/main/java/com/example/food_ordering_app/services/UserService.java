@@ -15,6 +15,7 @@ import com.example.food_ordering_app.AdminFoodActivity;
 import com.example.food_ordering_app.FoodActivity;
 import com.example.food_ordering_app.LoginActivity;
 import com.example.food_ordering_app.R;
+import com.example.food_ordering_app.ShipperOrderActivity;
 import com.example.food_ordering_app.adapter.AdminFoodAdapter;
 import com.example.food_ordering_app.adapter.AdminUserAdapter;
 import com.example.food_ordering_app.models.User;
@@ -99,7 +100,7 @@ public class UserService {
                         intent = new Intent(context, FoodActivity.class);
                         context.startActivity(intent);
                     } else if (user.getRoleId() == 1) {
-                        intent = new Intent(context, FoodActivity.class);
+                        intent = new Intent(context, ShipperOrderActivity.class);
                         context.startActivity(intent);
                     } else if (user.getRoleId() == 2) {
                         intent = new Intent(context, AdminFoodActivity.class);
