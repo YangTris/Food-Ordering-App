@@ -75,7 +75,7 @@ public class OrderService {
             }
         });
     }
-    public void getOrder(String orderId, TextView receiver, TextView address, RecyclerView orderItems, TextView total, View delivering, View delivered, Button navigate) {
+    public void getOrder(String orderId, TextView receiver, TextView address,TextView paymentStatus, RecyclerView orderItems, TextView total, View delivering, View delivered, Button navigate) {
         Call<Order> request = orderController.getOrder(orderId);
         request.enqueue(new Callback<Order>() {
             @Override
@@ -83,6 +83,7 @@ public class OrderService {
                 Order order = response.body();
                 receiver.setText("Receiver: " + order.getUserPhone());
                 address.setText("Address: " + order.getUserAddress());
+                paymentStatus.setText("Payment Status: "+order.getPaymentStatus());
                 CartAdapter cartAdapter = new CartAdapter(context, order.getCart().getCartItems(), total);
                 orderItems.setAdapter(cartAdapter);
                 orderItems.setLayoutManager(new LinearLayoutManager(context));
