@@ -149,6 +149,7 @@ public class UserService {
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                Toast.makeText(context, response.body(), Toast.LENGTH_LONG).show();
                 responseSuccess(response);
             }
 
