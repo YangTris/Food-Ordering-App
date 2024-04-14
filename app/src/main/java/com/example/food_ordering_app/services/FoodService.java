@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -81,7 +82,7 @@ public class FoodService {
         });
     }
 
-    public void getFoodDetails(String id, TextInputEditText txtFoodName, TextInputEditText txtFoodPrice, TextInputEditText txtFoodDes, AutoCompleteTextView txtCategory, ImageView imageView, Button btnAddToCart, CircularProgressIndicator circularProgressIndicator) {
+    public void getFoodDetails(String id, TextInputEditText txtFoodName, TextInputEditText txtFoodPrice, TextInputEditText txtFoodDes, AutoCompleteTextView txtCategory, ImageView imageView, EditText quantity, Button btnAddToCart, CircularProgressIndicator circularProgressIndicator) {
         Call<Food> request = foodController.getFoodDetails(id);
         request.enqueue(new Callback<Food>() {
             @Override
@@ -107,11 +108,11 @@ public class FoodService {
                     item.setFoodName(food.getName());
                     item.setFoodId(food.getId());
                     item.setPrice(food.getPrice());
-                    item.setQuantity(1);
                     item.setTotal(food.getPrice()*item.getQuantity());
                     btnAddToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            item.setQuantity(Integer.valueOf(quantity.getText().toString()));
                             circularProgressIndicator.setVisibility(View.VISIBLE);
                             CartService cartService = new CartService(context);
                             sharedPreferences = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
