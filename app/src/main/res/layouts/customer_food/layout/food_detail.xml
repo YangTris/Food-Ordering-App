@@ -17,6 +17,7 @@
             android:layout_height="200dp"
             android:src="@drawable/image_holder" />
 
+
         <com.google.android.material.textfield.TextInputEditText
 
             android:id="@+id/detail_food_name"
@@ -50,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
-        android:layout_marginStart="30dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:textSize="30dp"
         android:textStyle="bold|italic">
@@ -61,13 +62,14 @@
         android:id="@+id/detail_food_description"
         android:layout_width="wrap_content"
         android:layout_height="275dp"
-        android:layout_margin="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus convallis nec turpis id fringilla. Aliquam erat volutpat. Sed a gravida tellus, eu bibendum libero. Aliquam ut nulla vel leo auctor pretium nec in magna. Sed sodales, felis in scelerisque faucibus, turpis ligula varius metus, sed consectetur ante ligula in lectus."
-        android:textSize="25dp" />
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/add_to_cart_button"

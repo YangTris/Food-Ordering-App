@@ -64,7 +64,14 @@ public class OrderDetailActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(OrderDetailActivity.this,OrderActivity.class);
+                Intent intent = null;
+                if(roleId == 0){
+                    intent = new Intent(OrderDetailActivity.this,OrderActivity.class);
+                } else if(roleId == 1){
+                    intent = new Intent(OrderDetailActivity.this,ShipperOrderActivity.class);
+                } else if (roleId == 2){
+                    intent = new Intent(OrderDetailActivity.this,AdminOrderActivity.class);
+                }
                 startActivity(intent);
                 finish();
             }
