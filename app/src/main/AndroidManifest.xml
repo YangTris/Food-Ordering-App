@@ -23,12 +23,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".CheckoutActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Test"
-            android:exported="true"></activity>
-        <activity
             android:name=".EditAddressActivity"
             android:exported="false" />
         <activity

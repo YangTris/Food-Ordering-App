@@ -1,5 +1,6 @@
 package com.example.food_ordering_app;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,14 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderID = b.get("orderId").toString();
         orderId.setText("Order ID:" + orderID);
         orderService.getOrder(orderID, receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(OrderDetailActivity.this,OrderActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override

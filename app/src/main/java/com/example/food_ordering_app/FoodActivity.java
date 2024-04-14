@@ -60,6 +60,7 @@ public class FoodActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        menu.getMenu().getItem(0).setChecked(true);
         progressIndicator.setVisibility(View.VISIBLE);
         foodService.getAllFoods(recyclerView,progressIndicator,"");
     }

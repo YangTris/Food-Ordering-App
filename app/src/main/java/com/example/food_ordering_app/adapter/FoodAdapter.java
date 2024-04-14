@@ -97,7 +97,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                 .error(R.drawable.profile)
                 .into(holder.mImageFood);
         holder.mTextName.setText(food.getName());
-        holder.mTextDescription.setText(food.getDescription());
+        holder.mTextDescription.setText(Double.valueOf(food.getPrice()).toString());
     }
 
     @Override

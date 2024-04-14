@@ -23,4 +23,6 @@ public interface OrderController {
     Call<Order> createOrder(@Body Cart cart);
     @PUT("order/{orderId}/{shipperId}/{status}")
     Call<String> updateOrderStatus(@Path("orderId") String orderId,@Path("shipperId") String shipperId,@Path("status") String status);
+    @PUT("order/{orderId}/{status}")
+    Call<String> updatePaymentStatus(@Path("orderId") String orderId, @Path("status") String status);
 }
