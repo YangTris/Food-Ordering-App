@@ -70,6 +70,42 @@
         android:focusableInTouchMode="false"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus convallis nec turpis id fringilla. Aliquam erat volutpat. Sed a gravida tellus, eu bibendum libero. Aliquam ut nulla vel leo auctor pretium nec in magna. Sed sodales, felis in scelerisque faucibus, turpis ligula varius metus, sed consectetur ante ligula in lectus."
         android:textSize="20dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+        <Button
+            android:id="@+id/removeBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_btn_remove"
+            android:backgroundTint="#C5BCBC"/>
+        <EditText
+            android:id="@+id/itemQuanEt"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:inputType="number"
+            android:minEms="1"
+            android:text="1"
+            android:textAllCaps="false"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_btn_add"
+            android:backgroundTint="#C5BCBC"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/add_to_cart_button"
