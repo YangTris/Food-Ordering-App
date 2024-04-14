@@ -73,7 +73,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="#000"
-        android:hint="Category"
+        android:hint="Role"
         android:visibility="invisible">
 
         <AutoCompleteTextView
