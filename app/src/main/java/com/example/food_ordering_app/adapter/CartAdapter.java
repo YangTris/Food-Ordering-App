@@ -17,8 +17,6 @@ import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.CartItem;
 import com.example.food_ordering_app.services.CartService;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
@@ -88,7 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Glide.with(mContext)
                 .load(item.getImgURL())
                 .placeholder(R.drawable.admin_dish)
-                .error(R.drawable.admin_dish)
+                .error(R.drawable.error)
                 .into(holder.mImage);
         holder.mFoodName.setText(item.getFoodName());
         holder.mQuantity.setText("Quantity: " + item.getQuantity());

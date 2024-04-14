@@ -68,6 +68,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartService.deleteCart(sharedPreferences.getString("userIdKey",null));
+                finish();
             }
         });
     }
