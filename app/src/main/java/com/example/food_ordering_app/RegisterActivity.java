@@ -82,13 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-//        if (bundle == null) {
-//            phone.setText("0774600374");
-//        } else {
-//            // Display phone number again
-//            phone.setText(bundle.get("phoneNumber").toString());
-//        }
-//        phone.setText(bundle.get("phoneNumber").toString());
+
         String test = bundle.get("phoneNumber").toString();
         phone.setText(test);
         Log.d("phoneNumber", "Get phoneNumber " + test);

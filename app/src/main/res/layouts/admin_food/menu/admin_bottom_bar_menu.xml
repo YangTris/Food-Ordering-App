@@ -20,6 +20,12 @@
         android:icon="@drawable/profile"
         android:title="Users" />
     <item
+        android:id="@+id/admin_payment"
+        android:color="#6750a4"
+        android:enabled="true"
+        android:icon="@drawable/payment"
+        android:title="Log out" />
+    <item
         android:id="@+id/logout"
         android:color="#6750a4"
         android:enabled="true"
