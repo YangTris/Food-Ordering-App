@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 
 public class AdminFoodActivity extends AppCompatActivity {
@@ -24,6 +28,7 @@ public class AdminFoodActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BottomNavigationView menu;
     private SharedPreferences sharedPreferences;
+    private MaterialSearchBar searchBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +37,6 @@ public class AdminFoodActivity extends AppCompatActivity {
         FloatingActionButton addFoodButton = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recyclerView_foodList);
         progressIndicator = findViewById(R.id.progressBar);
-        foodService.getAllFoods(recyclerView,progressIndicator,"");
         addFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +70,26 @@ public class AdminFoodActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+        
+        searchBar=findViewById(R.id.search_bar);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query= s.toString();
+                Log.d("onTextChanged ", query);
+                foodService.getAllFoods(recyclerView, progressIndicator, query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

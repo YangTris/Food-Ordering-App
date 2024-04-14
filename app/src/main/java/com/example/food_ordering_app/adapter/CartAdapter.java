@@ -88,7 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         Glide.with(mContext)
                 .load(item.getImgURL())
                 .placeholder(R.drawable.admin_dish)
-                .error(R.drawable.admin_dish)
+                .error(R.drawable.error)
                 .into(holder.mImage);
         holder.mFoodName.setText(item.getFoodName());
         holder.mQuantity.setText("Quantity: " + item.getQuantity());

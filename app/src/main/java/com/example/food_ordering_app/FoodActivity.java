@@ -2,6 +2,8 @@ package com.example.food_ordering_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import com.example.food_ordering_app.services.FoodService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 
 public class FoodActivity extends AppCompatActivity {
@@ -22,6 +25,7 @@ public class FoodActivity extends AppCompatActivity {
     private BottomNavigationView menu;
     private LinearProgressIndicator progressIndicator;
     private RecyclerView recyclerView;
+    private MaterialSearchBar searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,26 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.recyclerView_foodList);
-        foodService.getAllFoods(recyclerView,progressIndicator,"");
+        searchBar=findViewById(R.id.search_bar);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query= s.toString();
+                Log.d("onTextChanged ", query);
+                foodService.getAllFoods(recyclerView, progressIndicator, query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     @Override
