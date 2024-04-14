@@ -156,7 +156,7 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setAddress(bundle.get("address").toString());
             user.setPassword(bundle.get("password").toString());
             if(imgUrl == null)
-                user.setUserImg(bundle.get("userImg").toString());
+                user.setUserImg(bundle.get("userImg")==null?null:bundle.get("userImg").toString());
             int role =-1;
             switch (txtRole.getText().toString()){
                 case "Customer": role = 0;
