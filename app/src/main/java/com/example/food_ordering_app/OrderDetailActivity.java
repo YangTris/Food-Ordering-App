@@ -27,7 +27,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView address;
     private TextView total;
     private RecyclerView orderItems;
-
+    private TextView paymentStatus;
     private View deliveringStatus;
     private View deliveredStatus;
     private Button navigate;
@@ -38,6 +38,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.shipper_order_detail);
         orderId = findViewById(R.id.order_detail_id);
         total = findViewById(R.id.order_detail_total);
@@ -47,6 +48,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         deliveringStatus = findViewById(R.id.progress_delivering);
         deliveredStatus = findViewById(R.id.progress_delivered);
         orderItems = findViewById(R.id.recyclerView_orderFoodList);
+        paymentStatus = findViewById(R.id.payment_status);
 
         sharedPreferences = getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
         int roleId = sharedPreferences.getInt("roleIdKey", 0);
@@ -58,11 +60,18 @@ public class OrderDetailActivity extends AppCompatActivity {
         Bundle b = i.getExtras();
         orderID = b.get("orderId").toString();
         orderId.setText("Order ID:" + orderID);
-        orderService.getOrder(orderID, receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
+        orderService.getOrder(orderID, receiver, address,paymentStatus, orderItems, total, deliveringStatus, deliveredStatus, navigate);
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(OrderDetailActivity.this,OrderActivity.class);
+                Intent intent = null;
+                if(roleId == 0){
+                    intent = new Intent(OrderDetailActivity.this,OrderActivity.class);
+                } else if(roleId == 1){
+                    intent = new Intent(OrderDetailActivity.this,ShipperOrderActivity.class);
+                } else if (roleId == 2){
+                    intent = new Intent(OrderDetailActivity.this,AdminOrderActivity.class);
+                }
                 startActivity(intent);
                 finish();
             }
@@ -72,6 +81,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        orderService.getOrder(orderID, receiver, address, orderItems, total, deliveringStatus, deliveredStatus, navigate);
+        orderService.getOrder(orderID, receiver, address,paymentStatus, orderItems, total, deliveringStatus, deliveredStatus, navigate);
     }
 }

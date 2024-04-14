@@ -69,10 +69,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
 
-            android:hint="Ward">
+            android:hint="District">
 
             <AutoCompleteTextView
-                android:id="@+id/edit_ward"
+                android:id="@+id/edit_district"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />
@@ -85,10 +85,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="6dp"
-            android:hint="District">
+            android:hint="Ward">
 
             <AutoCompleteTextView
-                android:id="@+id/edit_district"
+                android:id="@+id/edit_ward"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none" />

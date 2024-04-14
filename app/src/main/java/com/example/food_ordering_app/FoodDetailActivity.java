@@ -27,6 +27,6 @@ public class FoodDetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         String foodId = bundle.get("foodId").toString();
-        foodService.getFoodDetails(foodId,txtFoodName,txtFoodDes,txtFoodPrice,null,imageView,btnAddToCart,circularProgressIndicator);
+        foodService.getFoodDetails(foodId,txtFoodName,txtFoodPrice,txtFoodDes,null,imageView,btnAddToCart,circularProgressIndicator);
     }
 }
