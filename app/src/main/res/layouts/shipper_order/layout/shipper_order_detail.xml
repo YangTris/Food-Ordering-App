@@ -40,11 +40,21 @@
         android:textSize="20dp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/payment_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_address"
+        android:layout_margin="8dp"
+        android:text="Payment status: "
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/navigate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/order_detail_address"
+        android:layout_below="@+id/payment_status"
         android:layout_centerHorizontal="true"
         android:text="Navigate" />
 
