@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import retrofit2.Response;
 public class UserService {
     private UserController userController = ServiceBuilder.buildService(UserController.class);
     private Context context;
+    private SharedPreferences sharedpref;
 
     public UserService(Context context) {
         this.context = context;
@@ -75,7 +77,7 @@ public class UserService {
         });
     }
 
-    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone, ImageView imageView, CircularProgressIndicator circularProgressIndicator) {
+    public void getUserDetails(String id, TextInputEditText txtName, TextInputEditText txtEmail, TextInputEditText txtPhone, ImageView imageView, AutoCompleteTextView txtRole, CircularProgressIndicator circularProgressIndicator) {
         Call<User> request = userController.getUserDetails(id);
         request.enqueue(new Callback<User>() {
             @Override
@@ -85,7 +87,7 @@ public class UserService {
                 if (context instanceof LoginActivity) {
                     circularProgressIndicator.setVisibility(View.INVISIBLE);
                     Intent intent;
-                    SharedPreferences sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
+                    sharedpref = context.getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpref.edit();
                     editor.putString("usernameKey", user.getName());
                     editor.putInt("roleIdKey", user.getRoleId());
@@ -113,7 +115,25 @@ public class UserService {
                     txtName.setText(user.getName());
                     txtEmail.setText(user.getEmail());
                     txtPhone.setText(user.getPhone());
+                    if(txtRole != null){
+
+                        txtRole.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                String role = "";
+                                switch (user.getRoleId()){
+                                    case 0: role = "Customer";
+                                        break;
+                                    case 1: role = "Shipper";
+                                        break;
+                                    case 2: role = "Admin";
+                                        break;
+                                }
+                                txtRole.setText(role, false);
+                            }}, 10);
+                    }
                 }
+
             }
 
             @Override
@@ -133,7 +153,7 @@ public class UserService {
                     Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
                     circularProgressIndicator.setVisibility(View.INVISIBLE);
                 } else {
-                    getUserDetails(userId, null, null, null,null, circularProgressIndicator);
+                    getUserDetails(userId, null, null, null,null,null, circularProgressIndicator);
                 }
             }
 

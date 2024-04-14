@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -45,6 +47,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private Uri image;
     private StorageReference storageRef;
     private FirebaseStorage storage;
+    private String[] roles = {"Customer","Shipper","Admin"};
+    private ArrayAdapter<String> adapter;
+    private AutoCompleteTextView txtRole;
+    private TextInputLayout roleLayout;
+
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -75,13 +82,19 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.save_customer);
         imageView = findViewById(R.id.user_image);
         chooseImage = findViewById(R.id.choose_image);
+        txtRole = findViewById(R.id.roleauto);
+        roleLayout = findViewById(R.id.role);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, roles);
+        txtRole.setAdapter(adapter);
+
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         if (bundle != null) {
             String id = bundle.get("userId").toString();
-            userService.getUserDetails(id, txtName, txtEmail, txtPhone,imageView, null);
+            roleLayout.setVisibility(View.VISIBLE);
+            userService.getUserDetails(id, txtName, txtEmail, txtPhone,imageView,txtRole, null);
         } else {
-            userService.getUserDetails(sharedPreferences.getString("userIdKey", null), txtName, txtEmail, txtPhone,imageView, null);
+            userService.getUserDetails(sharedPreferences.getString("userIdKey", null), txtName, txtEmail, txtPhone,imageView,null, null);
         }
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +157,16 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setPassword(bundle.get("password").toString());
             if(imgUrl == null)
                 user.setUserImg(bundle.get("userImg").toString());
+            int role =-1;
+            switch (txtRole.getText().toString()){
+                case "Customer": role = 0;
+                    break;
+                case "Shipper": role = 1;
+                    break;
+                case "Admin": role = 2;
+                    break;
+            }
+            user.setRoleId(role);
             userService.updateUser(id, user);
             intent = new Intent(EditProfileActivity.this, AdminUserActivity.class);
         }
