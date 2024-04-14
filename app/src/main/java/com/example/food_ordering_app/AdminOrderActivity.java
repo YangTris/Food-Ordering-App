@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.food_ordering_app.services.OrderService;
-import com.example.food_ordering_app.services.UserService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -46,6 +45,11 @@ public class AdminOrderActivity extends AppCompatActivity {
                 }
                 if (id == R.id.admin_users) {
                     intent = new Intent(AdminOrderActivity.this, AdminUserActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                if(id==R.id.admin_payment){
+                    intent = new Intent(AdminOrderActivity.this, AdminPaymentActivity.class);
                     startActivity(intent);
                     return true;
                 }

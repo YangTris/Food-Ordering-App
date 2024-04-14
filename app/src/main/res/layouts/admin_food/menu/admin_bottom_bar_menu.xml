@@ -24,7 +24,7 @@
         android:color="#6750a4"
         android:enabled="true"
         android:icon="@drawable/payment"
-        android:title="Log out" />
+        android:title="Payment" />
     <item
         android:id="@+id/logout"
         android:color="#6750a4"
