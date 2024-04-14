@@ -1,5 +1,6 @@
 package com.example.food_ordering_app.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -102,6 +103,7 @@ public class FoodService {
                 //If User get FoodDetails
                 if(btnAddToCart!=null){
                     CartItem item = new CartItem();
+                    item.setImgURL(food.getImgURL());
                     item.setFoodName(food.getName());
                     item.setFoodId(food.getId());
                     item.setPrice(food.getPrice());
@@ -114,6 +116,7 @@ public class FoodService {
                             CartService cartService = new CartService(context);
                             sharedPreferences = context.getSharedPreferences("sharedPrefKey",Context.MODE_PRIVATE);
                             cartService.getCartId(sharedPreferences.getString("userIdKey",null),item,circularProgressIndicator);
+                            ((Activity)context).finish();
                         }
                     });
                 }

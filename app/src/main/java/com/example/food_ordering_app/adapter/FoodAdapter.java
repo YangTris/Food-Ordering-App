@@ -65,6 +65,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
                     if(pos != RecyclerView.NO_POSITION){
                         Food food = mFoods.get(pos);
                         CartItem item = new CartItem();
+                        item.setImgURL(food.getImgURL());
                         item.setFoodName(food.getName());
                         item.setFoodId(food.getId());
                         item.setPrice(food.getPrice());
@@ -93,11 +94,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         Food food = mFoods.get(position);
         Glide.with(mContext)
                 .load(food.getImgURL())
-                .placeholder(R.drawable.img_bg)
-                .error(R.drawable.profile)
+                .placeholder(R.drawable.admin_dish)
+                .error(R.drawable.error)
                 .into(holder.mImageFood);
         holder.mTextName.setText(food.getName());
-        holder.mTextDescription.setText(food.getDescription());
+        holder.mTextDescription.setText(Double.valueOf(food.getPrice()).toString());
     }
 
     @Override

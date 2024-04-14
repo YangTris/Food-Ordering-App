@@ -17,8 +17,6 @@ import com.example.food_ordering_app.R;
 import com.example.food_ordering_app.models.CartItem;
 import com.example.food_ordering_app.services.CartService;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 

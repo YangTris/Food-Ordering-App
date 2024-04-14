@@ -1,5 +1,6 @@
 package com.example.food_ordering_app.services;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -135,12 +136,13 @@ public class OrderService {
         request.enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
+                ((Activity)context).finish();
                 responseSuccess(response);
                 cartService = new CartService(context);
                 cartService.deleteCart(userId);
-
                 Intent intent = new Intent(context, PaymentActivity.class);
-                intent.putExtra("ammount",response.body().getOrderTotal());
+                Log.d("orderTotal", Double.valueOf(response.body().getOrderTotal()).toString());
+                intent.putExtra("ammount",Double.valueOf(response.body().getOrderTotal()));
                 intent.putExtra("orderId",response.body().getOrderId());
                 context.startActivity(intent);
             }
@@ -153,6 +155,21 @@ public class OrderService {
     }
     public void updateOrderStatus(String orderId,String shipperID,String status){
         Call<String> request = orderController.updateOrderStatus(orderId,shipperID,status);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                responseSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                responseFailure(t);
+            }
+        });
+    }
+
+    public void updatePaymentStatus(String orderId, String status){
+        Call<String> request = orderController.updatePaymentStatus(orderId,status);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
