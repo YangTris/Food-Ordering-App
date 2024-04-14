@@ -22,9 +22,7 @@
         android:theme="@style/Theme.FoodOrderingApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".CheckoutActivity"
-            android:exported="false" />
+
         <activity
             android:name=".EditAddressActivity"
             android:exported="false" />
@@ -86,7 +84,11 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AdminFoodActivity"
@@ -104,11 +106,7 @@
             android:exported="true"
             android:label="Food"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
