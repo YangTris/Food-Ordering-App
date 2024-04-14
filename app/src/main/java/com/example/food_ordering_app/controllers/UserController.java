@@ -11,11 +11,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserController {
     @GET("user")
-    Call<List<User>> getAllUsers();
-
+    Call<List<User>> getAllUsers(@Query("query") String query);
     @GET("user/{id}")
     Call<User> getUserDetails(@Path("id") String id);
 

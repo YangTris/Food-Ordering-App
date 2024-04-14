@@ -57,8 +57,8 @@ public class UserService {
         }
     }
 
-    public void getAllUsers(RecyclerView userList, LinearProgressIndicator linearProgressIndicator) {
-        Call<List<User>> request = userController.getAllUsers();
+    public void getAllUsers(RecyclerView userList, LinearProgressIndicator linearProgressIndicator,String query) {
+        Call<List<User>> request = userController.getAllUsers(query);
         request.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {

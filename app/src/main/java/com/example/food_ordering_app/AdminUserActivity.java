@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,6 +17,7 @@ import com.example.food_ordering_app.services.UserService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
 public class AdminUserActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -23,6 +26,7 @@ public class AdminUserActivity extends AppCompatActivity {
     private LinearProgressIndicator linearProgressIndicator;
     private SharedPreferences sharedPreferences;
     private BottomNavigationView menu;
+    private MaterialSearchBar searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,25 @@ public class AdminUserActivity extends AppCompatActivity {
         adminMenu.setSelectedItemId(R.id.admin_users);
         recyclerView = findViewById(R.id.recyclerView_userList);
         linearProgressIndicator = findViewById(R.id.progressBar);
-        userService.getAllUsers(recyclerView, linearProgressIndicator);
+        searchBar=findViewById(R.id.search_bar);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query=s.toString();
+                userService.getAllUsers(recyclerView, linearProgressIndicator,query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         menu = findViewById(R.id.admin_bottom_navigation);
         menu.getMenu().getItem(2).setChecked(true);
@@ -70,7 +92,7 @@ public class AdminUserActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         linearProgressIndicator.setVisibility(View.VISIBLE);
-        userService.getAllUsers(recyclerView, linearProgressIndicator);
+        userService.getAllUsers(recyclerView, linearProgressIndicator,"");
     }
 
 }
