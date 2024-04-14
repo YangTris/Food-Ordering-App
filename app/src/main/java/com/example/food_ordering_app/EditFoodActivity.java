@@ -99,7 +99,7 @@ public class EditFoodActivity extends AppCompatActivity {
                     uploadImage(image);
                 }
                 else{
-                    editFood(bundle.get("imgUrl").toString());
+                    editFood(null);
                 }
             }
         });
@@ -138,6 +138,9 @@ public class EditFoodActivity extends AppCompatActivity {
         //If food exists
         if (bundle != null) {
             String id = bundle.get("foodId").toString();
+            if(imgUrl == null){
+                food.setImgURL(bundle.get("imgUrl").toString());
+            }
             foodService.updateFood(id, food);
         }
         //If not
