@@ -85,6 +85,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-auth")
     implementation ("com.firebaseui:firebase-ui-storage:7.2.0")
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
 
     // retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

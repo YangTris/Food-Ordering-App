@@ -60,6 +60,11 @@ public class AdminFoodActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true;
                 }
+                if(id==R.id.admin_payment){
+                    intent = new Intent(AdminFoodActivity.this, AdminPaymentActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 if(id == R.id.logout){
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
